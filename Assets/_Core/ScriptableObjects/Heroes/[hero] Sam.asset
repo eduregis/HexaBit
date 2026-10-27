@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
   heroName: Sam
   icon: {fileID: 0}
-  startingWeapon: {fileID: 11400000, guid: a0c56bfbbd5c54f4b9643e25bd92eca8, type: 2}
+  startingWeapon: {fileID: 11400000, guid: dd53496d7a48aed4c83154706de374ed, type: 2}
   maxHealth: 120
   moveSpeed: 4
   armor: 0

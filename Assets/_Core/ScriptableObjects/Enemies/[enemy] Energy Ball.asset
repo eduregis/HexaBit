@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: '[enemy] Energy Ball'
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Energy Ball
-  icon: {fileID: 0}
-  prefab: {fileID: 0}
-  baseHealth: 35
+  icon: {fileID: 78409280910953144, guid: 7584ab0c5a437744fb44b844628c5ab1, type: 3}
+  prefab: {fileID: 4488353260210792370, guid: 2cd6c1395b280a4449c6db973c489422, type: 3}
+  animatorController: {fileID: 22100000, guid: 542fa2bda559c724a9bb2977fa60b90f, type: 2}
+  startTime: 0
+  baseHealth: 20
   damage: 5
   moveSpeed: 0.5
   knockbackResistance: 1

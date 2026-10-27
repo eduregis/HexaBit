@@ -60,7 +60,9 @@ namespace HexaBit.Core {
             isDead = false;
             attackTimer = 0f;
             knockbackTimer = 0f;
-            if (animator != null) {
+
+            // Check if animator has a controller before playing animations
+            if (animator != null && animator.runtimeAnimatorController != null) {
                 animator.SetBool("IsDead", false);
                 animator.SetTrigger("Respawn");
             }
@@ -103,7 +105,9 @@ namespace HexaBit.Core {
             isDead = false;
             attackTimer = 0f;
             knockbackTimer = 0f;
-            if (animator != null) {
+
+            // Check if animator has a controller before playing animations
+            if (animator != null && animator.runtimeAnimatorController != null) {
                 animator.SetBool("IsDead", false);
                 animator.SetTrigger("Respawn");
             }

@@ -817,7 +817,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 2.8125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -16414,7 +16414,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66857d5192782de46a9902c00f03e0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnerController
-  enemyPrefab: {fileID: 4488353260210792370, guid: 2cd6c1395b280a4449c6db973c489422, type: 3}
+  enemyPool:
+  - {fileID: 11400000, guid: c10dda60bf2346c438bd4cea3b6a1818, type: 2}
+  - {fileID: 11400000, guid: b682cf91947c77b4da0e9926a1405369, type: 2}
+  - {fileID: 11400000, guid: 65d5b31216c57d34284519b742122c01, type: 2}
   spawnInterval: 1.5
   maxEnemies: 20
   spawnOffset: 0.5
