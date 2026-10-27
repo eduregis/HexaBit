@@ -16421,6 +16421,11 @@ MonoBehaviour:
   spawnInterval: 1.5
   maxEnemies: 20
   spawnOffset: 0.5
+  subBossInterval: 20
+  subBossScaleMultiplier: 3
+  subBossHealthMultiplier: 5
+  subBossDamageMultiplier: 2
+  subBossStatusPool: []
   xpDropPrefab: {fileID: 5415832339510204443, guid: 364cefb159f9f8f4dbe94aeb0cd28a2d, type: 3}
   player: {fileID: 0}
   waveInterval: 10

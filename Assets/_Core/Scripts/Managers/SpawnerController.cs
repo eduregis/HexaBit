@@ -6,17 +6,25 @@ namespace HexaBit.Core {
     public class SpawnerController : MonoBehaviour {
         [Header("Spawn Configuration")]
         [Tooltip("Pool of enemy types that can spawn in this level.")]
-        [SerializeField] private List<EnemyData> enemyPool;
-
+        [SerializeField] private List<EnemyData> enemyPool;   // Pool of enemies
         [SerializeField] private float spawnInterval = 1.5f;  // Time between spawns (seconds)
         [SerializeField] private int maxEnemies = 20;         // Maximum enemies alive at once
         [SerializeField] private float spawnOffset = 0.5f;    // Distance outside the camera viewport
+
+        [Header("Sub-Boss Settings")]
+        [SerializeField] private float subBossInterval = 60f; // Subboss spawn cooldown
+        [SerializeField] private float subBossScaleMultiplier = 1.5f;
+        [SerializeField] private float subBossHealthMultiplier = 5f;
+        [SerializeField] private float subBossDamageMultiplier = 2f;
+        [SerializeField] private List<StatusData> subBossStatusPool;
 
         [Header("XP Drop")]
         [SerializeField] private GameObject xpDropPrefab;
 
         [Header("Player Reference")]
         [SerializeField] private Transform player;            // Player transform (auto-found if null)
+
+        private float subBossTimer = 0f;
 
         // Wave system (optional)
         private int currentWave = 0;
@@ -54,6 +62,7 @@ namespace HexaBit.Core {
             currentEnemyCount = 0;
             currentWave = 0;
             waveTimer = 0f;
+            subBossTimer = 0f;
 
             StartCoroutine(SpawnLoop());
         }
@@ -65,6 +74,14 @@ namespace HexaBit.Core {
                 waveTimer = 0f;
                 currentWave++;
                 Debug.Log($"Wave {currentWave} started!");
+            }
+
+            if (GameplayManager.Instance != null && !GameplayManager.Instance.IsTimerPaused) {
+                subBossTimer += Time.deltaTime;
+                if (subBossTimer >= subBossInterval) {
+                    subBossTimer = 0f;
+                    SpawnSubBoss();
+                }
             }
         }
 
@@ -103,6 +120,51 @@ namespace HexaBit.Core {
 
                 currentEnemyCount++;
             }
+        }
+
+        private void SpawnSubBoss() {
+            if (player == null) return;
+
+            EnemyData selectedEnemy = GetRandomEligibleEnemy();
+            if (selectedEnemy == null) return;
+
+            // Choose a random status (if status pool is not empty)
+            StatusData selectedStatus = null;
+            if (subBossStatusPool != null && subBossStatusPool.Count > 0) {
+                selectedStatus = subBossStatusPool[Random.Range(0, subBossStatusPool.Count)];
+            }
+
+            Vector3 spawnPos = GetSpawnPosition();
+            GameObject enemy = Instantiate(selectedEnemy.prefab, spawnPos, Quaternion.identity);
+
+            EnemyController enemyCtrl = enemy.GetComponent<EnemyController>();
+            if (enemyCtrl != null) {
+                Animator anim = enemy.GetComponent<Animator>();
+                if (anim != null && selectedEnemy.animatorController != null) {
+                    anim.runtimeAnimatorController = selectedEnemy.animatorController;
+                }
+
+                // Hero reference
+                HeroController hero = player.GetComponent<HeroController>();
+                if (hero != null) {
+                    enemyCtrl.SetPlayerReference(hero);
+                }
+
+                // Rescale sub-boss
+                enemy.transform.localScale *= subBossScaleMultiplier;
+
+                // Initialize a sub-boss
+                enemyCtrl.Initialize(selectedEnemy, currentWave, selectedStatus);
+
+                // Apply sub-boss multiplier
+                enemyCtrl.MultiplyStats(subBossHealthMultiplier, subBossDamageMultiplier);
+
+                enemyCtrl.OnDeath.AddListener(() => OnEnemyDeath(enemy));
+
+                Debug.Log($"Sub-Boss Spawned! Enemy: {selectedEnemy.enemyName}, Status: {(selectedStatus != null ? selectedStatus.statusName : "None")}");
+            }
+
+            currentEnemyCount++;
         }
 
         /// <summary>
