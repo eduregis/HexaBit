@@ -23,7 +23,7 @@ namespace HexaBit.Core {
 
             StatusEffect newStatus = new StatusEffect(statusData);
 
-            if (statusData.overrideSpriteColor && spriteRenderer != null) {
+            if (statusData.hasOverrideColor && spriteRenderer != null) {
                 spriteRenderer.color = statusData.spriteColorOverride;
             }
 

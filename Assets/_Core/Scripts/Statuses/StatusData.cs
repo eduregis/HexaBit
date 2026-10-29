@@ -6,7 +6,6 @@ namespace HexaBit.Core {
         [Header("General")]
         public string statusName;
         public Sprite icon;
-        public Color statusColor = Color.white;
 
         [Header("Duration")]
         public float duration = 3f; // 0 = infinite (until removed)
@@ -30,7 +29,7 @@ namespace HexaBit.Core {
         public float hotTickInterval = 1f;
 
         [Header("Visual Feedback")]
-        public bool overrideSpriteColor = false;
+        public bool hasOverrideColor = false;
         public Color spriteColorOverride = Color.white;
     }
 }

@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.StatusData
   statusName: Poison
   icon: {fileID: 0}
-  statusColor: {r: 1, g: 1, b: 1, a: 1}
   duration: 3
   applySlow: 0
   slowPercentage: 0.2
@@ -28,5 +27,5 @@ MonoBehaviour:
   applyHealOverTime: 0
   hotHealPerSecond: 3
   hotTickInterval: 1
-  overrideSpriteColor: 1
+  hasOverrideColor: 1
   spriteColorOverride: {r: 0.11642744, g: 0.9150943, b: 0.09064613, a: 1}

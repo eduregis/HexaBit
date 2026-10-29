@@ -7,7 +7,6 @@ using System.Collections.Generic;
 namespace HexaBit.Core {
     public class LevelUpUIManager : MonoBehaviour {
         [Header("UI References")]
-        [SerializeField] private GameObject levelUpPanel;
         [SerializeField] private LevelUpButton[] choiceButtons;
 
         [Header("Hero Display (Level Up)")]
@@ -33,21 +32,19 @@ namespace HexaBit.Core {
         private System.Action<int> _onChoiceMade;
         private int _currentSelectedIndex = -1;
         private HeroController _targetHero;
+        private bool _isClosing = false; // Evita que o Destroy seja chamado duas vezes (Fade + Slide)
 
+        /// <summary>
+        /// Populates the UI with the given options. 
+        /// Note: Time pausing and Fade-in/Slide-in should be triggered by UnityEvents in the Inspector.
+        /// </summary>
         public void OpenWithOptions(
             List<GameplayManager.LevelUpOption> options,
             HeroController targetHero,
             System.Action<int> onChoiceMade) {
             _targetHero = targetHero;
             _onChoiceMade = onChoiceMade;
-
-            // Pause the game timer
-            if (GameplayManager.Instance != null) {
-                GameplayManager.Instance.SetTimerPaused(true);
-            }
-
-            Time.timeScale = 0f;
-            levelUpPanel.SetActive(true);
+            _isClosing = false;
 
             // --- Apply hero visuals (Upper & Lower Body) ---
             UpdateHeroVisuals();
@@ -97,9 +94,10 @@ namespace HexaBit.Core {
                 if (btn.button != null) {
                     btn.button.onClick.RemoveAllListeners();
                     int capturedIndex = i;
+                    // O clique agora apenas avisa qual opção foi escolhida. 
+                    // O fechamento e animação devem ser disparados pelo evento no Inspector (ex: [event] FadeOut).
                     btn.button.onClick.AddListener(() => {
-                        _onChoiceMade?.Invoke(capturedIndex);
-                        CloseLevelUpMenu();
+                        OnChoiceSelected(capturedIndex);
                     });
                 }
 
@@ -107,6 +105,7 @@ namespace HexaBit.Core {
                 btn.gameObject.SetActive(true);
             }
 
+            // Hide unused buttons
             for (int i = options.Count; i < choiceButtons.Length; i++) {
                 if (choiceButtons[i] != null)
                     choiceButtons[i].gameObject.SetActive(false);
@@ -121,8 +120,29 @@ namespace HexaBit.Core {
         }
 
         /// <summary>
-        /// Updates the visual of the hero on the Level Up UI based on the target hero's data.
+        /// Called when the player clicks a button. Invokes the choice but DOES NOT close the UI.
         /// </summary>
+        public void OnChoiceSelected(int index) {
+            if (_isClosing) return;
+            _isClosing = true;
+
+            _onChoiceMade?.Invoke(index);
+        }
+
+        /// <summary>
+        /// Called via UnityEvent when the FadeOut and SlideOut animations are finished.
+        /// </summary>
+        public void OnExitAnimationComplete() {
+            // Garante que a UI e o tempo sejam restaurados
+            Time.timeScale = 1f;
+
+            if (GameplayManager.Instance != null) {
+                GameplayManager.Instance.SetTimerPaused(false);
+            }
+
+            Destroy(gameObject);
+        }
+
         private void UpdateHeroVisuals() {
             if (_targetHero == null) return;
 
@@ -157,7 +177,6 @@ namespace HexaBit.Core {
                 }
             }
 
-            // Clear remaining weapon chips
             for (int i = weaponSlots; i < weaponChips.Length; i++) {
                 weaponChips[i].ClearChip();
             }
@@ -175,7 +194,6 @@ namespace HexaBit.Core {
                 }
             }
 
-            // Clear remaining buff chips
             for (int i = buffSlots; i < buffChips.Length; i++) {
                 buffChips[i].ClearChip();
             }
@@ -220,17 +238,6 @@ namespace HexaBit.Core {
             if (index >= 0 && index < choiceButtons.Length && choiceButtons[index] != null) {
                 choiceButtons[index].SetSelected(true);
             }
-        }
-
-        public void CloseLevelUpMenu() {
-            Time.timeScale = 1f;
-
-            // Resume the game timer
-            if (GameplayManager.Instance != null) {
-                GameplayManager.Instance.SetTimerPaused(false);
-            }
-
-            Destroy(gameObject);
         }
 
         private void OnDestroy() {
