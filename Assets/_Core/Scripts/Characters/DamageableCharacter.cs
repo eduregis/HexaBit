@@ -29,7 +29,7 @@ namespace HexaBit.Core {
             currentHealth = maxHealth;
         }
 
-        public virtual void TakeDamage(float damage) {
+        public virtual void TakeDamage(float damage, Color? popupColor = null) {
             float effectiveDamage = damage * DamageMultiplier;
             int finalDamage = (int)Mathf.Max(1, effectiveDamage - armor);
             currentHealth -= finalDamage;
@@ -39,8 +39,9 @@ namespace HexaBit.Core {
             if (damagePopupPrefab != null) {
                 GameObject popup = Instantiate(damagePopupPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity, transform.parent);
                 DamagePopup popupScript = popup.GetComponent<DamagePopup>();
-                if (popupScript != null)
-                    popupScript.SetDamage(finalDamage);
+                if (popupScript != null) {
+                    popupScript.SetDamage(finalDamage, popupColor);
+                }
             }
 
             Debug.Log($"{gameObject.name} took {finalDamage} damage. Health: {currentHealth}/{maxHealth}");

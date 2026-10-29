@@ -9,6 +9,12 @@ namespace HexaBit.Core {
         public Sprite icon;
         public GameObject prefab;
 
+        [Header("Animation")]
+        public RuntimeAnimatorController animatorController;
+
+        [Header("Spawn Settings")]
+        public float startTime = 0f;
+
         [Header("Base Stats")]
         public int baseHealth = 10;
         public int damage = 5;

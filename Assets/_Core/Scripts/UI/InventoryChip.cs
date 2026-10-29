@@ -11,9 +11,24 @@ namespace HexaBit.Core {
             // Show the chip
             gameObject.SetActive(true);
 
+            // Set icon (always)
+            if (iconImage != null) {
+                iconImage.sprite = icon;
+                iconImage.enabled = icon != null;
+            }
+
             // Set frame sprite (if provided)
-            if (frameImage != null && frameSprite != null)
-                frameImage.sprite = frameSprite;
+            if (frameImage != null) {
+                if (frameSprite != null) {
+                    Debug.Log($"Frame Sprite: {frameSprite.name}");
+                    frameImage.sprite = frameSprite;
+                    frameImage.enabled = true;
+                } else {
+                    // Se não tiver frame, esconde a imagem do frame
+                    frameImage.sprite = null;
+                    frameImage.enabled = false;
+                }
+            }
         }
 
         public void ClearChip() {
@@ -21,8 +36,12 @@ namespace HexaBit.Core {
             gameObject.SetActive(false);
 
             // Clear references to avoid lingering data
-            if (iconImage != null)
+            if (iconImage != null) {
                 iconImage.sprite = null;
+            }
+            if (frameImage != null) {
+                frameImage.sprite = null;
+            }
         }
     }
 }
