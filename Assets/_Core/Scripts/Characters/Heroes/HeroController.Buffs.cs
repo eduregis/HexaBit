@@ -68,7 +68,7 @@ namespace HexaBit.Core {
             RefreshStats();
         }
 
-        public override void TakeDamage(float amount) {
+        public override void TakeDamage(float amount, Color? popupColor = null) {
             float reduced = Mathf.Max(1f, amount - GlobalArmor);
             base.TakeDamage(reduced);
         }

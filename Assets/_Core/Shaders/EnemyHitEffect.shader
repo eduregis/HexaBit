@@ -62,6 +62,7 @@ Shader "HexaBit/EnemyHitEffect"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
+                float4 _MainTex_TexelSize;
                 half4 _Color;
                 float _HitFlash;
                 float _DissolveAmount;

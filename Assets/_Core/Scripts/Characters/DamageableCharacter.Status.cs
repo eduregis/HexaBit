@@ -105,7 +105,11 @@ namespace HexaBit.Core {
             if (status.data.applyDamageOverTime && status.data.dotTickInterval > 0) {
                 if (status.timer >= status.data.dotTickInterval) {
                     float damage = status.data.dotDamagePerSecond * status.data.dotTickInterval;
-                    TakeDamage(damage);
+
+                    Color? damageColor = status.data.spriteColorOverride;
+                    Debug.Log($"Apply color: {damageColor}");
+                    TakeDamage(damage, damageColor);
+
                     status.ResetTickTimer();
                 }
             }

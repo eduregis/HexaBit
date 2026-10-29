@@ -8,8 +8,12 @@ namespace HexaBit.Core {
         [SerializeField] private float expandDuration = 0.2f;
         [SerializeField] private float fadeDuration = 0.5f;
 
+        [Header("Default Settings")]
+        [SerializeField] private Color defaultColor = Color.white;
+
         private float timer;
         private Vector3 initialScale;
+        private Color currentColor;
 
         private void Awake() {
             if (textMesh == null) textMesh = GetComponentInChildren<TextMeshProUGUI>();
@@ -22,8 +26,15 @@ namespace HexaBit.Core {
             transform.localScale = Vector3.zero;
         }
 
-        public void SetDamage(int damage) {
-            if (textMesh != null) textMesh.text = damage.ToString();
+        public void SetDamage(int damage, Color? colorOverride = null) {
+            if (textMesh != null) {
+                textMesh.text = damage.ToString();
+                currentColor = colorOverride ?? defaultColor;
+
+                Color c = currentColor;
+                c.a = 1f;
+                textMesh.color = c;
+            }
         }
 
         private void Update() {
@@ -39,7 +50,8 @@ namespace HexaBit.Core {
                 if (elapsed < fadeDuration) {
                     float fadeProgress = elapsed / fadeDuration;
                     transform.Translate(Vector3.up * floatSpeed * Time.deltaTime, Space.World);
-                    Color color = textMesh.color;
+
+                    Color color = currentColor;
                     color.a = Mathf.Lerp(1f, 0f, fadeProgress);
                     textMesh.color = color;
                 } else {
