@@ -12,10 +12,10 @@ namespace HexaBit.Core {
         public static GameplayManager Instance { get; private set; }
 
         [Header("Hero Setup")]
-        [SerializeField] private HeroController heroPrefab;      // Single Hero Prefab reference
-        [SerializeField] private List<HeroData> heroesData;      // List of data to configure each hero
-        [SerializeField] private List<Transform> spawnPoints;    // Spawn points for each hero
-        private List<HeroController> activeHeroes = new List<HeroController>(); // Runtime list
+        [SerializeField] private HeroController heroPrefab;
+        [SerializeField] private List<HeroData> heroesData;
+        [SerializeField] private List<Transform> spawnPoints;
+        private List<HeroController> activeHeroes = new List<HeroController>();
 
         [Header("XP Settings")]
         [SerializeField] private int baseXPToLevel = 20;
@@ -45,9 +45,13 @@ namespace HexaBit.Core {
 
         private InputSystemUIInputModule cachedUIModule;
         private bool _initialized = false;
-        
+
         // Prevents multiple Level Up panels from opening simultaneously
-        private bool isLevelUpActive = false; 
+        private bool isLevelUpActive = false;
+
+        // References to the dynamically instantiated UI panels
+        private PauseUIManager currentPauseInstance;
+        private RestartUIManager currentRestartInstance;
 
         public int CurrentXP => currentXP;
         public int CurrentLevel => currentLevel;
@@ -98,6 +102,10 @@ namespace HexaBit.Core {
             isTimerPaused = false;
             isLevelUpActive = false;
 
+            // Clear UI references on scene reload
+            currentPauseInstance = null;
+            currentRestartInstance = null;
+
             OnXPChanged?.Invoke(currentXP);
             OnLevelUp?.Invoke(currentLevel);
             OnKillCountChanged?.Invoke(totalKills);
@@ -131,19 +139,6 @@ namespace HexaBit.Core {
                     vcam.Follow = activeHeroes[0].transform;
                     vcam.LookAt = activeHeroes[0].transform;
                 }
-            }
-
-            // Instantiate UI (singletons)
-            if (pausePanelPrefab != null) {
-                if (PauseUIManager.Instance == null) Instantiate(pausePanelPrefab);
-            } else {
-                Debug.LogWarning("GameplayManager: pausePanelPrefab is not assigned!");
-            }
-
-            if (restartPanelPrefab != null) {
-                if (RestartUIManager.Instance == null) Instantiate(restartPanelPrefab);
-            } else {
-                Debug.LogWarning("GameplayManager: restartPanelPrefab is not assigned!");
             }
         }
 
@@ -181,8 +176,49 @@ namespace HexaBit.Core {
                 }
             }
 
-            if (allDead && RestartUIManager.Instance != null) {
-                RestartUIManager.Instance.OpenRestartMenu();
+            if (allDead) {
+                OpenRestartMenu();
+            }
+        }
+
+        /// <summary>
+        /// Instantiates and opens the Pause menu.
+        /// </summary>
+        public void OpenPauseMenu() {
+            if (currentPauseInstance != null) return; // Already open
+
+            if (pausePanelPrefab != null) {
+                GameObject pauseObj = Instantiate(pausePanelPrefab);
+                currentPauseInstance = pauseObj.GetComponent<PauseUIManager>();
+
+                // Trigger initialization event (Fade In, Slide In, Pause Time)
+                MenuInitializationEvent initEvent = pauseObj.GetComponentInChildren<MenuInitializationEvent>();
+                if (initEvent != null) {
+                    initEvent.InvokeEvent();
+                } else {
+                    Debug.LogWarning("GameplayManager: PausePanelPrefab is missing MenuInitializationEvent component!");
+                    Time.timeScale = 0f; // Fallback
+                }
+            }
+        }
+
+        /// <summary>
+        /// Instantiates and opens the Restart menu.
+        /// </summary>
+        private void OpenRestartMenu() {
+            if (currentRestartInstance != null) return;
+
+            if (restartPanelPrefab != null) {
+                GameObject restartObj = Instantiate(restartPanelPrefab);
+                currentRestartInstance = restartObj.GetComponent<RestartUIManager>();
+
+                // Trigger initialization event (Fade In)
+                MenuInitializationEvent initEvent = restartObj.GetComponentInChildren<MenuInitializationEvent>();
+                if (initEvent != null) {
+                    initEvent.InvokeEvent();
+                } else {
+                    Debug.LogWarning("GameplayManager: RestartPanelPrefab is missing MenuInitializationEvent component!");
+                }
             }
         }
 
@@ -208,9 +244,6 @@ namespace HexaBit.Core {
             CheckForLevelUp();
         }
 
-        /// <summary>
-        /// Checks if the player has enough XP to level up and opens the panel if needed.
-        /// </summary>
         public void CheckForLevelUp() {
             if (isLevelUpActive) return;
 
@@ -230,19 +263,17 @@ namespace HexaBit.Core {
                     uiManager.OpenWithOptions(options, targetHero, (int selectedIndex) => {
                         LevelUpOption chosenOption = options[selectedIndex];
                         chosenOption.onSelected.Invoke();
-                        
+
                         // Unlock the level up state and check if there's leftover XP
-                        isLevelUpActive = false; 
-                        CheckForLevelUp(); 
+                        isLevelUpActive = false;
+                        CheckForLevelUp();
                     });
 
-                    // Trigger the initialization event (Fade In, Slide In, Pause Time)
-                    // GetComponentInChildren is used because the event component might be on a child object.
-                    LevelUpInitializationEvent initEvent = panelObj.GetComponentInChildren<LevelUpInitializationEvent>();
+                    MenuInitializationEvent initEvent = panelObj.GetComponentInChildren<MenuInitializationEvent>();
                     if (initEvent != null) {
                         initEvent.InvokeEvent();
                     } else {
-                        Debug.LogWarning("GameplayManager: LevelUpPanelPrefab is missing LevelUpInitializationEvent component!");
+                        Debug.LogWarning("GameplayManager: LevelUpPanelPrefab is missing MenuInitializationEvent component!");
                         Time.timeScale = 0f; // Fallback
                     }
                 } else {

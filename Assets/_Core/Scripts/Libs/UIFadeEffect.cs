@@ -6,8 +6,8 @@ namespace HexaBit.Core {
     [RequireComponent(typeof(CanvasGroup))]
     public class UIFadeEffect : MonoBehaviour {
         [Header("Settings")]
-        [SerializeField] private float fadeInDuration = 0.3f;
-        [SerializeField] private float fadeOutDuration = 0.3f;
+        [SerializeField] private float fadeInDuration = 0.2f;
+        [SerializeField] private float fadeOutDuration = 0.2f;
 
         [Header("Events")]
         public UnityEvent OnFadeInComplete;
