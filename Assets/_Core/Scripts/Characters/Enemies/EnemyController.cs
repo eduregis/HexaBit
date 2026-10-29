@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 namespace HexaBit.Core {
     public class EnemyController : DamageableCharacter {
@@ -10,6 +11,14 @@ namespace HexaBit.Core {
         [SerializeField] private Animator animator;
         [SerializeField] private bool hasDeathAnimation = true;
 
+        [Header("Visual Effects (Shader)")]
+        private Material runtimeMaterial;
+        private Coroutine flashCoroutine;
+
+        // IDs do Shader para performance
+        private int hitFlashID;
+        private int dissolveAmountID;
+
         private bool isDead = false;
         private Transform player;
         private Rigidbody2D rb;
@@ -19,8 +28,8 @@ namespace HexaBit.Core {
         private float attackTimer = 0f;
 
         // Sub-Boss Variables
-        private int currentDamage;          // Local damage value (so we don't modify the ScriptableObject)
-        private StatusData contactStatus;   // Status to apply on contact (for sub-bosses)
+        private int currentDamage;
+        private StatusData contactStatus;
 
         [Header("Events")]
         public UnityEvent OnDeath;
@@ -35,15 +44,24 @@ namespace HexaBit.Core {
         private const float knockbackDuration = 0.2f;
 
         protected override void Awake() {
-            base.Awake();
+            base.Awake(); // A classe base já busca o spriteRenderer aqui
+
             rb = GetComponent<Rigidbody2D>();
             if (rb == null) Debug.LogError("EnemyController: Rigidbody2D not found!");
+
             if (animator == null) animator = GetComponent<Animator>();
+
+            // Usa a variável da classe base (sem o 'private' local)
+            if (spriteRenderer != null && spriteRenderer.material != null) {
+                runtimeMaterial = spriteRenderer.material;
+                hitFlashID = Shader.PropertyToID("_HitFlash");
+                dissolveAmountID = Shader.PropertyToID("_DissolveAmount");
+            }
         }
 
         public void Initialize(EnemyData enemyData, int wave, StatusData statusToApply = null) {
             data = enemyData;
-            contactStatus = statusToApply; // Store the status (will be null for normal enemies)
+            contactStatus = statusToApply;
 
             int scaledHealth = data.baseHealth;
             if (!data.healthScalesWithPlayerLevel) {
@@ -62,33 +80,28 @@ namespace HexaBit.Core {
                 baseSpeed += data.moveSpeed * 0.05f * wave;
 
             CurrentSpeed = baseSpeed;
-
-            // Set the base damage
             currentDamage = data.damage;
 
             isDead = false;
             attackTimer = 0f;
             knockbackTimer = 0f;
 
-            // Check if animator has a controller before playing animations
+            // Reseta os efeitos visuais
+            if (runtimeMaterial != null) {
+                runtimeMaterial.SetFloat(hitFlashID, 0f);
+                runtimeMaterial.SetFloat(dissolveAmountID, 0f);
+            }
+
             if (animator != null && animator.runtimeAnimatorController != null) {
                 animator.SetBool("IsDead", false);
                 animator.SetTrigger("Respawn");
             }
         }
 
-        /// <summary>
-        /// Multiplies the enemy's stats (used by SpawnerController to create sub-bosses).
-        /// </summary>
         public void MultiplyStats(float healthMultiplier, float damageMultiplier) {
-            // Multiply health and heal to full
             maxHealth = Mathf.RoundToInt(maxHealth * healthMultiplier);
             currentHealth = maxHealth;
-
-            // Multiply damage
             currentDamage = Mathf.RoundToInt(currentDamage * damageMultiplier);
-
-            // Optional: You could also notify the UI or visuals here if needed
             Debug.Log($"[Enemy] Sub-Boss stats applied. HP: {maxHealth}, Damage: {currentDamage}");
         }
 
@@ -97,21 +110,13 @@ namespace HexaBit.Core {
             player = hero != null ? hero.transform : null;
         }
 
-        /// <summary>
-        /// Applies a knockback force to the enemy and briefly prevents movement override.
-        /// </summary>
         public void ApplyKnockback(float force, Vector2 direction) {
             if (isDead) return;
             if (rb == null) return;
 
-            // Reset velocity and wake up
             rb.linearVelocity = Vector2.zero;
             rb.WakeUp();
-
-            // Apply force
             rb.AddForce(direction * force, ForceMode2D.Impulse);
-
-            // Activate knockback timer to prevent movement override
             knockbackTimer = knockbackDuration;
         }
 
@@ -132,7 +137,12 @@ namespace HexaBit.Core {
             attackTimer = 0f;
             knockbackTimer = 0f;
 
-            // Check if animator has a controller before playing animations
+            // Reseta os efeitos visuais ao voltar do pool
+            if (runtimeMaterial != null) {
+                runtimeMaterial.SetFloat(hitFlashID, 0f);
+                runtimeMaterial.SetFloat(dissolveAmountID, 0f);
+            }
+
             if (animator != null && animator.runtimeAnimatorController != null) {
                 animator.SetBool("IsDead", false);
                 animator.SetTrigger("Respawn");
@@ -152,10 +162,9 @@ namespace HexaBit.Core {
             if (isDead) return;
             if (heroController == null || heroController.IsDead) return;
 
-            // If knockback is active, don't override velocity
             if (knockbackTimer > 0f) {
                 knockbackTimer -= Time.fixedDeltaTime;
-                return; // Skip normal movement while knockback is active
+                return;
             }
 
             Vector2 direction = (player.position - transform.position).normalized;
@@ -173,7 +182,6 @@ namespace HexaBit.Core {
             }
         }
 
-        // Contact damage
         private void OnTriggerStay2D(Collider2D other) {
             if (isDead || attackTimer > 0f) return;
             if (heroController == null || heroController.IsDead) return;
@@ -181,10 +189,8 @@ namespace HexaBit.Core {
             if (other.CompareTag("Player")) {
                 HeroController hero = other.GetComponent<HeroController>();
                 if (hero != null) {
-                    // Apply base damage
                     hero.TakeDamage(currentDamage);
 
-                    // Apply status effect if this is a sub-boss with a status
                     if (contactStatus != null) {
                         hero.ApplyStatus(contactStatus);
                     }
@@ -195,12 +201,29 @@ namespace HexaBit.Core {
             }
         }
 
+        // --- Flash Effect ---
         protected override void AnimateTakingDamage() {
-            if (animator == null) return;
-            // Adding a damaged animation to enemies
-            // animator.SetBool("Damaged", damaged);
+            if (runtimeMaterial == null) return;
+
+            if (flashCoroutine != null)
+                StopCoroutine(flashCoroutine);
+
+            flashCoroutine = StartCoroutine(FlashRoutine());
         }
 
+        private IEnumerator FlashRoutine() {
+            // Blink white twice
+            for (int i = 0; i < 2; i++) {
+                runtimeMaterial.SetFloat(hitFlashID, 1f);
+                yield return new WaitForSeconds(0.05f);
+
+                runtimeMaterial.SetFloat(hitFlashID, 0f);
+                yield return new WaitForSeconds(0.05f);
+            }
+            flashCoroutine = null;
+        }
+
+        // ---  Dissolve Effect ---
         protected override void Die() {
             if (isDead) return;
             isDead = true;
@@ -208,13 +231,41 @@ namespace HexaBit.Core {
             ClearAllStatuses();
             OnDeath?.Invoke();
 
+            // Inicia a rotina de dissolução em vez de destruir imediatamente
+            StartCoroutine(DissolveRoutine());
+        }
+
+        private IEnumerator DissolveRoutine() {
+            // Se não houver material ou animação de morte, destrói direto
+            if (runtimeMaterial == null) {
+                Destroy(gameObject);
+                yield break;
+            }
+
+            if (rb != null) {
+                rb.linearVelocity = Vector2.zero; // Zera a velocidade
+                rb.bodyType = RigidbodyType2D.Kinematic; // Opcional: impede que colisões empurrem ele enquanto dissolve
+            }
+
+            // Opcional: Toca a animação de morte, se existir
             if (hasDeathAnimation && animator != null && animator.HasState(0, Animator.StringToHash("Death"))) {
                 animator.SetBool("IsDead", true);
                 animator.SetTrigger("Die");
-                Destroy(gameObject, 0.5f);
-            } else {
-                Destroy(gameObject);
             }
+
+            float duration = 0.5f;
+            float timer = 0f;
+
+            // Aumenta a dissolução de 0 a 1.1 para garantir que suma tudo
+            while (timer < duration) {
+                timer += Time.deltaTime;
+                float progress = timer / duration;
+
+                runtimeMaterial.SetFloat(dissolveAmountID, progress * 1.1f);
+                yield return null;
+            }
+
+            Destroy(gameObject);
         }
 
         private void OnDisable() {
