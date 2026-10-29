@@ -10,6 +10,10 @@ namespace HexaBit.Core {
         [SerializeField] private GameObject levelUpPanel;
         [SerializeField] private LevelUpButton[] choiceButtons;
 
+        [Header("Hero Display (Level Up)")]
+        [SerializeField] private Image heroLowerBodyImage;
+        [SerializeField] private Image heroUpperBodyImage;
+
         [Header("Inventory Chips")]
         [SerializeField] private InventoryChip[] weaponChips; // 3 slots
         [SerializeField] private InventoryChip[] buffChips;   // 3 slots
@@ -44,6 +48,9 @@ namespace HexaBit.Core {
 
             Time.timeScale = 0f;
             levelUpPanel.SetActive(true);
+
+            // --- Apply hero visuals (Upper & Lower Body) ---
+            UpdateHeroVisuals();
 
             // --- Apply colors to external images ---
             if (weaponColorImage != null)
@@ -110,6 +117,27 @@ namespace HexaBit.Core {
             if (choiceButtons.Length > 0 && choiceButtons[0] != null && choiceButtons[0].button != null) {
                 SetSelectedButton(0);
                 EventSystem.current.SetSelectedGameObject(choiceButtons[0].button.gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Updates the visual of the hero on the Level Up UI based on the target hero's data.
+        /// </summary>
+        private void UpdateHeroVisuals() {
+            if (_targetHero == null) return;
+
+            HeroData data = _targetHero.GetHeroData();
+
+            if (data != null) {
+                if (heroLowerBodyImage != null) {
+                    heroLowerBodyImage.sprite = data.levelUpLowerBody;
+                    heroLowerBodyImage.gameObject.SetActive(data.levelUpLowerBody != null);
+                }
+
+                if (heroUpperBodyImage != null) {
+                    heroUpperBodyImage.sprite = data.levelUpUpperBody;
+                    heroUpperBodyImage.gameObject.SetActive(data.levelUpUpperBody != null);
+                }
             }
         }
 

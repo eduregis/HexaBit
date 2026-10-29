@@ -817,7 +817,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -16421,11 +16421,12 @@ MonoBehaviour:
   spawnInterval: 1.5
   maxEnemies: 20
   spawnOffset: 0.5
-  subBossInterval: 20
-  subBossScaleMultiplier: 3
+  subBossInterval: 60
+  subBossScaleMultiplier: 1.8
   subBossHealthMultiplier: 5
   subBossDamageMultiplier: 2
-  subBossStatusPool: []
+  subBossStatusPool:
+  - {fileID: 11400000, guid: 914906822b32657438cd2a86b4b8bae6, type: 2}
   xpDropPrefab: {fileID: 5415832339510204443, guid: 364cefb159f9f8f4dbe94aeb0cd28a2d, type: 3}
   player: {fileID: 0}
   waveInterval: 10

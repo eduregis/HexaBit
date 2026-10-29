@@ -8,6 +8,10 @@ namespace HexaBit.Core {
         public string heroName;
         public Sprite icon;
 
+        [Header("Level Up Visuals")]
+        public Sprite levelUpLowerBody;
+        public Sprite levelUpUpperBody;
+
         [Header("Starting Weapon")]
         public WeaponData startingWeapon;
 

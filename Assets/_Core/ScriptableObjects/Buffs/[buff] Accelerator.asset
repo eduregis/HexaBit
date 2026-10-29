@@ -30,7 +30,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  icon: {fileID: 0}
+  icon: {fileID: -2267975535158423393, guid: cdee279d03b51e64cb11d12ca33e8c8c, type: 3}
   type: 2
   values:
   - 0.05

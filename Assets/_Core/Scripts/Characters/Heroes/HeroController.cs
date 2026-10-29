@@ -109,6 +109,10 @@ namespace HexaBit.Core {
             heroData = data;
         }
 
+        public HeroData GetHeroData() {
+            return heroData;
+        }
+
         // --- UI Management ---
         private void UpdateHealthBar() {
             if (hpSlider != null) {
