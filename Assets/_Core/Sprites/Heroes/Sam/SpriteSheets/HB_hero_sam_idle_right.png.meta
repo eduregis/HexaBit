@@ -141,7 +141,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_HERO_SAM_IDLE2_RIGHT_0
+      name: HB_hero_sam_idle_right_0
       rect:
         serializedVersion: 2
         x: 0
@@ -154,16 +154,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 71f015842c1921b90800000000000000
-      internalID: -7272590184626974953
+      spriteID: 814d8e8f6bd20674ca93c9e50e219a43
+      internalID: -1893773006
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_HERO_SAM_IDLE2_RIGHT_1
+      name: HB_hero_sam_idle_right_1
       rect:
         serializedVersion: 2
         x: 64
@@ -176,16 +176,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0270230eb1c5ec650800000000000000
-      internalID: 6255038207259445024
+      spriteID: 33363c00246ec9146a520aaab948cf8e
+      internalID: 1259737616
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_HERO_SAM_IDLE2_RIGHT_2
+      name: HB_hero_sam_idle_right_2
       rect:
         serializedVersion: 2
         x: 128
@@ -198,16 +198,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: adc21e22fcda97080800000000000000
-      internalID: -9189122459517768486
+      spriteID: 62a49b0ba5d77b842a1782147ab66e0d
+      internalID: 284674921
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_HERO_SAM_IDLE2_RIGHT_3
+      name: HB_hero_sam_idle_right_3
       rect:
         serializedVersion: 2
         x: 192
@@ -220,16 +220,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 34756a304ad5a9030800000000000000
-      internalID: 3502214619251234627
+      spriteID: 066b800a202303445be963f8b47dac49
+      internalID: -1987561912
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_HERO_SAM_IDLE2_RIGHT_4
+      name: HB_hero_sam_idle_right_4
       rect:
         serializedVersion: 2
         x: 256
@@ -242,16 +242,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9e424992bb4a5e1f0800000000000000
-      internalID: -1016225017138764567
+      spriteID: 42e1f2d919a5c274e816c923958eec04
+      internalID: 1148358810
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_HERO_SAM_IDLE2_RIGHT_5
+      name: HB_hero_sam_idle_right_5
       rect:
         serializedVersion: 2
         x: 320
@@ -264,10 +264,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b3fa1bb569e7f0160800000000000000
-      internalID: 6993947930578235195
+      spriteID: a7bf6bf595da6994399f319a71588a39
+      internalID: 2120628827
       vertices: []
       indices: 
       edges: []
@@ -288,12 +288,12 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      HB_HERO_SAM_IDLE2_RIGHT_0: -7272590184626974953
-      HB_HERO_SAM_IDLE2_RIGHT_1: 6255038207259445024
-      HB_HERO_SAM_IDLE2_RIGHT_2: -9189122459517768486
-      HB_HERO_SAM_IDLE2_RIGHT_3: 3502214619251234627
-      HB_HERO_SAM_IDLE2_RIGHT_4: -1016225017138764567
-      HB_HERO_SAM_IDLE2_RIGHT_5: 6993947930578235195
+      HB_hero_sam_idle_right_0: -1893773006
+      HB_hero_sam_idle_right_1: 1259737616
+      HB_hero_sam_idle_right_2: 284674921
+      HB_hero_sam_idle_right_3: -1987561912
+      HB_hero_sam_idle_right_4: 1148358810
+      HB_hero_sam_idle_right_5: 2120628827
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

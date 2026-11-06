@@ -170,6 +170,7 @@ namespace HexaBit.Core {
                 WeaponBase weapon = hero.weaponSlots[i];
                 if (weapon != null && weapon.data != null) {
                     Sprite icon = weapon.data.icon;
+
                     Sprite frame = GetLevelFrame(weapon.currentLevel);
                     weaponChips[i].SetChip(icon, frame);
                 } else {
@@ -177,6 +178,7 @@ namespace HexaBit.Core {
                 }
             }
 
+            // Clear remaining weapon chips
             for (int i = weaponSlots; i < weaponChips.Length; i++) {
                 weaponChips[i].ClearChip();
             }
@@ -187,6 +189,7 @@ namespace HexaBit.Core {
                 ActiveBuff buff = hero.activeBuffs[i];
                 if (buff != null && buff.data != null) {
                     Sprite icon = buff.data.icon;
+
                     Sprite frame = GetLevelFrame(buff.currentLevel);
                     buffChips[i].SetChip(icon, frame);
                 } else {
@@ -194,6 +197,7 @@ namespace HexaBit.Core {
                 }
             }
 
+            // Clear remaining buff chips
             for (int i = buffSlots; i < buffChips.Length; i++) {
                 buffChips[i].ClearChip();
             }
@@ -202,6 +206,7 @@ namespace HexaBit.Core {
         private Sprite GetLevelFrame(int level) {
             if (levelFrames == null || levelFrames.Length == 0) return null;
             int index = Mathf.Clamp(level - 1, 0, levelFrames.Length - 1);
+
             return levelFrames[index];
         }
 

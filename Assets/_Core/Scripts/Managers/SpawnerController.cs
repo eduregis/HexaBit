@@ -11,6 +11,11 @@ namespace HexaBit.Core {
         [SerializeField] private int maxEnemies = 20;         // Maximum enemies alive at once
         [SerializeField] private float spawnOffset = 0.5f;    // Distance outside the camera viewport
 
+        [Header("Spawn Validation")]
+        [Tooltip("Radius to check if the spawn position is blocked by a wall.")]
+        [SerializeField] private float spawnCheckRadius = 0.5f;
+        [SerializeField] private LayerMask wallLayer; // Layer "Wall" in Inspector
+
         [Header("Sub-Boss Settings")]
         [SerializeField] private float subBossInterval = 60f; // Subboss spawn cooldown
         [SerializeField] private float subBossScaleMultiplier = 1.5f;
@@ -96,7 +101,7 @@ namespace HexaBit.Core {
                 EnemyData selectedEnemy = GetRandomEligibleEnemy();
                 if (selectedEnemy == null) continue; // No enemies available yet
 
-                Vector3 spawnPos = GetSpawnPosition();
+                Vector3 spawnPos = GetSafeSpawnPosition();
                 GameObject enemy = Instantiate(selectedEnemy.prefab, spawnPos, Quaternion.identity);
 
                 EnemyController enemyCtrl = enemy.GetComponent<EnemyController>();
@@ -134,7 +139,7 @@ namespace HexaBit.Core {
                 selectedStatus = subBossStatusPool[Random.Range(0, subBossStatusPool.Count)];
             }
 
-            Vector3 spawnPos = GetSpawnPosition();
+            Vector3 spawnPos = GetSafeSpawnPosition();
             GameObject enemy = Instantiate(selectedEnemy.prefab, spawnPos, Quaternion.identity);
 
             EnemyController enemyCtrl = enemy.GetComponent<EnemyController>();
@@ -229,5 +234,29 @@ namespace HexaBit.Core {
 
             return spawnPos;
         }
+
+        private Vector3 GetSafeSpawnPosition() {
+            Vector3 spawnPos = Vector3.zero;
+            int maxAttempts = 30;
+            bool foundSafeSpot = false;
+
+            for (int i = 0; i < maxAttempts; i++) {
+                spawnPos = GetSpawnPosition();
+
+                Collider2D hit = Physics2D.OverlapCircle(spawnPos, spawnCheckRadius, wallLayer);
+
+                if (hit == null) {
+                    foundSafeSpot = true;
+                    break;
+                }
+            }
+
+            if (!foundSafeSpot) {
+                Debug.LogWarning("SpawnerController: Could not find a safe spawn position after 30 attempts. Spawning anyway (may be inside a wall).");
+            }
+
+            return spawnPos;
+        }
+
     }
 }
