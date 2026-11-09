@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b2705fdc84538848a19eb0f19900caa, type: 3}
   m_Name: '[hero] Dandara'
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.HeroData
-  heroName: 
+  heroName: Dandara
   icon: {fileID: 0}
   levelUpLowerBody: {fileID: 0}
   levelUpUpperBody: {fileID: 0}
-  startingWeapon: {fileID: 0}
+  startingWeapon: {fileID: 11400000, guid: a0c56bfbbd5c54f4b9643e25bd92eca8, type: 2}
   maxHealth: 100
   moveSpeed: 3.5
   armor: 0
   damageMultiplier: 1
   projectileSpeedMultiplier: 1
   growthMultiplier: 1
-  animatorController: {fileID: 0}
+  animatorController: {fileID: 22100000, guid: 34835304526547d4d8fe50329fc1627b, type: 2}
   abilities: []

@@ -177,20 +177,6 @@ namespace HexaBit.Core
             }
         }
 
-        private void CacheUIModule()
-        {
-            var eventSystem = FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>();
-            if (eventSystem != null)
-            {
-                cachedUIModule = eventSystem.GetComponent<InputSystemUIInputModule>();
-                if (cachedUIModule == null) Debug.LogWarning("GameplayManager: InputSystemUIInputModule not found on EventSystem!");
-            }
-            else
-            {
-                Debug.LogWarning("GameplayManager: EventSystem not found in the scene!");
-            }
-        }
-
         /// <summary>
         /// Assigns the cached UI Input Module to the given hero's PlayerInput component.
         /// </summary>
