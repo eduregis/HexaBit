@@ -15,8 +15,6 @@ namespace HexaBit.Core {
                 pauseAction = playerInput.actions["Pause"];
                 if (pauseAction != null) {
                     pauseAction.performed += OnPausePerformed;
-                } else {
-                    Debug.LogWarning("PauseInputHandler: 'Pause' action not found in PlayerInput actions!");
                 }
             }
         }
@@ -28,26 +26,22 @@ namespace HexaBit.Core {
         }
 
         private void OnPausePerformed(InputAction.CallbackContext context) {
-            if (PauseUIManager.Instance == null) {
-                Debug.LogWarning("PauseInputHandler: PauseUIManager.Instance is null!");
-                return;
-            }
+            // Block pause input if the Restart menu is open
+            if (FindFirstObjectByType<RestartUIManager>() != null) return;
 
-            // Block pause input if the restart menu is open
-            if (RestartUIManager.Instance != null && RestartUIManager.Instance.IsOpen) {
-                return;
-            }
+            PauseUIManager pauseMenu = FindFirstObjectByType<PauseUIManager>();
 
-            // Block pause input if time is frozen by another menu (Level Up)
-            if (Time.timeScale == 0f && !PauseUIManager.Instance.IsPaused) {
-                return;
-            }
-
-            // Toggle: if paused, resume; otherwise, open pause menu
-            if (PauseUIManager.Instance.IsPaused) {
-                PauseUIManager.Instance.ResumeGame();
+            if (pauseMenu != null) {
+                // If open, start the fade out closing sequence
+                pauseMenu.ClosePauseMenu();
             } else {
-                PauseUIManager.Instance.OpenPauseMenu();
+                // Block pause input if time is frozen by another menu (Level Up)
+                if (Time.timeScale == 0f) return;
+
+                // If closed, ask the GameplayManager to instantiate it
+                if (GameplayManager.Instance != null) {
+                    GameplayManager.Instance.OpenPauseMenu();
+                }
             }
         }
     }

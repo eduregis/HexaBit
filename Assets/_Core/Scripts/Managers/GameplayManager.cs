@@ -7,15 +7,17 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using Unity.Cinemachine;
 
-namespace HexaBit.Core {
-    public class GameplayManager : MonoBehaviour {
+namespace HexaBit.Core
+{
+    public class GameplayManager : MonoBehaviour
+    {
         public static GameplayManager Instance { get; private set; }
 
         [Header("Hero Setup")]
-        [SerializeField] private HeroController heroPrefab;      // Single Hero Prefab reference
-        [SerializeField] private List<HeroData> heroesData;      // List of data to configure each hero
-        [SerializeField] private List<Transform> spawnPoints;    // Spawn points for each hero
-        private List<HeroController> activeHeroes = new List<HeroController>(); // Runtime list
+        [SerializeField] private HeroController heroPrefab;
+        [SerializeField] private List<HeroData> heroesData;
+        [SerializeField] private List<Transform> spawnPoints;
+        private List<HeroController> activeHeroes = new List<HeroController>();
 
         [Header("XP Settings")]
         [SerializeField] private int baseXPToLevel = 20;
@@ -43,11 +45,15 @@ namespace HexaBit.Core {
         [SerializeField] private float currentTime = 0f;
         private bool isTimerPaused = false;
 
-        // Cached UI Input Module from the scene's EventSystem
         private InputSystemUIInputModule cachedUIModule;
-
-        // Flag to skip the first sceneLoaded event (since Start already handles it)
         private bool _initialized = false;
+
+        // Prevents multiple Level Up panels from opening simultaneously
+        private bool isLevelUpActive = false;
+
+        // References to the dynamically instantiated UI panels
+        private PauseUIManager currentPauseInstance;
+        private RestartUIManager currentRestartInstance;
 
         public int CurrentXP => currentXP;
         public int CurrentLevel => currentLevel;
@@ -62,8 +68,10 @@ namespace HexaBit.Core {
         public UnityEvent<int> OnKillCountChanged;
         public UnityEvent<float> OnTimerUpdated;
 
-        private void Awake() {
-            if (Instance != null && Instance != this) {
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
                 Destroy(gameObject);
                 return;
             }
@@ -77,192 +85,240 @@ namespace HexaBit.Core {
         /// <summary>
         /// Finds and caches the InputSystemUIInputModule from the scene's EventSystem.
         /// </summary>
-        private void CacheUIModule() {
+        private void CacheUIModule()
+        {
             var eventSystem = FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>();
-            if (eventSystem != null) {
+            if (eventSystem != null)
+            {
                 cachedUIModule = eventSystem.GetComponent<InputSystemUIInputModule>();
-                if (cachedUIModule == null) {
+                if (cachedUIModule == null)
+                {
                     Debug.LogWarning("GameplayManager: InputSystemUIInputModule not found on EventSystem!");
                 }
-            } else {
+            }
+            else
+            {
                 Debug.LogWarning("GameplayManager: EventSystem not found in the scene!");
             }
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
-        private void Start() {
+        private void Start()
+        {
             InitializeForScene();
             _initialized = true;
         }
 
-        /// <summary>
-        /// Called every time a new scene is loaded. Skips the first load (handled by Start).
-        /// </summary>
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
             if (!_initialized) return;
             InitializeForScene();
         }
 
-        /// <summary>
-        /// Resets stats, clears old heroes, and spawns new ones.
-        /// Called on first Start and on every scene reload.
-        /// </summary>
-        private void InitializeForScene() {
+        private void InitializeForScene()
+        {
             // Reset stats
             currentXP = 0;
             currentLevel = 1;
             totalKills = 0;
             currentTime = 0f;
             isTimerPaused = false;
+            isLevelUpActive = false;
+
+            // Clear UI references on scene reload
+            currentPauseInstance = null;
+            currentRestartInstance = null;
 
             OnXPChanged?.Invoke(currentXP);
             OnLevelUp?.Invoke(currentLevel);
             OnKillCountChanged?.Invoke(totalKills);
             OnTimerUpdated?.Invoke(currentTime);
 
-            // Clear old heroes (they were destroyed on scene reload)
             activeHeroes.Clear();
 
             // Clear old subscriptions to avoid duplicates (static event)
             HeroController.OnHeroDied -= OnHeroDied;
             HeroController.OnHeroDied += OnHeroDied;
 
-            // Cache the UI Input Module from the scene's EventSystem
             CacheUIModule();
 
-            // Instantiate heroes using the single prefab and the HeroData list
-            for (int i = 0; i < heroesData.Count; i++) {
+            // Instantiate heroes
+            for (int i = 0; i < heroesData.Count; i++)
+            {
                 Transform spawnPos = (i < spawnPoints.Count) ? spawnPoints[i] : null;
                 Vector3 position = spawnPos != null ? spawnPos.position : Vector3.zero;
 
-                // Instantiate the base prefab
                 HeroController newHero = Instantiate(heroPrefab, position, Quaternion.identity);
-
-                // Inject the specific HeroData from the array
                 newHero.SetHeroData(heroesData[i]);
-
-                // Assign the UI Input Module to the hero's PlayerInput
                 AssignUIModuleToHero(newHero);
-
                 activeHeroes.Add(newHero);
             }
 
             if (activeHeroes.Count == 0) Debug.LogError("No heroes were spawned! Check Hero Data list.");
 
-            // --- CINEMACHINE SETUP ---
-            if (activeHeroes.Count > 0) {
-                if (vcam == null) {
-                    vcam = FindFirstObjectByType<CinemachineCamera>();
-                }
-
-                if (vcam != null) {
+            // Camera setup
+            if (activeHeroes.Count > 0)
+            {
+                if (vcam == null) vcam = FindFirstObjectByType<CinemachineCamera>();
+                if (vcam != null)
+                {
                     vcam.Follow = activeHeroes[0].transform;
                     vcam.LookAt = activeHeroes[0].transform;
                 }
             }
+        }
 
-            // Instantiate the Pause UI (singleton persists across the session)
-            if (pausePanelPrefab != null) {
-                if (PauseUIManager.Instance == null) {
-                    Instantiate(pausePanelPrefab);
-                }
-            } else {
-                Debug.LogWarning("GameplayManager: pausePanelPrefab is not assigned!");
+        private void CacheUIModule()
+        {
+            var eventSystem = FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>();
+            if (eventSystem != null)
+            {
+                cachedUIModule = eventSystem.GetComponent<InputSystemUIInputModule>();
+                if (cachedUIModule == null) Debug.LogWarning("GameplayManager: InputSystemUIInputModule not found on EventSystem!");
             }
-
-            // Instantiate the Restart UI (singleton persists across the session)
-            if (restartPanelPrefab != null) {
-                if (RestartUIManager.Instance == null) {
-                    Instantiate(restartPanelPrefab);
-                }
-            } else {
-                Debug.LogWarning("GameplayManager: restartPanelPrefab is not assigned!");
+            else
+            {
+                Debug.LogWarning("GameplayManager: EventSystem not found in the scene!");
             }
         }
 
         /// <summary>
         /// Assigns the cached UI Input Module to the given hero's PlayerInput component.
         /// </summary>
-        private void AssignUIModuleToHero(HeroController hero) {
+        private void AssignUIModuleToHero(HeroController hero)
+        {
             if (hero == null) return;
 
             PlayerInput playerInput = hero.GetComponent<PlayerInput>();
-            if (playerInput != null) {
-                if (cachedUIModule != null) {
+            if (playerInput != null)
+            {
+                if (cachedUIModule != null)
+                {
                     playerInput.uiInputModule = cachedUIModule;
-                    Debug.Log($"GameplayManager: UI Input Module assigned to {hero.name}");
-                } else {
+                }
+                else
+                {
                     Debug.LogWarning($"GameplayManager: Cannot assign UI Input Module to {hero.name} - module is null!");
                 }
-            } else {
+            }
+            else
+            {
                 Debug.LogWarning($"GameplayManager: PlayerInput not found on {hero.name}!");
             }
         }
 
-        /// <summary>
-        /// Called when a hero dies. Checks if all heroes are dead and opens the restart menu.
-        /// </summary>
-        private void OnHeroDied() {
-            // Check if ALL heroes are dead
+        private void OnHeroDied()
+        {
             bool allDead = true;
-            foreach (var hero in activeHeroes) {
-                if (hero != null && !hero.IsDead) {
+            foreach (var hero in activeHeroes)
+            {
+                if (hero != null && !hero.IsDead)
+                {
                     allDead = false;
                     break;
                 }
             }
 
-            if (allDead && RestartUIManager.Instance != null) {
-                RestartUIManager.Instance.OpenRestartMenu();
+            if (allDead)
+            {
+                OpenRestartMenu();
+            }
+        }
+        /// <summary>
+        /// Instantiates and opens the Pause menu.
+        /// </summary>
+        public void OpenPauseMenu()
+        {
+            if (currentPauseInstance != null) return; // Already open
+
+            if (pausePanelPrefab != null)
+            {
+                GameObject pauseObj = Instantiate(pausePanelPrefab);
+                currentPauseInstance = pauseObj.GetComponent<PauseUIManager>();
             }
         }
 
-        private void Update() {
-            if (!isTimerPaused) {
+        /// <summary>
+        /// Instantiates and opens the Restart menu.
+        /// </summary>
+        private void OpenRestartMenu()
+        {
+            if (currentRestartInstance != null) return;
+
+            if (restartPanelPrefab != null)
+            {
+                GameObject restartObj = Instantiate(restartPanelPrefab);
+                currentRestartInstance = restartObj.GetComponent<RestartUIManager>();
+            }
+        }
+
+        private void Update()
+        {
+            if (!isTimerPaused)
+            {
                 currentTime += Time.deltaTime;
                 OnTimerUpdated?.Invoke(currentTime);
             }
         }
 
-        /// <summary>
-        /// Pauses or resumes the game timer.
-        /// </summary>
-        public void SetTimerPaused(bool paused) {
+        public void SetTimerPaused(bool paused)
+        {
             isTimerPaused = paused;
         }
 
-        // XP is shared and added directly to the pool.
-        public void AddXP(int amount, HeroController hero) {
-
+        public void AddXP(int amount, HeroController hero)
+        {
             currentXP += amount;
             OnXPChanged?.Invoke(currentXP);
 
-            while (currentXP >= XPToNextLevel) {
+            // If a Level Up panel is already open, just accumulate XP. 
+            // The panel will check for pending Level Ups when it closes.
+            if (isLevelUpActive) return;
+
+            CheckForLevelUp();
+        }
+
+        public void CheckForLevelUp()
+        {
+            if (isLevelUpActive) return;
+
+            if (currentXP >= XPToNextLevel)
+            {
                 currentXP -= XPToNextLevel;
                 currentLevel++;
+                isLevelUpActive = true;
 
-                // --- LEVEL UP REWARD ROLL ---
-                // 1. Randomly select the hero who will receive the reward this time
                 HeroController targetHero = activeHeroes[Random.Range(0, activeHeroes.Count)];
 
-                // 2. Generate the options based SOLELY on the target hero's inventory
-                if (levelUpPanelPrefab != null) {
+                if (levelUpPanelPrefab != null)
+                {
                     GameObject panelObj = Instantiate(levelUpPanelPrefab);
                     LevelUpUIManager uiManager = panelObj.GetComponent<LevelUpUIManager>();
 
                     List<LevelUpOption> options = GenerateChoices(3, targetHero);
 
-                    uiManager.OpenWithOptions(options, targetHero, (int selectedIndex) => {
+                    uiManager.OpenWithOptions(options, targetHero, (int selectedIndex) =>
+                    {
                         LevelUpOption chosenOption = options[selectedIndex];
                         chosenOption.onSelected.Invoke();
+
+                        isLevelUpActive = false;
+                        CheckForLevelUp();
                     });
+
+                }
+                else
+                {
+                    isLevelUpActive = false;
                 }
 
                 OnLevelUp?.Invoke(currentLevel);
@@ -270,12 +326,14 @@ namespace HexaBit.Core {
             }
         }
 
-        public void AddKill() {
+        public void AddKill()
+        {
             totalKills++;
             OnKillCountChanged?.Invoke(totalKills);
         }
 
-        public class LevelUpOption {
+        public class LevelUpOption
+        {
             public string displayName;
             public string description;
             public Sprite icon;
@@ -284,50 +342,52 @@ namespace HexaBit.Core {
             public System.Action onSelected;
         }
 
-        public HeroController GetActiveHero(int index) {
-            if (index >= 0 && index < activeHeroes.Count)
-                return activeHeroes[index];
+        public HeroController GetActiveHero(int index)
+        {
+            if (index >= 0 && index < activeHeroes.Count) return activeHeroes[index];
             return null;
         }
 
-        // Receives the specific 'hero' that was randomly drawn for this reward
-        private List<LevelUpOption> GenerateChoices(int count, HeroController hero) {
+        private List<LevelUpOption> GenerateChoices(int count, HeroController hero)
+        {
             List<LevelUpOption> options = new List<LevelUpOption>();
 
-            if (upgradePoolData == null) {
+            if (upgradePoolData == null)
+            {
                 Debug.LogError("GameplayManager: upgradePoolData is null! Please assign it in the Inspector.");
                 return options;
             }
 
-            // Get available items for this specific hero
             List<Object> availableItems = upgradePoolData.GetAvailableItems(hero);
 
-            if (availableItems.Count == 0) {
+            if (availableItems.Count == 0)
+            {
                 Debug.Log("No available upgrades for hero " + hero.name);
                 return options;
             }
 
-            // Shuffle the available items
             List<Object> shuffledPool = availableItems.OrderBy(x => System.Guid.NewGuid()).ToList();
 
-
-            foreach (var item in shuffledPool) {
+            foreach (var item in shuffledPool)
+            {
                 if (options.Count >= count) break;
 
-
-                if (item is WeaponData weaponData) {
+                if (item is WeaponData weaponData)
+                {
                     LevelUpOption option = weaponData.GetUpgradeOption(hero);
                     options.Add(option);
-                } else if (item is BuffData buffData) {
+                }
+                else if (item is BuffData buffData)
+                {
                     LevelUpOption option = buffData.GetUpgradeOption(hero);
                     options.Add(option);
                 }
             }
 
-            // Fill remaining slots with "Skip" option
-            while (options.Count < count) {
-                Debug.Log($"GenerateChoices: Adding Skip option (slot {options.Count + 1})");
-                options.Add(new LevelUpOption {
+            while (options.Count < count)
+            {
+                options.Add(new LevelUpOption
+                {
                     displayName = "Skip",
                     description = "",
                     icon = null,
@@ -335,12 +395,6 @@ namespace HexaBit.Core {
                     targetLevel = 0,
                     onSelected = () => { Debug.Log("Executing: Skip"); }
                 });
-            }
-
-            // Log final summary
-            for (int i = 0; i < options.Count; i++) {
-                var opt = options[i];
-                Debug.Log($"  [{i}] {opt.displayName} | isWeapon={opt.isWeapon} | targetLevel={opt.targetLevel}");
             }
 
             return options;

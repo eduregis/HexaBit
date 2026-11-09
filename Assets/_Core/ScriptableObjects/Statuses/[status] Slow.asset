@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.StatusData
   statusName: Slow
   icon: {fileID: 0}
-  statusColor: {r: 1, g: 1, b: 1, a: 1}
   duration: 1
   applySlow: 1
   slowPercentage: 50
@@ -28,5 +27,5 @@ MonoBehaviour:
   applyHealOverTime: 0
   hotHealPerSecond: 3
   hotTickInterval: 1
-  overrideSpriteColor: 1
+  hasOverrideColor: 1
   spriteColorOverride: {r: 0.70645, g: 0, b: 1, a: 1}
