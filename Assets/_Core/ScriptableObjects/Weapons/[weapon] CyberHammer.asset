@@ -30,7 +30,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  icon: {fileID: 0}
+  icon: {fileID: 5415649344554715878, guid: 108671a1109774f4f934ad77a7813a89, type: 3}
   attackPrefab: {fileID: 6523647716834906497, guid: 2f5b52fdae1d0f84c9f046bce7bcbfa7, type: 3}
   weaponPrefab: {fileID: 5703442293481947569, guid: 3d1911a9c64f9cf43901efd1b9afb14d, type: 3}
   customFields:
