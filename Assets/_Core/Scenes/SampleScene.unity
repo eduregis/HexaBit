@@ -225,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameplayManager
   heroPrefab: {fileID: 8987475158087863119, guid: fd8a7982ab61e6741baff0d576e9e086, type: 3}
   heroesData:
-  - {fileID: 11400000, guid: 468c4b60820aa844a89bce559cd45658, type: 2}
+  - {fileID: 11400000, guid: 1930b02bc2f72c944882986352000d57, type: 2}
   spawnPoints: []
   baseXPToLevel: 20
   xpPerLevelMultiplier: 15
