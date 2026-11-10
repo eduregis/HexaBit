@@ -225,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameplayManager
   heroPrefab: {fileID: 8987475158087863119, guid: fd8a7982ab61e6741baff0d576e9e086, type: 3}
   heroesData:
-  - {fileID: 11400000, guid: 1930b02bc2f72c944882986352000d57, type: 2}
+  - {fileID: 11400000, guid: 468c4b60820aa844a89bce559cd45658, type: 2}
   spawnPoints: []
   baseXPToLevel: 20
   xpPerLevelMultiplier: 15
@@ -313,6 +313,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!114 &181816826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +466,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1641684665}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -905,7 +906,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 2.8125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1442,7 +1443,6 @@ RectTransform:
   - {fileID: 285534217}
   - {fileID: 415521318}
   - {fileID: 501016544}
-  - {fileID: 1641684665}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -17019,3 +17019,4 @@ SceneRoots:
   - {fileID: 642806609}
   - {fileID: 1568086234}
   - {fileID: 599807142}
+  - {fileID: 406037751}

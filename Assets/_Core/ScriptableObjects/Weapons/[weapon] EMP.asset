@@ -30,7 +30,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  icon: {fileID: 0}
+  icon: {fileID: -1850015438614567732, guid: d7bff53012cce474093d354f84b3e47c, type: 3}
   attackPrefab: {fileID: 9072996400847554555, guid: 5446507e3e42f4b4d88d854dd6ef98df, type: 3}
   weaponPrefab: {fileID: 3720550410646003826, guid: 295db4da8cbe3594b85ad0fd58806d7d, type: 3}
   customFields:
@@ -46,7 +46,7 @@ MonoBehaviour:
     - fieldName: Radius
       fieldType: 1
       intValue: 0
-      floatValue: 2
+      floatValue: 1
       boolValue: 0
     - fieldName: SlowAmount
       fieldType: 1

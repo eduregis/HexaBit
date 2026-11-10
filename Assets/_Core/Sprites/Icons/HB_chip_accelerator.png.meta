@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cdee279d03b51e64cb11d12ca33e8c8c
+guid: d043555ba8a3fdf40a5e5edbfb972e4b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2267975535158423393
-    second: HB_chip_acelerador_0
+      213: 7697629352843157284
+    second: HB_chip_accelerator_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_chip_acelerador_0
+      name: HB_chip_accelerator_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f901b9b54488680e0800000000000000
-      internalID: -2267975535158423393
+      spriteID: 42f16d4dc1973da60800000000000000
+      internalID: 7697629352843157284
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HB_chip_acelerador_0: -2267975535158423393
+      HB_chip_accelerator_0: 7697629352843157284
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
