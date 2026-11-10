@@ -16934,25 +16934,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66857d5192782de46a9902c00f03e0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnerController
-  enemyPool:
-  - {fileID: 11400000, guid: c10dda60bf2346c438bd4cea3b6a1818, type: 2}
-  - {fileID: 11400000, guid: b682cf91947c77b4da0e9926a1405369, type: 2}
-  - {fileID: 11400000, guid: 65d5b31216c57d34284519b742122c01, type: 2}
-  spawnInterval: 1.5
-  maxEnemies: 20
-  spawnOffset: 0.5
+  stageData: {fileID: 11400000, guid: ba0bdef2e3c583c4cade2171bcbd1c92, type: 2}
   spawnCheckRadius: 0.5
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
-  subBossInterval: 60
-  subBossScaleMultiplier: 1.8
-  subBossHealthMultiplier: 5
-  subBossDamageMultiplier: 2
-  subBossStatusPool:
-  - {fileID: 11400000, guid: 914906822b32657438cd2a86b4b8bae6, type: 2}
   player: {fileID: 0}
-  waveInterval: 10
 --- !u!4 &2025926258
 Transform:
   m_ObjectHideFlags: 0

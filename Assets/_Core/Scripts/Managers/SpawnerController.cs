@@ -4,49 +4,34 @@ using UnityEngine;
 
 namespace HexaBit.Core {
     public class SpawnerController : MonoBehaviour {
-        [Header("Spawn Configuration")]
-        [Tooltip("Pool of enemy types that can spawn in this level.")]
-        [SerializeField] private List<EnemyData> enemyPool;   // Pool of enemies
-        [SerializeField] private float spawnInterval = 1.5f;  // Time between spawns (seconds)
-        [SerializeField] private int maxEnemies = 20;         // Maximum enemies alive at once
-        [SerializeField] private float spawnOffset = 0.5f;    // Distance outside the camera viewport
+        [Header("Stage Data")]
+        [SerializeField] private StageData stageData;
 
         [Header("Spawn Validation")]
         [Tooltip("Radius to check if the spawn position is blocked by a wall.")]
         [SerializeField] private float spawnCheckRadius = 0.5f;
-        [SerializeField] private LayerMask wallLayer; // Layer "Wall" in Inspector
-
-        [Header("Sub-Boss Settings")]
-        [SerializeField] private float subBossInterval = 60f; // Subboss spawn cooldown
-        [SerializeField] private float subBossScaleMultiplier = 1.5f;
-        [SerializeField] private float subBossHealthMultiplier = 5f;
-        [SerializeField] private float subBossDamageMultiplier = 2f;
-        [SerializeField] private List<StatusData> subBossStatusPool;
+        [SerializeField] private LayerMask wallLayer;
 
         [Header("Player Reference")]
-        [SerializeField] private Transform player;            // Player transform (auto-found if null)
+        [SerializeField] private Transform player;
 
         private float subBossTimer = 0f;
-
-        // Wave system (optional)
         private int currentWave = 0;
         private float waveTimer = 0f;
-        [SerializeField] private float waveInterval = 10f;   // Time between waves (seconds)
-
         private Camera mainCamera;
         private int currentEnemyCount = 0;
 
         private void Start() {
             mainCamera = Camera.main;
             if (mainCamera == null) Debug.LogError("SpawnerController: Main Camera not found!");
+            if (stageData == null) {
+                Debug.LogError("SpawnerController: Stage Data is not assigned!");
+                return;
+            }
 
-            // Wait until the hero is spawned by GameplayManager, then start spawning
             StartCoroutine(WaitForPlayerAndStart());
         }
 
-        /// <summary>
-        /// Waits until a GameObject with the "Player" tag exists, then starts spawning.
-        /// </summary>
         private IEnumerator WaitForPlayerAndStart() {
             if (player == null) {
                 Debug.Log("SpawnerController: Waiting for player...");
@@ -60,7 +45,6 @@ namespace HexaBit.Core {
                 }
             }
 
-            // Reset counters and start the spawn loop
             currentEnemyCount = 0;
             currentWave = 0;
             waveTimer = 0f;
@@ -70,17 +54,18 @@ namespace HexaBit.Core {
         }
 
         private void Update() {
-            // Increment wave every 'waveInterval' seconds
+            // Wave timer
             waveTimer += Time.deltaTime;
-            if (waveTimer >= waveInterval) {
+            if (waveTimer >= stageData.waveInterval) {
                 waveTimer = 0f;
                 currentWave++;
                 Debug.Log($"Wave {currentWave} started!");
             }
 
+            // Sub-boss timer
             if (GameplayManager.Instance != null && !GameplayManager.Instance.IsTimerPaused) {
                 subBossTimer += Time.deltaTime;
-                if (subBossTimer >= subBossInterval) {
+                if (subBossTimer >= stageData.subBossSettings.interval) {
                     subBossTimer = 0f;
                     SpawnSubBoss();
                 }
@@ -89,33 +74,27 @@ namespace HexaBit.Core {
 
         private IEnumerator SpawnLoop() {
             while (true) {
-                yield return new WaitForSeconds(spawnInterval);
+                yield return new WaitForSeconds(stageData.spawnInterval);
 
-                if (currentEnemyCount >= maxEnemies) continue;
+                if (currentEnemyCount >= stageData.maxEnemies) continue;
                 if (player == null) continue;
 
-                // Get a random eligible enemy based on current game time
                 EnemyData selectedEnemy = GetRandomEligibleEnemy();
-                if (selectedEnemy == null) continue; // No enemies available yet
+                if (selectedEnemy == null) continue;
 
                 Vector3 spawnPos = GetSafeSpawnPosition();
                 GameObject enemy = Instantiate(selectedEnemy.prefab, spawnPos, Quaternion.identity);
 
                 EnemyController enemyCtrl = enemy.GetComponent<EnemyController>();
                 if (enemyCtrl != null) {
-                    // 1. Apply the Animator Controller from the EnemyData FIRST
                     Animator anim = enemy.GetComponent<Animator>();
                     if (anim != null && selectedEnemy.animatorController != null) {
                         anim.runtimeAnimatorController = selectedEnemy.animatorController;
                     }
 
-                    // 2. Set the player reference
                     HeroController hero = player.GetComponent<HeroController>();
-                    if (hero != null) {
-                        enemyCtrl.SetPlayerReference(hero);
-                    }
+                    if (hero != null) enemyCtrl.SetPlayerReference(hero);
 
-                    // 3. Initialize stats (which now plays the Respawn animation safely)
                     enemyCtrl.Initialize(selectedEnemy, currentWave);
                     enemyCtrl.OnDeath.AddListener(() => OnEnemyDeath(enemy));
                 }
@@ -130,10 +109,9 @@ namespace HexaBit.Core {
             EnemyData selectedEnemy = GetRandomEligibleEnemy();
             if (selectedEnemy == null) return;
 
-            // Choose a random status (if status pool is not empty)
             StatusData selectedStatus = null;
-            if (subBossStatusPool != null && subBossStatusPool.Count > 0) {
-                selectedStatus = subBossStatusPool[Random.Range(0, subBossStatusPool.Count)];
+            if (stageData.subBossSettings.statusPool != null && stageData.subBossSettings.statusPool.Count > 0) {
+                selectedStatus = stageData.subBossSettings.statusPool[Random.Range(0, stageData.subBossSettings.statusPool.Count)];
             }
 
             Vector3 spawnPos = GetSafeSpawnPosition();
@@ -146,32 +124,24 @@ namespace HexaBit.Core {
                     anim.runtimeAnimatorController = selectedEnemy.animatorController;
                 }
 
-                // Hero reference
                 HeroController hero = player.GetComponent<HeroController>();
-                if (hero != null) {
-                    enemyCtrl.SetPlayerReference(hero);
-                }
+                if (hero != null) enemyCtrl.SetPlayerReference(hero);
 
-                // Rescale sub-boss
-                enemy.transform.localScale *= subBossScaleMultiplier;
+                enemy.transform.localScale *= stageData.subBossSettings.scaleMultiplier;
 
-                // Initialize a sub-boss
                 enemyCtrl.Initialize(selectedEnemy, currentWave, selectedStatus);
-
-                // Apply sub-boss multiplier
-                enemyCtrl.MultiplyStats(subBossHealthMultiplier, subBossDamageMultiplier);
+                enemyCtrl.MultiplyStats(stageData.subBossSettings.healthMultiplier, stageData.subBossSettings.damageMultiplier);
 
                 enemyCtrl.OnDeath.AddListener(() => OnEnemyDeath(enemy));
 
-                Debug.Log($"Sub-Boss Spawned! Enemy: {selectedEnemy.enemyName}, Status: {(selectedStatus != null ? selectedStatus.statusName : "None")}");
+                Debug.Log($"Sub-Boss Spawned! Enemy: {selectedEnemy.enemyName}");
             }
 
             currentEnemyCount++;
         }
 
         /// <summary>
-        /// Returns a random EnemyData from the pool whose startTime has been reached.
-        /// Uses the GameplayManager's currentTime to ensure it pauses correctly during menus.
+        /// Returns a random EnemyData from the StageData pool that is currently eligible.
         /// </summary>
         private EnemyData GetRandomEligibleEnemy() {
             if (GameplayManager.Instance == null) return null;
@@ -179,9 +149,10 @@ namespace HexaBit.Core {
             float gameTime = GameplayManager.Instance.CurrentTime;
             List<EnemyData> eligible = new List<EnemyData>();
 
-            foreach (var enemy in enemyPool) {
-                if (enemy != null && gameTime >= enemy.startTime) {
-                    eligible.Add(enemy);
+            foreach (var info in stageData.enemyPool) {
+                // Check if the enemy exists and if the current time is within its spawn window
+                if (info.enemy != null && gameTime >= info.startTime && gameTime <= info.endTime) {
+                    eligible.Add(info.enemy);
                 }
             }
 
@@ -189,11 +160,9 @@ namespace HexaBit.Core {
             return eligible[Random.Range(0, eligible.Count)];
         }
 
-        // Handler for the death event
         private void OnEnemyDeath(GameObject enemy) {
             currentEnemyCount--;
 
-            // Notify the DropManager instead of handling the drop here
             if (DropManager.Instance != null) {
                 DropManager.Instance.SpawnXPDrop(enemy.transform.position);
             }
@@ -203,7 +172,6 @@ namespace HexaBit.Core {
             }
         }
 
-        // Calculates a spawn position just outside the camera viewport
         private Vector3 GetSpawnPosition() {
             Vector3 min = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
             Vector3 max = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
@@ -212,22 +180,10 @@ namespace HexaBit.Core {
             Vector3 spawnPos = Vector3.zero;
 
             switch (side) {
-                case 0: // Left
-                    spawnPos.x = min.x - spawnOffset;
-                    spawnPos.y = Random.Range(min.y + spawnOffset, max.y - spawnOffset);
-                    break;
-                case 1: // Right
-                    spawnPos.x = max.x + spawnOffset;
-                    spawnPos.y = Random.Range(min.y + spawnOffset, max.y - spawnOffset);
-                    break;
-                case 2: // Top
-                    spawnPos.y = max.y + spawnOffset;
-                    spawnPos.x = Random.Range(min.x + spawnOffset, max.x - spawnOffset);
-                    break;
-                case 3: // Bottom
-                    spawnPos.y = min.y - spawnOffset;
-                    spawnPos.x = Random.Range(min.x + spawnOffset, max.x - spawnOffset);
-                    break;
+                case 0: spawnPos.x = min.x - 0.5f; spawnPos.y = Random.Range(min.y + 0.5f, max.y - 0.5f); break;
+                case 1: spawnPos.x = max.x + 0.5f; spawnPos.y = Random.Range(min.y + 0.5f, max.y - 0.5f); break;
+                case 2: spawnPos.y = max.y + 0.5f; spawnPos.x = Random.Range(min.x + 0.5f, max.x - 0.5f); break;
+                case 3: spawnPos.y = min.y - 0.5f; spawnPos.x = Random.Range(min.x + 0.5f, max.x - 0.5f); break;
             }
 
             return spawnPos;
@@ -240,7 +196,6 @@ namespace HexaBit.Core {
 
             for (int i = 0; i < maxAttempts; i++) {
                 spawnPos = GetSpawnPosition();
-
                 Collider2D hit = Physics2D.OverlapCircle(spawnPos, spawnCheckRadius, wallLayer);
 
                 if (hit == null) {
@@ -249,12 +204,7 @@ namespace HexaBit.Core {
                 }
             }
 
-            if (!foundSafeSpot) {
-                Debug.LogWarning("SpawnerController: Could not find a safe spawn position after 30 attempts. Spawning anyway (may be inside a wall).");
-            }
-
             return spawnPos;
         }
-
     }
 }

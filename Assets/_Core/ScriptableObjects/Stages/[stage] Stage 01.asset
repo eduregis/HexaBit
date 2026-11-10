@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fac390a3bf4ef124ba23954e197b5045, type: 3}
+  m_Name: '[stage] Stage 01'
+  m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.StageData
+  spawnInterval: 1.5
+  maxEnemies: 20
+  waveInterval: 10
+  enemyPool:
+  - enemy: {fileID: 11400000, guid: 65d5b31216c57d34284519b742122c01, type: 2}
+    startTime: 0
+    endTime: 9999
+  - enemy: {fileID: 11400000, guid: c10dda60bf2346c438bd4cea3b6a1818, type: 2}
+    startTime: 0
+    endTime: 9999
+  - enemy: {fileID: 11400000, guid: b682cf91947c77b4da0e9926a1405369, type: 2}
+    startTime: 0
+    endTime: 9999
+  subBossSettings:
+    interval: 60
+    scaleMultiplier: 1.5
+    healthMultiplier: 5
+    damageMultiplier: 2
+    statusPool:
+    - {fileID: 11400000, guid: 3642753f52e263b4582d62fa4cb02c35, type: 2}

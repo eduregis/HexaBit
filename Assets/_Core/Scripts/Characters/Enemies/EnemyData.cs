@@ -12,9 +12,6 @@ namespace HexaBit.Core {
         [Header("Animation")]
         public RuntimeAnimatorController animatorController;
 
-        [Header("Spawn Settings")]
-        public float startTime = 0f;
-
         [Header("Base Stats")]
         public int baseHealth = 10;
         public int damage = 5;
