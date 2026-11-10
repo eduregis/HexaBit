@@ -25,6 +25,8 @@ namespace HexaBit.Core {
 
         [Header("XP Drop")]
         [SerializeField] private GameObject xpDropPrefab;
+        [Tooltip("The outline color applied to the XP drops when enemies die.")]
+        [SerializeField] private Color xpOutlineColor = Color.yellow;
 
         [Header("Player Reference")]
         [SerializeField] private Transform player;            // Player transform (auto-found if null)
@@ -197,7 +199,13 @@ namespace HexaBit.Core {
             currentEnemyCount--;
 
             if (xpDropPrefab != null) {
-                Instantiate(xpDropPrefab, enemy.transform.position, Quaternion.identity);
+                GameObject dropObj = Instantiate(xpDropPrefab, enemy.transform.position, Quaternion.identity);
+
+                // Apply the outline color to the newly created drop
+                XPDrop xpDrop = dropObj.GetComponent<XPDrop>();
+                if (xpDrop != null) {
+                    xpDrop.SetOutlineColor(xpOutlineColor);
+                }
             }
 
             if (GameplayManager.Instance != null) {

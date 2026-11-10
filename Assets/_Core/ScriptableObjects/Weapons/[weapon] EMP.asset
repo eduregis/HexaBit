@@ -59,7 +59,7 @@ MonoBehaviour:
     - fieldName: Radius
       fieldType: 1
       intValue: 0
-      floatValue: 2.2
+      floatValue: 1.2
       boolValue: 0
     - fieldName: SlowAmount
       fieldType: 1
@@ -72,7 +72,7 @@ MonoBehaviour:
     - fieldName: Radius
       fieldType: 1
       intValue: 0
-      floatValue: 2.5
+      floatValue: 1.5
       boolValue: 0
     - fieldName: SlowAmount
       fieldType: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
     - fieldName: Radius
       fieldType: 1
       intValue: 0
-      floatValue: 2.8
+      floatValue: 1.8
       boolValue: 0
     - fieldName: SlowAmount
       fieldType: 1
@@ -98,7 +98,7 @@ MonoBehaviour:
     - fieldName: Radius
       fieldType: 1
       intValue: 0
-      floatValue: 3.2
+      floatValue: 2.2
       boolValue: 0
     - fieldName: SlowAmount
       fieldType: 1
@@ -111,7 +111,7 @@ MonoBehaviour:
     - fieldName: Radius
       fieldType: 1
       intValue: 0
-      floatValue: 3.6
+      floatValue: 2.6
       boolValue: 0
     - fieldName: SlowAmount
       fieldType: 1

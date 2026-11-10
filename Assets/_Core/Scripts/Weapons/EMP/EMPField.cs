@@ -26,24 +26,29 @@ namespace HexaBit.Core {
             currentLevel = level;
             hero = heroController;
 
+            // Calculate the actual radius based on level and hero's area modifier
             radius = data.GetFloat(currentLevel, DynamicParameter.Radius) * hero.GlobalAreaModifier;
             slowAmount = data.GetFloat(currentLevel, DynamicParameter.SlowAmount);
             damage = Mathf.RoundToInt(data.GetDamage(currentLevel));
             tickInterval = data.GetCooldown(currentLevel);
 
-            if (fieldCollider != null)
-                fieldCollider.radius = radius / 5f;
-
+            // 1. Adjust the visual Sprite 
+            // To make its diameter match (radius * 2), we just use the radius as the scale.
             if (fieldSprite != null) {
-                float scale = radius * 2f;
+                float scale = radius; // Because (radius * 2) diameter / 2 base units = radius
                 fieldSprite.transform.localScale = new Vector3(scale, scale, 1f);
             }
 
-            // Cria uma cópia do StatusData com duração maior
+            // 2. Adjust the Physics Collider 
+            if (fieldCollider != null) {
+                fieldCollider.radius = radius;
+            }
+
+            // 3. Create a copy of the StatusData to override its duration
             if (data.statusData != null && slowAmount > 0) {
                 slowStatusData = ScriptableObject.Instantiate(data.statusData);
                 slowStatusData.slowPercentage = slowAmount;
-                slowStatusData.duration = 2f; // Duração maior que o tick interval
+                slowStatusData.duration = 2f;
                 hasStatusEffect = true;
             } else {
                 slowStatusData = null;

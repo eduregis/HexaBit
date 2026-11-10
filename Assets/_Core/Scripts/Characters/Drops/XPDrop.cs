@@ -11,6 +11,12 @@ namespace HexaBit.Core {
         [Header("Reward")]
         [SerializeField] private int xpValue = 10;
 
+        [Header("Visuals")]
+        [SerializeField] private SpriteRenderer spriteRenderer;
+
+        // Cache the ID for performance when setting the outline color
+        private int outlineColorID;
+
         private Transform targetHeroTransform;
         private HeroController targetHeroController;
 
@@ -22,10 +28,29 @@ namespace HexaBit.Core {
 
         public bool IsCollected => isCollected;
 
+        private void Awake() {
+            // Get SpriteRenderer if not assigned
+            if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+
+            // Cache the shader property ID
+            outlineColorID = Shader.PropertyToID("_OutlineColor");
+        }
+
         private void Start() {
             isKnockbackActive = false;
             isAttracted = false;
             isCollected = false;
+        }
+
+        /// <summary>
+        /// Sets the outline color for this specific drop.
+        /// </summary>
+        public void SetOutlineColor(Color color) {
+            if (spriteRenderer != null && spriteRenderer.material != null) {
+                // Note: Setting .material creates a unique instance of the material for this object.
+                // This prevents all drops from sharing the same color.
+                spriteRenderer.material.SetColor(outlineColorID, color);
+            }
         }
 
         private void Update() {
@@ -38,7 +63,6 @@ namespace HexaBit.Core {
 
                 if (knockbackTimer <= 0f) {
                     isKnockbackActive = false;
-                    // Only start attraction if we have a target hero
                     if (targetHeroController != null) {
                         isAttracted = true;
                     }
@@ -59,10 +83,6 @@ namespace HexaBit.Core {
             }
         }
 
-        /// <summary>
-        /// Sets the target hero for this drop (called by DropCollector).
-        /// Does NOT start attraction immediately - waits for knockback.
-        /// </summary>
         public void SetTargetHero(HeroController hero) {
             if (isCollected) return;
             if (hero == null || hero.IsDead) return;
@@ -70,33 +90,22 @@ namespace HexaBit.Core {
             targetHeroController = hero;
             targetHeroTransform = hero.transform;
 
-            // If the drop is not in knockback and not already attracted, we can start attraction
-            // But we want to wait for knockback to happen first.
-            // If there's no knockback active, we can start attraction immediately.
             if (!isKnockbackActive && !isAttracted) {
                 isAttracted = true;
             }
         }
 
-        /// <summary>
-        /// Triggered when the player physically touches the crystal.
-        /// Applies knockback away from the player.
-        /// </summary>
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player") && !isCollected && !isKnockbackActive) {
                 HeroController touchingHero = other.GetComponent<HeroController>();
                 if (touchingHero != null) {
-                    // Apply knockback away from the player
                     Vector2 directionFromPlayer = (transform.position - other.transform.position).normalized;
                     knockbackDirection = directionFromPlayer * knockbackForce;
                     knockbackTimer = knockbackDuration;
                     isKnockbackActive = true;
 
-                    // Store the hero as target for when knockback ends
                     targetHeroController = touchingHero;
                     targetHeroTransform = touchingHero.transform;
-
-                    // Disable attraction during knockback
                     isAttracted = false;
                 }
             }
