@@ -23,11 +23,6 @@ namespace HexaBit.Core {
         [SerializeField] private float subBossDamageMultiplier = 2f;
         [SerializeField] private List<StatusData> subBossStatusPool;
 
-        [Header("XP Drop")]
-        [SerializeField] private GameObject xpDropPrefab;
-        [Tooltip("The outline color applied to the XP drops when enemies die.")]
-        [SerializeField] private Color xpOutlineColor = Color.yellow;
-
         [Header("Player Reference")]
         [SerializeField] private Transform player;            // Player transform (auto-found if null)
 
@@ -198,14 +193,9 @@ namespace HexaBit.Core {
         private void OnEnemyDeath(GameObject enemy) {
             currentEnemyCount--;
 
-            if (xpDropPrefab != null) {
-                GameObject dropObj = Instantiate(xpDropPrefab, enemy.transform.position, Quaternion.identity);
-
-                // Apply the outline color to the newly created drop
-                XPDrop xpDrop = dropObj.GetComponent<XPDrop>();
-                if (xpDrop != null) {
-                    xpDrop.SetOutlineColor(xpOutlineColor);
-                }
+            // Notify the DropManager instead of handling the drop here
+            if (DropManager.Instance != null) {
+                DropManager.Instance.SpawnXPDrop(enemy.transform.position);
             }
 
             if (GameplayManager.Instance != null) {

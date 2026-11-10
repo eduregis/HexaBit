@@ -9,12 +9,11 @@ namespace HexaBit.Core {
         [SerializeField] private float collectDistance = 0.5f;
 
         [Header("Reward")]
-        [SerializeField] private int xpValue = 10;
+        [SerializeField] private int xpValue = 1; // Default value, overwritten by Setup
 
         [Header("Visuals")]
         [SerializeField] private SpriteRenderer spriteRenderer;
 
-        // Cache the ID for performance when setting the outline color
         private int outlineColorID;
 
         private Transform targetHeroTransform;
@@ -29,10 +28,7 @@ namespace HexaBit.Core {
         public bool IsCollected => isCollected;
 
         private void Awake() {
-            // Get SpriteRenderer if not assigned
             if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
-
-            // Cache the shader property ID
             outlineColorID = Shader.PropertyToID("_OutlineColor");
         }
 
@@ -43,12 +39,11 @@ namespace HexaBit.Core {
         }
 
         /// <summary>
-        /// Sets the outline color for this specific drop.
+        /// Sets up the drop with a specific XP value and outline color.
         /// </summary>
-        public void SetOutlineColor(Color color) {
+        public void Setup(int value, Color color) {
+            xpValue = value;
             if (spriteRenderer != null && spriteRenderer.material != null) {
-                // Note: Setting .material creates a unique instance of the material for this object.
-                // This prevents all drops from sharing the same color.
                 spriteRenderer.material.SetColor(outlineColorID, color);
             }
         }

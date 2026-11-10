@@ -53,6 +53,7 @@ MonoBehaviour:
   knockbackDuration: 0.2
   collectDistance: 0.5
   xpValue: 10
+  spriteRenderer: {fileID: 0}
 --- !u!212 &698477744962428266
 SpriteRenderer:
   serializedVersion: 2
@@ -102,7 +103,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2727529808712039529, guid: 19ecb68bb0650e947a3eac3490144d43, type: 3}
+  m_Sprite: {fileID: -8744566038065295729, guid: 4e33d0207344e6d45868eee6ceff7c2d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
