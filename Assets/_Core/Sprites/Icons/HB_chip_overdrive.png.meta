@@ -3,8 +3,8 @@ guid: 91d0fd75d50cd3c44945805b8489d1a2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6372680631623251571
-    second: HB_chip_amp_0
+      213: -6444343524186818059
+    second: HB_chip_overdrive_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_chip_amp_0
+      name: HB_chip_overdrive_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3767ae2454f407850800000000000000
-      internalID: 6372680631623251571
+      spriteID: 5f9714655b71196a0800000000000000
+      internalID: -6444343524186818059
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HB_chip_amp_0: 6372680631623251571
+      HB_chip_overdrive_0: -6444343524186818059
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

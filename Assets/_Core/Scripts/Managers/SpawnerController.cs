@@ -192,14 +192,12 @@ namespace HexaBit.Core {
         private Vector3 GetSafeSpawnPosition() {
             Vector3 spawnPos = Vector3.zero;
             int maxAttempts = 30;
-            bool foundSafeSpot = false;
 
             for (int i = 0; i < maxAttempts; i++) {
                 spawnPos = GetSpawnPosition();
                 Collider2D hit = Physics2D.OverlapCircle(spawnPos, spawnCheckRadius, wallLayer);
 
                 if (hit == null) {
-                    foundSafeSpot = true;
                     break;
                 }
             }
