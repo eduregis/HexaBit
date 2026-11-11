@@ -9,7 +9,7 @@ namespace HexaBit.Core {
         [SerializeField] private HeroData heroData;
 
         [Header("Weapons Slots")]
-        [SerializeField] private int maxWeaponSlots = 3;
+        [SerializeField] private int maxWeaponSlots = 5;
         public WeaponBase[] weaponSlots;
 
         [Header("UI")]

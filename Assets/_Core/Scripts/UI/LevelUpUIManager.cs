@@ -14,12 +14,8 @@ namespace HexaBit.Core {
         [SerializeField] private Image heroUpperBodyImage;
 
         [Header("Inventory Chips")]
-        [SerializeField] private InventoryChip[] weaponChips; // 3 slots
-        [SerializeField] private InventoryChip[] buffChips;   // 3 slots
-
-        [Header("Inventory Color Images")]
-        [SerializeField] private Image weaponColorImage; // Image behind weapon chips
-        [SerializeField] private Image buffColorImage;   // Image behind buff chips
+        [SerializeField] private InventoryChip[] weaponChips; // 5 slots
+        [SerializeField] private InventoryChip[] buffChips;   // 5 slots
 
         [Header("Visual Configuration")]
         [SerializeField] private Sprite[] levelFrames; // Size 6 (Lv.1 to Lv.6)
@@ -48,12 +44,6 @@ namespace HexaBit.Core {
 
             // --- Apply hero visuals (Upper & Lower Body) ---
             UpdateHeroVisuals();
-
-            // --- Apply colors to external images ---
-            if (weaponColorImage != null)
-                weaponColorImage.color = weaponColor;
-            if (buffColorImage != null)
-                buffColorImage.color = buffColor;
 
             // --- Populate Inventory Chips ---
             PopulateInventoryChips(_targetHero);
