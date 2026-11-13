@@ -15,7 +15,7 @@ namespace HexaBit.Core {
         [Header("Base Stats")]
         public int baseHealth = 10;
         public int damage = 5;
-        public float moveSpeed = 100f;
+        public float moveSpeed = 0.5f;
         public float knockbackResistance = 1f;
 
         [Header("Ranged Settings (Optional)")]

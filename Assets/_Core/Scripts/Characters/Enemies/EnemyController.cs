@@ -194,7 +194,7 @@ namespace HexaBit.Core {
                 transform.localScale = scale;
             }
 
-            // Apply wavy movement if enabled
+            // Apply wavy movement if enabled (Now works for ANY enemy)
             Vector2 finalDirection = GetMovementDirection(directionToPlayer);
             rb.linearVelocity = finalDirection * CurrentSpeed;
 
@@ -232,7 +232,6 @@ namespace HexaBit.Core {
         }
 
         private IEnumerator FlashRoutine() {
-            // Blink white twice
             for (int i = 0; i < 2; i++) {
                 runtimeMaterial.SetFloat(hitFlashID, 1f);
                 yield return new WaitForSeconds(0.05f);
@@ -270,7 +269,6 @@ namespace HexaBit.Core {
             float duration = 0.5f;
             float timer = 0f;
 
-            // Increase dissolve amount from 0 to 1.1 to ensure the sprite disappears completely
             while (timer < duration) {
                 timer += Time.deltaTime;
                 float progress = timer / duration;
