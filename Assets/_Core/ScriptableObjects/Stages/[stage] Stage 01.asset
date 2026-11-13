@@ -17,12 +17,15 @@ MonoBehaviour:
   waveInterval: 10
   enemyPool:
   - enemy: {fileID: 11400000, guid: 65d5b31216c57d34284519b742122c01, type: 2}
-    startTime: 0
+    startTime: 100
     endTime: 9999
   - enemy: {fileID: 11400000, guid: c10dda60bf2346c438bd4cea3b6a1818, type: 2}
-    startTime: 0
+    startTime: 100
     endTime: 9999
   - enemy: {fileID: 11400000, guid: b682cf91947c77b4da0e9926a1405369, type: 2}
+    startTime: 100
+    endTime: 9999
+  - enemy: {fileID: 11400000, guid: 0f6dca824c7529c41b55ef46231e8a62, type: 2}
     startTime: 0
     endTime: 9999
   subBossSettings:

@@ -22,6 +22,8 @@ namespace HexaBit.Core {
         public bool isRanged = false;
         public float attackRange = 5f;
         public float attackCooldown = 2f;
+        public GameObject projectilePrefab;
+        public float projectileSpeed = 6f;
 
         [Header("Resistances")]
         public bool immuneToFreeze = false;

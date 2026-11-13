@@ -50,6 +50,8 @@ public class EnemyDataEditor : Editor {
 
             data.attackRange = EditorGUILayout.FloatField("Attack Range", data.attackRange);
             data.attackCooldown = EditorGUILayout.FloatField("Attack Cooldown", data.attackCooldown);
+            data.projectilePrefab = (GameObject)EditorGUILayout.ObjectField("Projectile Prefab", data.projectilePrefab, typeof(GameObject), false);
+            data.projectileSpeed = EditorGUILayout.FloatField("Projectile Speed", data.projectileSpeed);
 
             EditorGUILayout.EndVertical();
             EditorGUI.indentLevel--;

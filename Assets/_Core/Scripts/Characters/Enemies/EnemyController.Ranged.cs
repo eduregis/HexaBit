@@ -83,14 +83,25 @@ namespace HexaBit.Core {
 
             Debug.Log($"[{data.enemyName}] Atirou!");
 
-            // Start the cooldown
+            // Spawn the projectile
+            if (data.projectilePrefab != null && player != null) {
+                Vector2 directionToHero = (player.position - transform.position).normalized;
+
+                GameObject projObj = Instantiate(data.projectilePrefab, transform.position, Quaternion.identity);
+                EnemyProjectile projectile = projObj.GetComponent<EnemyProjectile>();
+
+                if (projectile != null) {
+                    // Initialize with direction, speed, and damage
+                    projectile.Initialize(directionToHero, data.projectileSpeed, currentDamage);
+                }
+            }
+
+            // Start the cooldown and return to Walk
             rangedAttackTimer = rangedAttackCooldown;
             isCurrentlyAiming = false;
 
-            // Force animation back to Walk state
             if (animator != null) {
                 animator.SetBool("IsAiming", false);
-                // Speed 0.1 triggers the Walk state visually, but rb.linearVelocity is 0 so it doesn't move
                 animator.SetFloat("Speed", 0.1f);
             }
         }
