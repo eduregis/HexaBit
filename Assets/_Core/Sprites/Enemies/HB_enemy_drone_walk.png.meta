@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 2e15bfaa696203b469c34daf7d69ed5c
+guid: 593599eaabf453a438574a6453d0b687
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5173735916968781769
-    second: SPAWN_WALK_SPRITESHEET_0
+      213: 2005198160593330830
+    second: HB_enemy_drone_walk_0
   - first:
-      213: 4263514572336022235
-    second: SPAWN_WALK_SPRITESHEET_1
+      213: -5534369899360945372
+    second: HB_enemy_drone_walk_1
   - first:
-      213: -8089022688554009453
-    second: SPAWN_WALK_SPRITESHEET_2
+      213: -1010516447476759188
+    second: HB_enemy_drone_walk_2
   - first:
-      213: 7606385746661287249
-    second: SPAWN_WALK_SPRITESHEET_3
+      213: -8947761090325339910
+    second: HB_enemy_drone_walk_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,89 +135,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_cyberviper_idle_spritesheet_0
+      name: HB_enemy_drone_walk_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 43
-        height: 40
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 38b35b9492caf9941aa0c5a40ead9b19
-      internalID: -703069621
+      spriteID: e82ae626a15e3db10800000000000000
+      internalID: 2005198160593330830
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_cyberviper_idle_spritesheet_1
+      name: HB_enemy_drone_walk_1
       rect:
         serializedVersion: 2
-        x: 43
+        x: 48
         y: 0
-        width: 43
-        height: 40
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 7ee477b4fecb76044964e7c48cc280f2
-      internalID: 1198636760
+      spriteID: 42bf9fc16e7f133b0800000000000000
+      internalID: -5534369899360945372
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_cyberviper_idle_spritesheet_2
+      name: HB_enemy_drone_walk_2
       rect:
         serializedVersion: 2
-        x: 86
+        x: 96
         y: 0
-        width: 43
-        height: 40
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 03be33857a20db84db42867489e5cc55
-      internalID: -201077434
+      spriteID: c65457c15ace9f1f0800000000000000
+      internalID: -1010516447476759188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_cyberviper_idle_spritesheet_3
+      name: HB_enemy_drone_walk_3
       rect:
         serializedVersion: 2
-        x: 129
+        x: 144
         y: 0
-        width: 43
-        height: 40
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6b6ec12c808224145a9b6ac1dd875079
-      internalID: 1903612674
+      spriteID: af0a81412ba23d380800000000000000
+      internalID: -8947761090325339910
       vertices: []
       indices: 
       edges: []
@@ -226,7 +226,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1c7031640bbe2aa4aba248cbf8558d32
+    spriteID: 21331f2b72877dd48886d8b3a57e058a
     internalID: 0
     vertices: []
     indices: 
@@ -236,12 +236,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":43.0,"y":40.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      HB_cyberviper_idle_spritesheet_0: -703069621
-      HB_cyberviper_idle_spritesheet_1: 1198636760
-      HB_cyberviper_idle_spritesheet_2: -201077434
-      HB_cyberviper_idle_spritesheet_3: 1903612674
+      HB_enemy_drone_walk_0: 2005198160593330830
+      HB_enemy_drone_walk_1: -5534369899360945372
+      HB_enemy_drone_walk_2: -1010516447476759188
+      HB_enemy_drone_walk_3: -8947761090325339910
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
