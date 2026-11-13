@@ -179,7 +179,7 @@ MonoBehaviour:
   armor: 0
   damagePopupPrefab: {fileID: 8336546267491661475, guid: 2a3bab496c7a0524eb868ef14d8b5d10, type: 3}
   heroData: {fileID: 11400000, guid: 468c4b60820aa844a89bce559cd45658, type: 2}
-  maxWeaponSlots: 3
+  maxWeaponSlots: 5
   weaponSlots: []
   hpSlider: {fileID: 8674356503627388765}
 --- !u!114 &2750356210399285662
