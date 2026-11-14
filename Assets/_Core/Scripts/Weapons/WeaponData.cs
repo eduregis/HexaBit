@@ -3,7 +3,6 @@ using UnityEngine.Localization;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace HexaBit.Core {
 
     [CreateAssetMenu(fileName = "[weapon] New Weapon", menuName = "HexaBit/Weapon Data")]
@@ -36,30 +35,18 @@ namespace HexaBit.Core {
         }
 
         public int GetInt(int levelIndex, DynamicParameter param) {
-            return GetInt(levelIndex, param.ToFieldName());
+            if (levelIndex < 0 || levelIndex >= levels.Count) return 0;
+            return levels[levelIndex].GetInt(param);
         }
 
         public float GetFloat(int levelIndex, DynamicParameter param) {
-            return GetFloat(levelIndex, param.ToFieldName());
+            if (levelIndex < 0 || levelIndex >= levels.Count) return 0f;
+            return levels[levelIndex].GetFloat(param);
         }
 
         public bool GetBool(int levelIndex, DynamicParameter param) {
-            return GetBool(levelIndex, param.ToFieldName());
-        }
-
-        public int GetInt(int levelIndex, string fieldName) {
-            if (levelIndex < 0 || levelIndex >= levels.Count) return 0;
-            return levels[levelIndex].GetInt(fieldName);
-        }
-
-        public float GetFloat(int levelIndex, string fieldName) {
-            if (levelIndex < 0 || levelIndex >= levels.Count) return 0f;
-            return levels[levelIndex].GetFloat(fieldName);
-        }
-
-        public bool GetBool(int levelIndex, string fieldName) {
             if (levelIndex < 0 || levelIndex >= levels.Count) return false;
-            return levels[levelIndex].GetBool(fieldName);
+            return levels[levelIndex].GetBool(param);
         }
 
         // Generates a LevelUpOption for this weapon based on the hero's current state
@@ -94,8 +81,8 @@ namespace HexaBit.Core {
 
     [System.Serializable]
     public class DynamicFieldDefinition {
-        public string fieldName;
-        public DynamicFieldType fieldType;
+        public DynamicParameter parameter;
+        public Sprite icon;
     }
 
     [System.Serializable]
@@ -107,38 +94,34 @@ namespace HexaBit.Core {
         // Values for dynamic fields (optional)
         public List<DynamicFieldValue> customValues = new List<DynamicFieldValue>();
 
-        public int GetInt(string fieldName) {
+        public int GetInt(DynamicParameter param) {
             foreach (var v in customValues)
-                if (v.fieldName == fieldName && v.fieldType == DynamicFieldType.Int)
+                if (v.parameter == param && v.fieldType == DynamicFieldType.Int)
                     return v.intValue;
             return 0;
         }
 
-        public float GetFloat(string fieldName) {
+        public float GetFloat(DynamicParameter param) {
             foreach (var v in customValues)
-                if (v.fieldName == fieldName && v.fieldType == DynamicFieldType.Float)
+                if (v.parameter == param && v.fieldType == DynamicFieldType.Float)
                     return v.floatValue;
             return 0f;
         }
 
-        public bool GetBool(string fieldName) {
+        public bool GetBool(DynamicParameter param) {
             foreach (var v in customValues)
-                if (v.fieldName == fieldName && v.fieldType == DynamicFieldType.Bool)
+                if (v.parameter == param && v.fieldType == DynamicFieldType.Bool)
                     return v.boolValue;
             return false;
         }
-
-
     }
-
 
     [System.Serializable]
     public class DynamicFieldValue {
-        public string fieldName;
-        public DynamicFieldType fieldType;
+        public DynamicParameter parameter;
+        public DynamicFieldType fieldType; // Kept to know how to read the value
         public int intValue;
         public float floatValue;
         public bool boolValue;
     }
-
 }
