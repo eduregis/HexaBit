@@ -34,21 +34,39 @@ MonoBehaviour:
   attackPrefab: {fileID: 5843121796841178620, guid: f56b84f8d573e2d4793d94a8d0d658eb, type: 3}
   weaponPrefab: {fileID: 1319609285509950128, guid: 13d34c86f8f024d4dbc6921162db89da, type: 3}
   customFields:
-  - fieldName: SplashArea
-    fieldType: 1
-  - fieldName: ExtraTargets
-    fieldType: 0
+  - parameter: 9
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - parameter: 8
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
   statusData: {fileID: 0}
   levels:
   - damage: 30
     cooldown: 3
     customValues:
-    - fieldName: SplashArea
+    - parameter: 9
       fieldType: 1
       intValue: 0
-      floatValue: 1.5
+      floatValue: 1
       boolValue: 0
-    - fieldName: ExtraTargets
+    - parameter: 8
       fieldType: 0
       intValue: 0
       floatValue: 0
@@ -56,12 +74,12 @@ MonoBehaviour:
   - damage: 35
     cooldown: 2.7
     customValues:
-    - fieldName: SplashArea
+    - parameter: 9
       fieldType: 1
       intValue: 0
-      floatValue: 1.8
+      floatValue: 1.2
       boolValue: 0
-    - fieldName: ExtraTargets
+    - parameter: 8
       fieldType: 0
       intValue: 0
       floatValue: 0
@@ -69,12 +87,12 @@ MonoBehaviour:
   - damage: 40
     cooldown: 2.4
     customValues:
-    - fieldName: SplashArea
+    - parameter: 9
       fieldType: 1
       intValue: 0
-      floatValue: 2
+      floatValue: 1.4
       boolValue: 0
-    - fieldName: ExtraTargets
+    - parameter: 8
       fieldType: 0
       intValue: 1
       floatValue: 0
@@ -82,12 +100,12 @@ MonoBehaviour:
   - damage: 48
     cooldown: 2.1
     customValues:
-    - fieldName: SplashArea
+    - parameter: 9
       fieldType: 1
       intValue: 0
-      floatValue: 2.2
+      floatValue: 1.6
       boolValue: 0
-    - fieldName: ExtraTargets
+    - parameter: 8
       fieldType: 0
       intValue: 1
       floatValue: 0
@@ -95,12 +113,12 @@ MonoBehaviour:
   - damage: 55
     cooldown: 1.8
     customValues:
-    - fieldName: SplashArea
+    - parameter: 9
       fieldType: 1
       intValue: 0
-      floatValue: 2.5
+      floatValue: 1.8
       boolValue: 0
-    - fieldName: ExtraTargets
+    - parameter: 8
       fieldType: 0
       intValue: 2
       floatValue: 0
@@ -108,14 +126,14 @@ MonoBehaviour:
   - damage: 64
     cooldown: 1.5
     customValues:
-    - fieldName: SplashArea
+    - parameter: 9
       fieldType: 1
       intValue: 0
-      floatValue: 3
+      floatValue: 2
       boolValue: 0
-    - fieldName: ExtraTargets
+    - parameter: 8
       fieldType: 0
-      intValue: 3
+      intValue: 2
       floatValue: 0
       boolValue: 0
   references:

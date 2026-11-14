@@ -83,6 +83,7 @@ namespace HexaBit.Core {
     public class DynamicFieldDefinition {
         public DynamicParameter parameter;
         public Sprite icon;
+        public LocalizedString localizedName; // New field for UI text
     }
 
     [System.Serializable]
@@ -119,7 +120,7 @@ namespace HexaBit.Core {
     [System.Serializable]
     public class DynamicFieldValue {
         public DynamicParameter parameter;
-        public DynamicFieldType fieldType; // Kept to know how to read the value
+        public DynamicFieldType fieldType;
         public int intValue;
         public float floatValue;
         public bool boolValue;

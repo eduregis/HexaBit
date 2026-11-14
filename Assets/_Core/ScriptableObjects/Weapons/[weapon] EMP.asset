@@ -34,89 +34,148 @@ MonoBehaviour:
   attackPrefab: {fileID: 9072996400847554555, guid: 5446507e3e42f4b4d88d854dd6ef98df, type: 3}
   weaponPrefab: {fileID: 3720550410646003826, guid: 295db4da8cbe3594b85ad0fd58806d7d, type: 3}
   customFields:
-  - fieldName: Radius
-    fieldType: 1
-  - fieldName: SlowAmount
-    fieldType: 1
+  - parameter: 15
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - parameter: 10
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - parameter: 11
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
   statusData: {fileID: 11400000, guid: 3642753f52e263b4582d62fa4cb02c35, type: 2}
   levels:
   - damage: 6
     cooldown: 0.5
     customValues:
-    - fieldName: Radius
-      fieldType: 1
-      intValue: 0
-      floatValue: 1
-      boolValue: 0
-    - fieldName: SlowAmount
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.1
-      boolValue: 0
-  - damage: 8
-    cooldown: 0.47
-    customValues:
-    - fieldName: Radius
-      fieldType: 1
-      intValue: 0
-      floatValue: 1.2
-      boolValue: 0
-    - fieldName: SlowAmount
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.2
-      boolValue: 0
-  - damage: 10
-    cooldown: 0.44
-    customValues:
-    - fieldName: Radius
-      fieldType: 1
-      intValue: 0
-      floatValue: 1.5
-      boolValue: 0
-    - fieldName: SlowAmount
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.3
-      boolValue: 0
-  - damage: 13
-    cooldown: 0.41
-    customValues:
-    - fieldName: Radius
-      fieldType: 1
-      intValue: 0
-      floatValue: 1.8
-      boolValue: 0
-    - fieldName: SlowAmount
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.4
-      boolValue: 0
-  - damage: 16
-    cooldown: 0.38
-    customValues:
-    - fieldName: Radius
-      fieldType: 1
-      intValue: 0
-      floatValue: 2.2
-      boolValue: 0
-    - fieldName: SlowAmount
+    - parameter: 15
       fieldType: 1
       intValue: 0
       floatValue: 0.5
       boolValue: 0
+    - parameter: 11
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.1
+      boolValue: 0
+    - parameter: 10
+      fieldType: 1
+      intValue: 0
+      floatValue: 1
+      boolValue: 0
+  - damage: 8
+    cooldown: 0.47
+    customValues:
+    - parameter: 15
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.47
+      boolValue: 0
+    - parameter: 11
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.2
+      boolValue: 0
+    - parameter: 10
+      fieldType: 1
+      intValue: 0
+      floatValue: 1.2
+      boolValue: 0
+  - damage: 10
+    cooldown: 0.44
+    customValues:
+    - parameter: 15
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.44
+      boolValue: 0
+    - parameter: 11
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.3
+      boolValue: 0
+    - parameter: 10
+      fieldType: 1
+      intValue: 0
+      floatValue: 1.5
+      boolValue: 0
+  - damage: 13
+    cooldown: 0.41
+    customValues:
+    - parameter: 15
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.41
+      boolValue: 0
+    - parameter: 11
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.4
+      boolValue: 0
+    - parameter: 10
+      fieldType: 1
+      intValue: 0
+      floatValue: 1.8
+      boolValue: 0
+  - damage: 16
+    cooldown: 0.38
+    customValues:
+    - parameter: 15
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.38
+      boolValue: 0
+    - parameter: 11
+      fieldType: 1
+      intValue: 0
+      floatValue: 0.5
+      boolValue: 0
+    - parameter: 10
+      fieldType: 1
+      intValue: 0
+      floatValue: 2.2
+      boolValue: 0
   - damage: 20
     cooldown: 0.35
     customValues:
-    - fieldName: Radius
+    - parameter: 15
       fieldType: 1
       intValue: 0
-      floatValue: 2.6
+      floatValue: 0.35
       boolValue: 0
-    - fieldName: SlowAmount
+    - parameter: 11
       fieldType: 1
       intValue: 0
       floatValue: 0.6
+      boolValue: 0
+    - parameter: 10
+      fieldType: 1
+      intValue: 0
+      floatValue: 2.6
       boolValue: 0
   references:
     version: 2

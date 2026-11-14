@@ -61,16 +61,20 @@ public class WeaponDataEditor : Editor {
     // 1. RENDERS THE LIST OF DYNAMIC FIELDS
     // ------------------------------------------------------------
     private void DrawCustomFields() {
+        SerializedProperty customFieldsProp = serializedObject.FindProperty("customFields");
+
         for (int i = 0; i < data.customFields.Count; i++) {
             var def = data.customFields[i];
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            var defProp = customFieldsProp.GetArrayElementAtIndex(i);
 
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.BeginHorizontal();
 
             // Icon Field
             def.icon = (Sprite)EditorGUILayout.ObjectField(def.icon, typeof(Sprite), false, GUILayout.Width(50), GUILayout.Height(50));
 
             EditorGUILayout.BeginVertical();
+
             // Parameter Dropdown (Enum)
             def.parameter = (DynamicParameter)EditorGUILayout.EnumPopup("Parameter", def.parameter);
 
@@ -78,6 +82,7 @@ public class WeaponDataEditor : Editor {
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.EnumPopup("Type", def.parameter.GetFieldType());
             EditorGUI.EndDisabledGroup();
+
             EditorGUILayout.EndVertical();
 
             // REMOVE button
@@ -89,6 +94,11 @@ public class WeaponDataEditor : Editor {
             }
 
             EditorGUILayout.EndHorizontal();
+
+            // Localized Name Field
+            SerializedProperty localizedNameProp = defProp.FindPropertyRelative("localizedName");
+            EditorGUILayout.PropertyField(localizedNameProp, new GUIContent("Localized Name"));
+
             EditorGUILayout.EndVertical();
         }
 

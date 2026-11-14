@@ -34,28 +34,55 @@ MonoBehaviour:
   attackPrefab: {fileID: 7819238952419549191, guid: 9b54c95043a76144395f11f4d11bc924, type: 3}
   weaponPrefab: {fileID: 3119297777933600548, guid: f064292a7c8def747be656fec17a3d54, type: 3}
   customFields:
-  - fieldName: Projectiles
-    fieldType: 0
-  - fieldName: Range
-    fieldType: 1
-  - fieldName: Speed
-    fieldType: 1
+  - parameter: 2
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - parameter: 4
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - parameter: 3
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
   statusData: {fileID: 0}
   levels:
   - damage: 10
     cooldown: 0.8
     customValues:
-    - fieldName: Range
-      fieldType: 1
-      intValue: 0
-      floatValue: 5
-      boolValue: 0
-    - fieldName: Projectiles
+    - parameter: 2
       fieldType: 0
       intValue: 1
       floatValue: 0
       boolValue: 0
-    - fieldName: Speed
+    - parameter: 4
+      fieldType: 1
+      intValue: 0
+      floatValue: 5
+      boolValue: 0
+    - parameter: 3
       fieldType: 1
       intValue: 0
       floatValue: 8
@@ -63,92 +90,92 @@ MonoBehaviour:
   - damage: 12
     cooldown: 0.75
     customValues:
-    - fieldName: Projectiles
+    - parameter: 2
       fieldType: 0
       intValue: 1
       floatValue: 0
       boolValue: 0
-    - fieldName: Range
+    - parameter: 4
       fieldType: 1
       intValue: 0
       floatValue: 5.2
       boolValue: 0
-    - fieldName: Speed
+    - parameter: 3
       fieldType: 1
       intValue: 0
-      floatValue: 9
+      floatValue: 8
       boolValue: 0
   - damage: 14
     cooldown: 0.7
     customValues:
-    - fieldName: Projectiles
+    - parameter: 2
       fieldType: 0
       intValue: 2
       floatValue: 0
       boolValue: 0
-    - fieldName: Range
+    - parameter: 4
       fieldType: 1
       intValue: 0
       floatValue: 5.4
       boolValue: 0
-    - fieldName: Speed
+    - parameter: 3
       fieldType: 1
       intValue: 0
-      floatValue: 10
+      floatValue: 8.5
       boolValue: 0
   - damage: 17
     cooldown: 0.65
     customValues:
-    - fieldName: Projectiles
+    - parameter: 2
       fieldType: 0
       intValue: 2
       floatValue: 0
       boolValue: 0
-    - fieldName: Range
+    - parameter: 4
       fieldType: 1
       intValue: 0
       floatValue: 5.6
       boolValue: 0
-    - fieldName: Speed
+    - parameter: 3
       fieldType: 1
       intValue: 0
-      floatValue: 11
+      floatValue: 8.5
       boolValue: 0
   - damage: 19
     cooldown: 0.6
     customValues:
-    - fieldName: Projectiles
+    - parameter: 2
       fieldType: 0
       intValue: 3
       floatValue: 0
       boolValue: 0
-    - fieldName: Range
+    - parameter: 4
       fieldType: 1
       intValue: 0
       floatValue: 5.8
       boolValue: 0
-    - fieldName: Speed
+    - parameter: 3
       fieldType: 1
       intValue: 0
-      floatValue: 12
+      floatValue: 9
       boolValue: 0
   - damage: 22
     cooldown: 0.55
     customValues:
-    - fieldName: Projectiles
+    - parameter: 2
       fieldType: 0
       intValue: 3
       floatValue: 0
       boolValue: 0
-    - fieldName: Range
+    - parameter: 4
       fieldType: 1
       intValue: 0
       floatValue: 6
       boolValue: 0
-    - fieldName: Speed
+    - parameter: 3
       fieldType: 1
       intValue: 0
-      floatValue: 14
+      floatValue: 9.5
       boolValue: 0
   references:
     version: 2
