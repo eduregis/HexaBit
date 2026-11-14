@@ -23,6 +23,8 @@ MonoBehaviour:
   isRanged: 0
   attackRange: 5
   attackCooldown: 2
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 6
   immuneToFreeze: 0
   immuneToInstantKill: 0
   immuneToDebuffs: 0

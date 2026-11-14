@@ -161,7 +161,8 @@ namespace HexaBit.Core {
                 if (weapon != null && weapon.data != null) {
                     Sprite icon = weapon.data.icon;
 
-                    Sprite frame = GetLevelFrame(weapon.currentLevel);
+                    Sprite frame = GetLevelFrame(weapon.currentLevel + 1);
+
                     weaponChips[i].SetChip(icon, frame);
                 } else {
                     weaponChips[i].ClearChip();
@@ -181,6 +182,7 @@ namespace HexaBit.Core {
                     Sprite icon = buff.data.icon;
 
                     Sprite frame = GetLevelFrame(buff.currentLevel);
+
                     buffChips[i].SetChip(icon, frame);
                 } else {
                     buffChips[i].ClearChip();
