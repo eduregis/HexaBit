@@ -29,7 +29,8 @@ namespace HexaBit.Core {
 
             ActiveBuff existing = hero.activeBuffs.Find(b => b.data == this);
             if (existing != null) {
-                targetLevel = existing.currentLevel + 1;
+                targetLevel = existing.currentLevel + 2;
+
                 if (targetLevel > MaxLevel) targetLevel = MaxLevel;
 
                 action = () => hero.ApplyBuff(this);

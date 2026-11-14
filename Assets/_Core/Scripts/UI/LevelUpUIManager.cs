@@ -161,7 +161,7 @@ namespace HexaBit.Core {
                 if (weapon != null && weapon.data != null) {
                     Sprite icon = weapon.data.icon;
 
-                    Sprite frame = GetLevelFrame(weapon.currentLevel + 1);
+                    Sprite frame = GetLevelFrame(weapon.GetLevelIndex());
 
                     weaponChips[i].SetChip(icon, frame);
                 } else {
@@ -181,7 +181,7 @@ namespace HexaBit.Core {
                 if (buff != null && buff.data != null) {
                     Sprite icon = buff.data.icon;
 
-                    Sprite frame = GetLevelFrame(buff.currentLevel);
+                    Sprite frame = GetLevelFrame(buff.GetLevelIndex());
 
                     buffChips[i].SetChip(icon, frame);
                 } else {
@@ -195,10 +195,9 @@ namespace HexaBit.Core {
             }
         }
 
-        private Sprite GetLevelFrame(int level) {
+        private Sprite GetLevelFrame(int levelIndex) {
             if (levelFrames == null || levelFrames.Length == 0) return null;
-            int index = Mathf.Clamp(level - 1, 0, levelFrames.Length - 1);
-
+            int index = Mathf.Clamp(levelIndex, 0, levelFrames.Length - 1);
             return levelFrames[index];
         }
 
