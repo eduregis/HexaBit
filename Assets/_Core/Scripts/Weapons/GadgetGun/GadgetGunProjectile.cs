@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace HexaBit.Core {
-    public class PlasmaPistolProjectile : WeaponEffect {
+    public class GadgetGunProjectile : WeaponEffect {
         [Header("Projectile Settings")]
         [SerializeField] private float maxLifetime = 3f; // Life time
 

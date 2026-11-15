@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 190210396160
-    m_Localized: Pistola de Plasma
+    m_Localized: GambiArma
     m_Metadata:
       m_Items: []
   - m_Id: 666188402688
-    m_Localized: Cyber-Martelo
+    m_Localized: CyberMarreta
     m_Metadata:
       m_Items: []
   - m_Id: 272956251721728

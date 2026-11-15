@@ -135,7 +135,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_pistol_bullet_spritesheet_0
+      name: HB_gadget_gun_projectile_0
       rect:
         serializedVersion: 2
         x: 0
@@ -157,7 +157,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_pistol_bullet_spritesheet_1
+      name: HB_gadget_gun_projectile_1
       rect:
         serializedVersion: 2
         x: 32
@@ -179,7 +179,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_pistol_bullet_spritesheet_2
+      name: HB_gadget_gun_projectile_2
       rect:
         serializedVersion: 2
         x: 64
@@ -201,7 +201,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_pistol_bullet_spritesheet_3
+      name: HB_gadget_gun_projectile_3
       rect:
         serializedVersion: 2
         x: 96
@@ -238,10 +238,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      HB_pistol_bullet_spritesheet_0: -3887118844638361929
-      HB_pistol_bullet_spritesheet_1: 279492295638531616
-      HB_pistol_bullet_spritesheet_2: -3203162957936248725
-      HB_pistol_bullet_spritesheet_3: -7669795884904116839
+      HB_gadget_gun_projectile_0: -3887118844638361929
+      HB_gadget_gun_projectile_1: 279492295638531616
+      HB_gadget_gun_projectile_2: -3203162957936248725
+      HB_gadget_gun_projectile_3: -7669795884904116839
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

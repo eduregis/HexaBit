@@ -16,11 +16,11 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 629ae6d7136a5214bb38b872524876f2
   m_Entries:
   - m_Id: 190210396160
-    m_Key: weapon_plasma_pistol_name
+    m_Key: weapon_gadget_gun_name
     m_Metadata:
       m_Items: []
   - m_Id: 335790493696
-    m_Key: weapon_plasma_pistol_description
+    m_Key: weapon_gadget_gun_description
     m_Metadata:
       m_Items: []
   - m_Id: 666188402688

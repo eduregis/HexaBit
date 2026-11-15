@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace HexaBit.Core {
-    public class PlasmaPistolWeapon : WeaponBase {
+    public class GadgetGunWeapon : WeaponBase {
         protected override void Fire() {
             if (data.attackPrefab == null) return;
 
@@ -23,7 +23,7 @@ namespace HexaBit.Core {
 
             for (int i = 0; i < projectileCount; i++) {
                 GameObject proj = Instantiate(data.attackPrefab, transform.position, Quaternion.identity);
-                PlasmaPistolProjectile effect = proj.GetComponent<PlasmaPistolProjectile>();
+                GadgetGunProjectile effect = proj.GetComponent<GadgetGunProjectile>();
                 if (effect != null) {
                     Vector2 dir = direction;
                     // Aplica offset angular para múltiplos projéteis

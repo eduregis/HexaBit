@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8883799584685418606}
   - component: {fileID: 870307182935779295}
   m_Layer: 6
-  m_Name: PlasmaPistol_Effect_Prefab
+  m_Name: GadgetGun_Effect_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
