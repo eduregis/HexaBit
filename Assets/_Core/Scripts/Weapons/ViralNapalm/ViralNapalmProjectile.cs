@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace HexaBit.Core {
-    public class CorruptionNapalmProjectile : WeaponEffect {
+    public class ViralNapalmProjectile : WeaponEffect {
         [Header("Projectile Settings")]
         [SerializeField] private float projectileSpeed = 5f;
         [SerializeField] private float rotationSpeed = 360f;
@@ -35,7 +35,7 @@ namespace HexaBit.Core {
             hasCollided = false;
             hasReachedTarget = false;
 
-            Debug.Log($"CorruptionNapalm projectile launched towards {targetPosition}");
+            Debug.Log($"ViralNapalm projectile launched towards {targetPosition}");
         }
 
         private void Update() {
@@ -69,7 +69,7 @@ namespace HexaBit.Core {
                         Vector3 collisionPoint = transform.position;
                         CreatePuddle(collisionPoint);
                         Destroy(gameObject);
-                        Debug.Log($"CorruptionNapalm hit enemy {enemy.name} at {collisionPoint}, creating puddle");
+                        Debug.Log($"ViralNapalm hit enemy {enemy.name} at {collisionPoint}, creating puddle");
                         return;
                     }
                 }
@@ -82,7 +82,7 @@ namespace HexaBit.Core {
             }
 
             GameObject puddleGO = Instantiate(puddlePrefab, position, Quaternion.identity);
-            CorruptionNapalmPuddle puddle = puddleGO.GetComponent<CorruptionNapalmPuddle>();
+            ViralNapalmPuddle puddle = puddleGO.GetComponent<ViralNapalmPuddle>();
             if (puddle != null) {
                 puddle.Initialize(data, level, hero);
             } else {

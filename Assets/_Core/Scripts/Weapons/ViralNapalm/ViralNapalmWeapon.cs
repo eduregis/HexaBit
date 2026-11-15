@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace HexaBit.Core {
-    public class CorruptionNapalmWeapon : WeaponBase {
+    public class ViralNapalmWeapon : WeaponBase {
         protected override void Fire() {
             if (data.attackPrefab == null) return;
 
@@ -10,7 +10,6 @@ namespace HexaBit.Core {
             Transform target = FindClosestEnemy(searchRange);
 
             if (target == null) {
-                Debug.Log("CorruptionNapalm: No enemy on screen, skipping throw");
                 return;
             }
 
@@ -19,7 +18,7 @@ namespace HexaBit.Core {
 
             // Spawn the projectile
             GameObject projectileGO = Instantiate(data.attackPrefab, transform.position, Quaternion.identity);
-            CorruptionNapalmProjectile projectile = projectileGO.GetComponent<CorruptionNapalmProjectile>();
+            ViralNapalmProjectile projectile = projectileGO.GetComponent<ViralNapalmProjectile>();
             if (projectile != null) {
                 projectile.Initialize(data, currentLevel, direction, hero);
             }

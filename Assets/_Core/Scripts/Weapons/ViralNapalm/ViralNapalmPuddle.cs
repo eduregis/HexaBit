@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 namespace HexaBit.Core {
-    public class CorruptionNapalmPuddle : MonoBehaviour {
+    public class ViralNapalmPuddle : MonoBehaviour {
         [Header("Puddle Settings")]
         [SerializeField] private CircleCollider2D puddleCollider;
         [SerializeField] private SpriteRenderer puddleOutline;
@@ -35,7 +35,7 @@ namespace HexaBit.Core {
             // Get the status data from the weapon (if any)
             if (data.statusData != null) {
                 corruptedStatusData = data.statusData;
-                Debug.Log($"CorruptionNapalm puddle will apply status: {corruptedStatusData.statusName}");
+                Debug.Log($"ViralNapalm puddle will apply status: {corruptedStatusData.statusName}");
             }
 
             if (puddleCollider != null)
@@ -50,7 +50,7 @@ namespace HexaBit.Core {
             lifetimeTimer = 0f;
             enemiesInPuddle.Clear();
 
-            Debug.Log($"CorruptionNapalm puddle created: radius={radius}, duration={duration}, tickInterval={tickInterval}");
+            Debug.Log($"ViralNapalm puddle created: radius={radius}, duration={duration}, tickInterval={tickInterval}");
         }
 
         private void Update() {
@@ -100,7 +100,6 @@ namespace HexaBit.Core {
             foreach (var enemy in enemiesInPuddle) {
                 if (enemy != null) {
                     enemy.RemoveStatus(corruptedStatusData);
-                    Debug.Log($"Removed {corruptedStatusData.statusName} from {enemy.name}");
                 }
             }
         }
@@ -117,7 +116,6 @@ namespace HexaBit.Core {
 
                     // Apply corrupted status on entry (once per enemy entry)
                     ApplyStatusToEnemy(enemy);
-                    Debug.Log($"CorruptionNapalm entered puddle: {enemy.name}");
                 }
             }
         }
@@ -131,7 +129,6 @@ namespace HexaBit.Core {
                     // Remove corrupted status when enemy leaves the puddle
                     if (corruptedStatusData != null) {
                         enemy.RemoveStatus(corruptedStatusData);
-                        Debug.Log($"Removed {corruptedStatusData.statusName} from {enemy.name} on exit");
                     }
                 }
             }

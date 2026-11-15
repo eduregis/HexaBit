@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7097341918994029622}
   - component: {fileID: 3286442440306937655}
   m_Layer: 6
-  m_Name: CorruptionNapalm_Projectile_Prefab
+  m_Name: ViralNapalm_Projectile_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

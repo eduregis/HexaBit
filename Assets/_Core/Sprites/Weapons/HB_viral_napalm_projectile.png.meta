@@ -1,25 +1,13 @@
 fileFormatVersion: 2
-guid: 8e05cb3386c8a1c4ba9a54eb9d42c4e8
+guid: 7c87624b72779ed4daa886d4ecffe181
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1517195041853410287
-    second: HB_corruption_napalm_puddle_0
+      213: -8898153157733266804
+    second: HB_ViralNapalm_projectile_2_Sheet_0
   - first:
-      213: -1177939131372896362
-    second: HB_corruption_napalm_puddle_1
-  - first:
-      213: -8995566502531009396
-    second: HB_corruption_napalm_puddle_2
-  - first:
-      213: 7235081167376977677
-    second: HB_corruption_napalm_puddle_3
-  - first:
-      213: 1321342462727906388
-    second: HB_corruption_napalm_puddle_4
-  - first:
-      213: 4417437573222437865
-    second: HB_corruption_napalm_puddle_5
+      213: -399794043097295132
+    second: HB_ViralNapalm_projectile_2_Sheet_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -141,12 +129,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_corruption_napalm_puddle_0
+      name: HB_viral_napalm_projectile_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -154,21 +142,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 114f75bd527d1fae0800000000000000
-      internalID: -1517195041853410287
+      spriteID: a5e954efcbb16c54e9b00345fb5d0dec
+      internalID: 1488274839
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_corruption_napalm_puddle_1
+      name: HB_viral_napalm_projectile_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 48
         y: 0
-        width: 64
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -176,98 +164,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 69f7c7bd99e17afe0800000000000000
-      internalID: -1177939131372896362
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HB_corruption_napalm_puddle_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c847c3f2de3592380800000000000000
-      internalID: -8995566502531009396
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HB_corruption_napalm_puddle_3
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d0f8f961dfb286460800000000000000
-      internalID: 7235081167376977677
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HB_corruption_napalm_puddle_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 454698518f9565210800000000000000
-      internalID: 1321342462727906388
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HB_corruption_napalm_puddle_5
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9e313697114ed4d30800000000000000
-      internalID: 4417437573222437865
+      spriteID: 032216774d756d24cafa2935ebb17153
+      internalID: -232535770
       vertices: []
       indices: 
       edges: []
@@ -276,7 +176,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 019f9fcba86ab51439cfd0a94ed32244
+    spriteID: f94007592a0b36348a5f6d120ca4b84c
     internalID: 0
     vertices: []
     indices: 
@@ -286,14 +186,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      HB_corruption_napalm_puddle_0: -1517195041853410287
-      HB_corruption_napalm_puddle_1: -1177939131372896362
-      HB_corruption_napalm_puddle_2: -8995566502531009396
-      HB_corruption_napalm_puddle_3: 7235081167376977677
-      HB_corruption_napalm_puddle_4: 1321342462727906388
-      HB_corruption_napalm_puddle_5: 4417437573222437865
+      HB_viral_napalm_projectile_0: 1488274839
+      HB_viral_napalm_projectile_1: -232535770
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

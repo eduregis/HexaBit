@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5859597324422728920}
   - component: {fileID: 4990333922257648143}
   m_Layer: 6
-  m_Name: CorruptionNapalm_Puddle_Prefab
+  m_Name: ViralNapalm_Puddle_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
