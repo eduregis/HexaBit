@@ -32,11 +32,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 272956251721728
-    m_Key: weapon_lightning_bolt_name
+    m_Key: weapon_data_strike_name
     m_Metadata:
       m_Items: []
   - m_Id: 273103811530752
-    m_Key: weapon_lightning_bolt_description
+    m_Key: weapon_data_strike_description
     m_Metadata:
       m_Items: []
   - m_Id: 716872226721792
@@ -56,11 +56,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2259006947872768
-    m_Key: weapon_corruption_napalm_name
+    m_Key: weapon_viral_napalm_name
     m_Metadata:
       m_Items: []
   - m_Id: 2259146995683328
-    m_Key: weapon_corruption_napalm_description
+    m_Key: weapon_viral_napalm_description
     m_Metadata:
       m_Items: []
   m_Metadata:

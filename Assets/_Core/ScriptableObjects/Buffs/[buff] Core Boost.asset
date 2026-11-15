@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc00e48a9df41784eb336ccad5bafffd, type: 3}
-  m_Name: '[buff] Cooler'
-  m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.BuffData
+  m_Name: '[buff] Core Boost'
+  m_EditorClassIdentifier: Assembly-CSharp::BuffData
   localizedName:
     m_TableReference:
       m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
     m_TableEntryReference:
-      m_KeyId: 3182206187753472
+      m_KeyId: 19388977152
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -25,20 +25,20 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
     m_TableEntryReference:
-      m_KeyId: 3182273137233920
+      m_KeyId: 178923524096
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  icon: {fileID: -1050832325967666558, guid: b43e783ce2dc67b40bc1e7e8c7e12de7, type: 3}
-  type: 7
+  icon: {fileID: -4507101365366885029, guid: 466e6902b5109fd4b97ffa22fc811dd4, type: 3}
+  type: 5
   values:
-  - 0.08
-  - 0.16
-  - 0.24
-  - 0.32
-  - 0.4
-  - 0.48
+  - 15
+  - 30
+  - 45
+  - 60
+  - 75
+  - 90
   references:
     version: 2
     RefIds: []

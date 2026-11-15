@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 namespace HexaBit.Core {
-    public class LightningBoltEffect : WeaponEffect {
+    public class DataStrikeEffect : WeaponEffect {
         [Header("Visual References")]
         [SerializeField] private Transform bodyTransform;
         [SerializeField] private Transform extraPartTransform;
@@ -65,7 +65,7 @@ namespace HexaBit.Core {
                 extraObj.SetActive(true);
 
                 // Remove the Relay from the clone if it exists, so it doesn't trigger double damage
-                LightningEventRelay cloneRelay = extraObj.GetComponent<LightningEventRelay>();
+                DataStrikeAnimationRelay cloneRelay = extraObj.GetComponent<DataStrikeAnimationRelay>();
                 if (cloneRelay != null) Destroy(cloneRelay);
 
                 extraObj.transform.localPosition = bodyTransform.localPosition + new Vector3(0, i * stackOffset, 0);

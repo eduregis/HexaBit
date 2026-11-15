@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 19388977152
-    m_Localized: Reinforced Core
+    m_Localized: Core Boost
     m_Metadata:
       m_Items: []
   - m_Id: 178923524096
@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2485025621430272
-    m_Localized: Nano-Plating
+    m_Localized: NanoShield
     m_Metadata:
       m_Items: []
   - m_Id: 2485099294380032
@@ -43,7 +43,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3181381054910464
-    m_Localized: Overclocker
+    m_Localized: XP Boost
     m_Metadata:
       m_Items: []
   - m_Id: 3181519706017792
@@ -55,11 +55,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3181951593500672
-    m_Localized: Overdrive
+    m_Localized: Overload
     m_Metadata:
       m_Items: []
   - m_Id: 3182206187753472
-    m_Localized: Coolant Sync
+    m_Localized: Quick Reboot
     m_Metadata:
       m_Items: []
   - m_Id: 3182273137233920

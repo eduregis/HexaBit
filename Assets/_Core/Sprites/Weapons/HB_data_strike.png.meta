@@ -183,7 +183,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_lightning_bolt_0
+      name: HB_data_strike_0
       rect:
         serializedVersion: 2
         x: 0
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_1
+      name: HB_data_strike_1
       rect:
         serializedVersion: 2
         x: 32
@@ -227,7 +227,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_2
+      name: HB_data_strike_2
       rect:
         serializedVersion: 2
         x: 64
@@ -249,7 +249,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_3
+      name: HB_data_strike_3
       rect:
         serializedVersion: 2
         x: 96
@@ -271,7 +271,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_4
+      name: HB_data_strike_4
       rect:
         serializedVersion: 2
         x: 128
@@ -293,7 +293,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_5
+      name: HB_data_strike_5
       rect:
         serializedVersion: 2
         x: 160
@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_6
+      name: HB_data_strike_6
       rect:
         serializedVersion: 2
         x: 192
@@ -337,7 +337,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_7
+      name: HB_data_strike_7
       rect:
         serializedVersion: 2
         x: 224
@@ -359,7 +359,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_8
+      name: HB_data_strike_8
       rect:
         serializedVersion: 2
         x: 256
@@ -381,7 +381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_9
+      name: HB_data_strike_9
       rect:
         serializedVersion: 2
         x: 288
@@ -403,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_10
+      name: HB_data_strike_10
       rect:
         serializedVersion: 2
         x: 320
@@ -425,7 +425,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_11
+      name: HB_data_strike_11
       rect:
         serializedVersion: 2
         x: 352
@@ -447,7 +447,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_12
+      name: HB_data_strike_12
       rect:
         serializedVersion: 2
         x: 384
@@ -469,7 +469,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_13
+      name: HB_data_strike_13
       rect:
         serializedVersion: 2
         x: 416
@@ -491,7 +491,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_14
+      name: HB_data_strike_14
       rect:
         serializedVersion: 2
         x: 448
@@ -513,7 +513,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_15
+      name: HB_data_strike_15
       rect:
         serializedVersion: 2
         x: 480
@@ -535,7 +535,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_lightning_bolt_16
+      name: HB_data_strike_16
       rect:
         serializedVersion: 2
         x: 512
@@ -572,23 +572,23 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":17.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":96.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":true,"isAlternate":false}'
     nameFileIdTable:
-      HB_lightning_bolt_0: -2767483032983083875
-      HB_lightning_bolt_1: 2500057993687728768
-      HB_lightning_bolt_10: 1940633984
-      HB_lightning_bolt_11: 1643962402
-      HB_lightning_bolt_12: 1465705940
-      HB_lightning_bolt_13: -653282686
-      HB_lightning_bolt_14: -1774288008
-      HB_lightning_bolt_15: 713252577
-      HB_lightning_bolt_16: 150926410
-      HB_lightning_bolt_2: 4040192412620110521
-      HB_lightning_bolt_3: 1748786736126279003
-      HB_lightning_bolt_4: -2550374421945466300
-      HB_lightning_bolt_5: 8138453712785395181
-      HB_lightning_bolt_6: -4149577260204768647
-      HB_lightning_bolt_7: 2691477474741378881
-      HB_lightning_bolt_8: 8752348334056033743
-      HB_lightning_bolt_9: -6994582575254693834
+      HB_data_strike_0: -2767483032983083875
+      HB_data_strike_1: 2500057993687728768
+      HB_data_strike_10: 1940633984
+      HB_data_strike_11: 1643962402
+      HB_data_strike_12: 1465705940
+      HB_data_strike_13: -653282686
+      HB_data_strike_14: -1774288008
+      HB_data_strike_15: 713252577
+      HB_data_strike_16: 150926410
+      HB_data_strike_2: 4040192412620110521
+      HB_data_strike_3: 1748786736126279003
+      HB_data_strike_4: -2550374421945466300
+      HB_data_strike_5: 8138453712785395181
+      HB_data_strike_6: -4149577260204768647
+      HB_data_strike_7: 2691477474741378881
+      HB_data_strike_8: 8752348334056033743
+      HB_data_strike_9: -6994582575254693834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

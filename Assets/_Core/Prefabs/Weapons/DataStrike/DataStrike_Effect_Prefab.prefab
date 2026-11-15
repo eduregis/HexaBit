@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 5908653985111221423}
   - component: {fileID: 2140001366297709000}
   m_Layer: 0
-  m_Name: LightningBolt_Effect_Prefab
+  m_Name: DataStrike_Effect_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

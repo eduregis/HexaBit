@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 19388977152
-    m_Localized: "N\xFAcleo Refor\xE7ado"
+    m_Localized: "Integridade M\xE1xima"
     m_Metadata:
       m_Items: []
   - m_Id: 178923524096
@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2485025621430272
-    m_Localized: Revestimento de Nanofibras
+    m_Localized: "Prote\xE7\xE3o de Dados"
     m_Metadata:
       m_Items: []
   - m_Id: 2485099294380032
@@ -43,7 +43,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3181381054910464
-    m_Localized: Overclocker
+    m_Localized: Hack de XP
     m_Metadata:
       m_Items: []
   - m_Id: 3181519706017792
@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3181951593500672
-    m_Localized: Overdrive
+    m_Localized: Sobrecarga
     m_Metadata:
       m_Items: []
   - m_Id: 3182007834923008
@@ -59,7 +59,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3182206187753472
-    m_Localized: Sincronia de Resfriamento
+    m_Localized: Ciclo Otimizado
     m_Metadata:
       m_Items: []
   - m_Id: 3182273137233920

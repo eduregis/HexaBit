@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc00e48a9df41784eb336ccad5bafffd, type: 3}
-  m_Name: '[buff] Reinforced Core'
-  m_EditorClassIdentifier: Assembly-CSharp::BuffData
+  m_Name: '[buff] Nano Shield'
+  m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.BuffData
   localizedName:
     m_TableReference:
       m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
     m_TableEntryReference:
-      m_KeyId: 19388977152
+      m_KeyId: 2485025621430272
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -25,20 +25,20 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
     m_TableEntryReference:
-      m_KeyId: 178923524096
+      m_KeyId: 2485099294380032
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  icon: {fileID: -4507101365366885029, guid: 466e6902b5109fd4b97ffa22fc811dd4, type: 3}
-  type: 5
+  icon: {fileID: -6992791171500835532, guid: e561a9fdc9b77104c8a84449d393772d, type: 3}
+  type: 4
   values:
-  - 15
-  - 30
-  - 45
-  - 60
-  - 75
-  - 90
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
   references:
     version: 2
     RefIds: []

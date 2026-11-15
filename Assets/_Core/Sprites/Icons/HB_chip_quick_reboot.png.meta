@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f6f80289890df6f46a640a0411a579ea
+guid: b43e783ce2dc67b40bc1e7e8c7e12de7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2449546009108600806
-    second: HB_chip_overclocker_0
+      213: -1050832325967666558
+    second: HB_chip_cooler_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_chip_overclocker_0
+      name: HB_chip_quick_reboot_0
       rect:
         serializedVersion: 2
         x: 0
@@ -134,15 +134,15 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6e7d4e5fd198ef120800000000000000
-      internalID: 2449546009108600806
+      spriteID: 282233c2191ba61f0800000000000000
+      internalID: -1050832325967666558
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: cb014d236c11b614c9bfd340c4ed7cac
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HB_chip_overclocker_0: 2449546009108600806
+      HB_chip_quick_reboot_0: -1050832325967666558
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

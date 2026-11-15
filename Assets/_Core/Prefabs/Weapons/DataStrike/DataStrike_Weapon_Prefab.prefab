@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1385788567623372351}
   - component: {fileID: 4157912960835164002}
   m_Layer: 0
-  m_Name: LightningBolt_Weapon_Prefab
+  m_Name: DataStrike_Weapon_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

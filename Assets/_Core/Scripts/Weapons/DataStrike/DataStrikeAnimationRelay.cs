@@ -1,11 +1,11 @@
 using UnityEngine;
 
 namespace HexaBit.Core {
-    public class LightningEventRelay : MonoBehaviour {
-        private LightningBoltEffect effect;
+    public class DataStrikeAnimationRelay : MonoBehaviour {
+        private DataStrikeEffect effect;
 
         private void Awake() {
-            effect = GetComponentInParent<LightningBoltEffect>();
+            effect = GetComponentInParent<DataStrikeEffect>();
         }
 
         // This will be called by the Animation Event on the Body's clip

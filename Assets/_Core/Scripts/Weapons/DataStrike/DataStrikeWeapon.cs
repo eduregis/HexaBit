@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 namespace HexaBit.Core {
-    public class LightningBoltWeapon : WeaponBase {
+    public class DataStrikeWeapon : WeaponBase {
         protected override void Fire() {
             if (data.attackPrefab == null) return;
 
@@ -18,7 +18,7 @@ namespace HexaBit.Core {
                 if (target == null) continue;
 
                 GameObject boltGO = Instantiate(data.attackPrefab, target.position, Quaternion.identity);
-                LightningBoltEffect effect = boltGO.GetComponent<LightningBoltEffect>();
+                DataStrikeEffect effect = boltGO.GetComponent<DataStrikeEffect>();
                 if (effect != null) {
                     effect.Initialize(data, currentLevel, Vector2.zero, hero);
                     effect.SetTarget(target);
