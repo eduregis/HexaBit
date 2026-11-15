@@ -9,16 +9,14 @@ namespace HexaBit.Core {
         [SerializeField] private float collectDistance = 0.5f;
 
         [Header("Reward")]
-        [SerializeField] private int xpValue = 1; // Default value, overwritten by Setup
+        [SerializeField] private int xpValue = 1;
 
         [Header("Visuals")]
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         private int outlineColorID;
-
         private Transform targetHeroTransform;
         private HeroController targetHeroController;
-
         private Vector2 knockbackDirection;
         private float knockbackTimer;
         private bool isKnockbackActive = false;
@@ -32,62 +30,56 @@ namespace HexaBit.Core {
             outlineColorID = Shader.PropertyToID("_OutlineColor");
         }
 
-        private void Start() {
-            isKnockbackActive = false;
-            isAttracted = false;
-            isCollected = false;
-        }
-
         /// <summary>
-        /// Sets up the drop with a specific XP value and outline color.
+        /// Resets the drop and activates it for reuse.
         /// </summary>
         public void Setup(int value, Color color) {
             xpValue = value;
+            isCollected = false;
+            isKnockbackActive = false;
+            isAttracted = false;
+            knockbackTimer = 0f;
+            targetHeroController = null;
+            targetHeroTransform = null;
+
             if (spriteRenderer != null && spriteRenderer.material != null) {
                 spriteRenderer.material.SetColor(outlineColorID, color);
             }
+
+            gameObject.SetActive(true);
         }
 
         private void Update() {
             if (isCollected) return;
 
-            // Knockback phase
             if (isKnockbackActive) {
                 knockbackTimer -= Time.deltaTime;
                 transform.Translate(knockbackDirection * Time.deltaTime, Space.World);
 
                 if (knockbackTimer <= 0f) {
                     isKnockbackActive = false;
-                    if (targetHeroController != null) {
-                        isAttracted = true;
-                    }
+                    if (targetHeroController != null) isAttracted = true;
                 }
                 return;
             }
 
-            // Attraction phase
             if (isAttracted && targetHeroTransform != null) {
                 Vector2 direction = (targetHeroTransform.position - transform.position).normalized;
                 float distance = Vector2.Distance(transform.position, targetHeroTransform.position);
 
                 transform.Translate(direction * attractSpeed * Time.deltaTime, Space.World);
 
-                if (distance < collectDistance) {
-                    Collect();
-                }
+                if (distance < collectDistance) Collect();
             }
         }
 
         public void SetTargetHero(HeroController hero) {
-            if (isCollected) return;
-            if (hero == null || hero.IsDead) return;
+            if (isCollected || hero == null || hero.IsDead) return;
 
             targetHeroController = hero;
             targetHeroTransform = hero.transform;
 
-            if (!isKnockbackActive && !isAttracted) {
-                isAttracted = true;
-            }
+            if (!isKnockbackActive && !isAttracted) isAttracted = true;
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
@@ -119,7 +111,12 @@ namespace HexaBit.Core {
                 GameplayManager.Instance.AddXP(finalXP, targetHeroController);
             }
 
-            Destroy(gameObject);
+            // Return to pool and log it
+            if (DropManager.Instance != null) {
+                DropManager.Instance.ReturnDropToPool(this);
+            } else {
+                Destroy(gameObject);
+            }
         }
     }
 }

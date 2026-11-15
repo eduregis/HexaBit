@@ -20,8 +20,8 @@ namespace HexaBit.Core
         private List<HeroController> activeHeroes = new List<HeroController>();
 
         [Header("XP Settings")]
-        [SerializeField] private int baseXPToLevel = 20;
-        [SerializeField] private int xpPerLevelMultiplier = 15;
+        [SerializeField] private int baseXPToLevel = 5;
+        [SerializeField] private int xpIncreasePerLevel = 10;
 
         [Header("Runtime Stats")]
         [SerializeField] private int currentXP = 0;
@@ -58,7 +58,23 @@ namespace HexaBit.Core
         public int CurrentXP => currentXP;
         public int CurrentLevel => currentLevel;
         public int TotalKills => totalKills;
-        public int XPToNextLevel => baseXPToLevel + (currentLevel - 1) * xpPerLevelMultiplier;
+        public int XPToNextLevel {
+            get {
+                if (currentLevel == 1) return baseXPToLevel;
+
+                if (currentLevel < 20) {
+                    return baseXPToLevel + (currentLevel - 1) * xpIncreasePerLevel;
+                }
+
+                if (currentLevel < 40) {
+                    int xpAtLevel20 = baseXPToLevel + 19 * xpIncreasePerLevel;
+                    return xpAtLevel20 + (currentLevel - 20) * 13;
+                }
+
+                int xpAtLevel40 = baseXPToLevel + 19 * xpIncreasePerLevel + 20 * 13;
+                return xpAtLevel40 + (currentLevel - 40) * 16;
+            }
+        }
         public float CurrentTime => currentTime;
         public bool IsTimerPaused => isTimerPaused;
 
