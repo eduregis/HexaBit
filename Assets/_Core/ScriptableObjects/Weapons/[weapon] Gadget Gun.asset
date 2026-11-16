@@ -38,35 +38,38 @@ MonoBehaviour:
     icon: {fileID: 0}
     localizedName:
       m_TableReference:
-        m_TableCollectionName: 
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
       m_TableEntryReference:
-        m_KeyId: 0
+        m_KeyId: 31465705835352064
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+    appearsInUpgradeDescription: 1
   - parameter: 4
     icon: {fileID: 0}
     localizedName:
       m_TableReference:
-        m_TableCollectionName: 
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
       m_TableEntryReference:
-        m_KeyId: 0
+        m_KeyId: 31465833593851904
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+    appearsInUpgradeDescription: 1
   - parameter: 3
     icon: {fileID: 0}
     localizedName:
       m_TableReference:
-        m_TableCollectionName: 
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
       m_TableEntryReference:
-        m_KeyId: 0
+        m_KeyId: 31464248230825984
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+    appearsInUpgradeDescription: 1
   statusData: {fileID: 0}
   levels:
   - damage: 10

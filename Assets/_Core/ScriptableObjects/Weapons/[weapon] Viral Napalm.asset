@@ -38,46 +38,50 @@ MonoBehaviour:
     icon: {fileID: 0}
     localizedName:
       m_TableReference:
-        m_TableCollectionName: 
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
       m_TableEntryReference:
-        m_KeyId: 0
+        m_KeyId: 31465292201480192
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+    appearsInUpgradeDescription: 1
   - parameter: 4
     icon: {fileID: 0}
     localizedName:
       m_TableReference:
-        m_TableCollectionName: 
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
       m_TableEntryReference:
-        m_KeyId: 0
+        m_KeyId: 31465833593851904
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+    appearsInUpgradeDescription: 1
   - parameter: 10
     icon: {fileID: 0}
     localizedName:
       m_TableReference:
-        m_TableCollectionName: 
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
       m_TableEntryReference:
-        m_KeyId: 0
+        m_KeyId: 31465523597037568
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+    appearsInUpgradeDescription: 1
   - parameter: 14
     icon: {fileID: 0}
     localizedName:
       m_TableReference:
-        m_TableCollectionName: 
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
       m_TableEntryReference:
-        m_KeyId: 0
+        m_KeyId: 31465962249932800
         m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
+    appearsInUpgradeDescription: 1
   statusData: {fileID: 11400000, guid: 58a7381147482724aaedcce5651944f3, type: 2}
   levels:
   - damage: 8

@@ -99,6 +99,9 @@ public class WeaponDataEditor : Editor {
             SerializedProperty localizedNameProp = defProp.FindPropertyRelative("localizedName");
             EditorGUILayout.PropertyField(localizedNameProp, new GUIContent("Localized Name"));
 
+            SerializedProperty appearsInDescProp = defProp.FindPropertyRelative("appearsInUpgradeDescription");
+            EditorGUILayout.PropertyField(appearsInDescProp, new GUIContent("Appears in Upgrade Description"));
+
             EditorGUILayout.EndVertical();
         }
 

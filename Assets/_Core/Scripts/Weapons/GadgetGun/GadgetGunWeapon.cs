@@ -1,9 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class GadgetGunWeapon : WeaponBase {
+
+        [Header("Events")]
+        [Tooltip("Called when the weapon fires. Useful for playing audio or triggering VFX.")]
+        public UnityEvent OnFireEvent;
         protected override void Fire() {
             if (data.attackPrefab == null) return;
+
+            OnFireEvent?.Invoke();
 
             float range = data.GetFloat(currentLevel, DynamicParameter.Range);
             Transform target = FindClosestEnemy(range);

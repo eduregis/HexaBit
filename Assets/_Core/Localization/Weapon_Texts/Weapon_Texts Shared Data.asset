@@ -63,6 +63,62 @@ MonoBehaviour:
     m_Key: weapon_viral_napalm_description
     m_Metadata:
       m_Items: []
+  - m_Id: 31464248230825984
+    m_Key: weapon_dynamic_type_speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464315473907712
+    m_Key: weapon_dynamic_type_max_distance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464393475379200
+    m_Key: weapon_dynamic_type_speed_hitbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464644416393216
+    m_Key: weapon_dynamic_type_angle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464719548960768
+    m_Key: weapon_dynamic_type_size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464839250202624
+    m_Key: weapon_dynamic_type_knockback
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464919613067264
+    m_Key: weapon_dynamic_type_splash_area
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465157908254720
+    m_Key: weapon_dynamic_type_extra_targets
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465292201480192
+    m_Key: weapon_dynamic_type_tick
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465523597037568
+    m_Key: weapon_dynamic_type_radius
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465573832216576
+    m_Key: weapon_dynamic_type_slow_amount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465705835352064
+    m_Key: weapon_dynamic_type_projectiles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465833593851904
+    m_Key: weapon_dynamic_type_range
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465962249932800
+    m_Key: weapon_dynamic_type_duration
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

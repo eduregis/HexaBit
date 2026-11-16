@@ -67,6 +67,62 @@ MonoBehaviour:
     m_Localized: "Napalm de Corrup\xE7\xE3o"
     m_Metadata:
       m_Items: []
+  - m_Id: 31464248230825984
+    m_Localized: Velocidade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464315473907712
+    m_Localized: "Dist\xE2ncia M\xE1xima"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464393475379200
+    m_Localized: Hitbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464644416393216
+    m_Localized: "\xC2ngulo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464719548960768
+    m_Localized: Tamanho
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464839250202624
+    m_Localized: Recuo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464919613067264
+    m_Localized: "\xC1rea do Dano"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465157908254720
+    m_Localized: Alvo(s) Extra(s)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465292201480192
+    m_Localized: "Frequ\xEAncia"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465523597037568
+    m_Localized: Raio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465573832216576
+    m_Localized: "Lentid\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465705835352064
+    m_Localized: "Proj\xE9til(es)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465833593851904
+    m_Localized: Alcance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465962249932800
+    m_Localized: "Dura\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
