@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class XPDrop : MonoBehaviour {
@@ -13,6 +14,10 @@ namespace HexaBit.Core {
 
         [Header("Visuals")]
         [SerializeField] private SpriteRenderer spriteRenderer;
+
+        [Header("Events")]
+        [Tooltip("Called when a hero collect XP.")]
+        public UnityEvent OnPickUpEvent;
 
         private int outlineColorID;
         private Transform targetHeroTransform;
@@ -108,6 +113,7 @@ namespace HexaBit.Core {
             }
 
             if (GameplayManager.Instance != null) {
+                OnPickUpEvent?.Invoke();
                 GameplayManager.Instance.AddXP(finalXP, targetHeroController);
             }
 

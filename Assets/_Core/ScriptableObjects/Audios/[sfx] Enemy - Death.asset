@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44783d392dbddbd4db0dcbe8a452f0fe, type: 3}
-  m_Name: '[sfx] Hit'
+  m_Name: '[sfx] Enemy - Death'
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.AudioData
   channel: SFX
   isOneShot: 1
   loop: 0
   stopPrevious: 0
   replaceable: 0
-  clip: {fileID: 8300000, guid: 505e26d483d73d74d98e52993ad51b66, type: 3}
+  clip: {fileID: 0}
   randomClips: []
   volume: 1
   pitch: 1

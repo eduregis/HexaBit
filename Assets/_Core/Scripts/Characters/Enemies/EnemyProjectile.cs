@@ -1,10 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class EnemyProjectile : MonoBehaviour {
+
         [Header("Projectile Settings")]
         [SerializeField] private float maxLifetime = 5f;
         [SerializeField] private float spreadAngle = 15f;
+
+        [Header("Events")]
+        [Tooltip("Called when the enemy shoots a projectile.")]
+        public UnityEvent OnShootEvent;
 
         private Vector2 direction;
         private float speed = 6f;
@@ -15,6 +21,8 @@ namespace HexaBit.Core {
             direction = dir.normalized;
             speed = moveSpeed;
             damage = dmg;
+
+            OnShootEvent?.Invoke();
 
             float randomSpread = Random.Range(-spreadAngle, spreadAngle);
             float baseAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

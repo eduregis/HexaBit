@@ -96,7 +96,7 @@ namespace HexaBit.Core {
                     if (hero != null) enemyCtrl.SetPlayerReference(hero);
 
                     enemyCtrl.Initialize(selectedEnemy, currentWave);
-                    enemyCtrl.OnDeath.AddListener(() => OnEnemyDeath(enemy));
+                    enemyCtrl.OnDeathEvent.AddListener(() => OnEnemyDeath(enemy));
                 }
 
                 currentEnemyCount++;
@@ -132,7 +132,7 @@ namespace HexaBit.Core {
                 enemyCtrl.Initialize(selectedEnemy, currentWave, selectedStatus);
                 enemyCtrl.MultiplyStats(stageData.subBossSettings.healthMultiplier, stageData.subBossSettings.damageMultiplier);
 
-                enemyCtrl.OnDeath.AddListener(() => OnEnemyDeath(enemy));
+                enemyCtrl.OnDeathEvent.AddListener(() => OnEnemyDeath(enemy));
 
                 Debug.Log($"Sub-Boss Spawned! Enemy: {selectedEnemy.enemyName}");
             }

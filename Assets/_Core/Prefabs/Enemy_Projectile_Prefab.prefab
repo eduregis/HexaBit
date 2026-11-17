@@ -109,6 +109,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.EnemyProjectile
   maxLifetime: 5
   spreadAngle: 15
+  OnShootEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 17439de6182c2c640a03ffd5ad8ef0d2, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!58 &3336553812704264095
 CircleCollider2D:
   m_ObjectHideFlags: 0

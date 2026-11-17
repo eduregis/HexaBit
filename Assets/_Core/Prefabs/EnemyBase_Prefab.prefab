@@ -205,9 +205,36 @@ MonoBehaviour:
   animator: {fileID: 5209323206620459747}
   hasDeathAnimation: 0
   attackCooldown: 0.5
-  OnDeath:
+  OnTakeDamageEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: a3e06657483a3414caad78745075c6d0, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: ff056b1ec313f38419568eda62e9b876, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   isRanged: 0
   rangedAttackRange: 0
   rangedAttackCooldown: 0

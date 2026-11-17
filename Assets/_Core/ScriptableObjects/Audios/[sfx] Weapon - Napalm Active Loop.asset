@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: '[sfx] Weapon - Napalm Active Loop'
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.AudioData
   channel: SFX
-  isOneShot: 1
-  loop: 0
+  isOneShot: 0
+  loop: 1
   stopPrevious: 0
   replaceable: 0
   clip: {fileID: 8300000, guid: d48af763896d5da45bd194186ed7364d, type: 3}

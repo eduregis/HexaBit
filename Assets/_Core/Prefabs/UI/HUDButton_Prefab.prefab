@@ -392,6 +392,21 @@ MonoBehaviour:
   backgroundImage: {fileID: 5389209174418352106}
   selectionGlow: {fileID: 1319659987536743804}
   labelText: {fileID: 8949691349626319110}
+  OnFocusEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 6b05996471fc8a64b8a2989b86a3e18f, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   button: {fileID: 6253709934186300218}
 --- !u!114 &6253709934186300218
 MonoBehaviour:

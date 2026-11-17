@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public partial class HeroController : DamageableCharacter {
@@ -15,6 +16,10 @@ namespace HexaBit.Core {
         [Header("UI")]
         [SerializeField] private Animator animator;
         [SerializeField] private HeroHPSlider hpSlider;
+
+        [Header("Events")]
+        [Tooltip("Called when hero takes damage.")]
+        public UnityEvent OnTakeDamageEvent;
 
         // Public properties for weapons to access
         public float ProjectileSpeedMultiplier { get; private set; } = 1f;
@@ -121,6 +126,7 @@ namespace HexaBit.Core {
         // --- Override Animate Taking Damage ---
         protected override void AnimateTakingDamage() {
             if (animator == null) return;
+            OnTakeDamageEvent?.Invoke();
                 animator.SetTrigger("Hit");
         }
 

@@ -32,7 +32,10 @@ namespace HexaBit.Core {
         private StatusData contactStatus;
 
         [Header("Events")]
-        public UnityEvent OnDeath;
+        [Tooltip("Called when the enemy takes damage.")]
+        public UnityEvent OnTakeDamageEvent;
+        [Tooltip("Called when an enemy dies.")]
+        public UnityEvent OnDeathEvent;
 
         public EnemyData Data => data;
         public bool IsDead => isDead;
@@ -228,6 +231,7 @@ namespace HexaBit.Core {
         protected override void AnimateTakingDamage() {
             if (runtimeMaterial == null) return;
             if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+            OnTakeDamageEvent?.Invoke();
             flashCoroutine = StartCoroutine(FlashRoutine());
         }
 
@@ -246,7 +250,7 @@ namespace HexaBit.Core {
             if (isDead) return;
             isDead = true;
             ClearAllStatuses();
-            OnDeath?.Invoke();
+            OnDeathEvent?.Invoke();
             StartCoroutine(DissolveRoutine());
         }
 
@@ -280,7 +284,7 @@ namespace HexaBit.Core {
         }
 
         private void OnDisable() {
-            OnDeath.RemoveAllListeners();
+            OnDeathEvent.RemoveAllListeners();
         }
 
         public void OnDeathAnimationEnd() {
