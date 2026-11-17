@@ -1,8 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class EMPWeapon : WeaponBase {
+
         private EMPField activeField;
+
+
+        [Header("Events")]
+        [Tooltip("Called when the weapon fires.")]
+        public UnityEvent OnFireEvent;
 
         protected override void Fire() {
             // Only spawn if no field exists yet
@@ -19,6 +26,7 @@ namespace HexaBit.Core {
 
             activeField = fieldGO.GetComponent<EMPField>();
             if (activeField != null) {
+                OnFireEvent?.Invoke();
                 activeField.Initialize(data, currentLevel, hero);
             } else {
                 Debug.LogError("EMPWeapon: attackPrefab does not have EMPField component!");

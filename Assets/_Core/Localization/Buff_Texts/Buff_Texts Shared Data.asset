@@ -16,19 +16,19 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 5d9b9906f171a594190160af4b6abf72
   m_Entries:
   - m_Id: 19388977152
-    m_Key: buff_reinforced_core_name
+    m_Key: buff_core_boost_name
     m_Metadata:
       m_Items: []
   - m_Id: 178923524096
-    m_Key: buff_reinforced_core_description
+    m_Key: buff_core_boost_description
     m_Metadata:
       m_Items: []
   - m_Id: 2485025621430272
-    m_Key: buff_nano_plating_name
+    m_Key: buff_nano_shield_name
     m_Metadata:
       m_Items: []
   - m_Id: 2485099294380032
-    m_Key: buff_nano_plating_description
+    m_Key: buff_nano_shield_description
     m_Metadata:
       m_Items: []
   - m_Id: 2487910224646144
@@ -40,27 +40,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3181381054910464
-    m_Key: buff_overclocker_name
+    m_Key: buff_xp_boost_name
     m_Metadata:
       m_Items: []
   - m_Id: 3181519706017792
-    m_Key: buff_overclocker_description
+    m_Key: buff_xp_boost_description
     m_Metadata:
       m_Items: []
   - m_Id: 3181951593500672
-    m_Key: buff_overdrive_name
+    m_Key: buff_overload_name
     m_Metadata:
       m_Items: []
   - m_Id: 3182007834923008
-    m_Key: buff_overdrive_description
+    m_Key: buff_overload_description
     m_Metadata:
       m_Items: []
   - m_Id: 3182206187753472
-    m_Key: buff_cooler_name
+    m_Key: buff_quick_reboot_name
     m_Metadata:
       m_Items: []
   - m_Id: 3182273137233920
-    m_Key: buff_cooler_description
+    m_Key: buff_quick_reboot_description
     m_Metadata:
       m_Items: []
   - m_Id: 3183220617924608

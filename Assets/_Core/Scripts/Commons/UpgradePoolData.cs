@@ -11,50 +11,56 @@ namespace HexaBit.Core {
         [Header("Buffs")]
         public List<BuffData> buffs = new List<BuffData>();
 
-        // Combined pool for convenience (returns all items as Object list)
-        public List<Object> GetAllItems() {
-            List<Object> all = new List<Object>();
-            all.AddRange(weapons);
-            all.AddRange(buffs);
-            return all;
-        }
-
-        // Filter weapons that are NOT at max level for a given hero
-        public List<WeaponData> GetAvailableWeapons(HeroController hero) {
-            List<WeaponData> available = new List<WeaponData>();
-            foreach (var weapon in weapons) {
-                if (hero.HasWeapon(weapon)) {
-                    int currentLv = hero.weaponSlots.First(x => x?.data == weapon).currentLevel;
-                    int maxLv = weapon.levels.Count;
-                    if (currentLv < maxLv)
-                        available.Add(weapon);
-                } else {
-                    available.Add(weapon);
-                }
-            }
-            return available;
-        }
-
-        // Filter buffs that are NOT at max level for a given hero
-        public List<BuffData> GetAvailableBuffs(HeroController hero) {
-            List<BuffData> available = new List<BuffData>();
-            foreach (var buff in buffs) {
-                ActiveBuff existing = hero.activeBuffs.Find(b => b.data == buff);
-                if (existing != null) {
-                    if (existing.currentLevel < buff.MaxLevel)
-                        available.Add(buff);
-                } else {
-                    available.Add(buff);
-                }
-            }
-            return available;
-        }
-
-        // Full filtered pool for a specific hero
+        /// <summary>
+        /// Returns a list of valid upgrades for the specific hero based on max levels and available slots.
+        /// </summary>
         public List<Object> GetAvailableItems(HeroController hero) {
             List<Object> available = new List<Object>();
-            available.AddRange(GetAvailableWeapons(hero));
-            available.AddRange(GetAvailableBuffs(hero));
+
+            if (hero == null) return available;
+
+            // Check if hero has empty slots (Max 5 slots assumed by HeroController)
+            bool hasEmptyWeaponSlot = hero.weaponSlots.Any(slot => slot == null || slot.data == null);
+            bool hasEmptyBuffSlot = hero.activeBuffs.Count < 5;
+
+            // --- FILTER WEAPONS ---
+            foreach (var weapon in weapons) {
+                if (weapon == null) continue;
+
+                var equippedWeapon = hero.weaponSlots.FirstOrDefault(w => w != null && w.data == weapon);
+
+                if (equippedWeapon != null) {
+                    // If already equipped, only add if NOT at max level
+                    if (equippedWeapon.currentLevel < weapon.levels.Count - 1) {
+                        available.Add(weapon);
+                    }
+                } else {
+                    // If not equipped, only add if there is an empty slot
+                    if (hasEmptyWeaponSlot) {
+                        available.Add(weapon);
+                    }
+                }
+            }
+
+            // --- FILTER BUFFS ---
+            foreach (var buff in buffs) {
+                if (buff == null) continue;
+
+                var equippedBuff = hero.activeBuffs.Find(b => b.data == buff);
+
+                if (equippedBuff != null) {
+                    // If already active, only add if NOT at max level
+                    if (equippedBuff.currentLevel < buff.MaxLevel - 1) {
+                        available.Add(buff);
+                    }
+                } else {
+                    // If not active, only add if there is an empty buff slot
+                    if (hasEmptyBuffSlot) {
+                        available.Add(buff);
+                    }
+                }
+            }
+
             return available;
         }
     }

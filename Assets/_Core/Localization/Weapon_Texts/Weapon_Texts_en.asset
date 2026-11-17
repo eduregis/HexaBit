@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 190210396160
-    m_Localized: Plasma Pistol
+    m_Localized: Gadget Gun
     m_Metadata:
       m_Items: []
   - m_Id: 666188402688
@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 272956251721728
-    m_Localized: Lightning Bolt
+    m_Localized: Data Strike
     m_Metadata:
       m_Items: []
   - m_Id: 716872226721792
@@ -65,6 +65,70 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2259006947872768
     m_Localized: Corruption Napalm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464248230825984
+    m_Localized: Speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464315473907712
+    m_Localized: Max. Distance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464393475379200
+    m_Localized: Hitbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464644416393216
+    m_Localized: Angle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464719548960768
+    m_Localized: Size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464839250202624
+    m_Localized: Knockback
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31464919613067264
+    m_Localized: Splash Area
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465157908254720
+    m_Localized: Extra Target(s)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465292201480192
+    m_Localized: Tick
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465523597037568
+    m_Localized: Radius
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465573832216576
+    m_Localized: Slow Amount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465705835352064
+    m_Localized: Projectile(s)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465833593851904
+    m_Localized: Range
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31465962249932800
+    m_Localized: Duration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31566597834166272
+    m_Localized: Damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31566700472979456
+    m_Localized: Cooldown
     m_Metadata:
       m_Items: []
   references:

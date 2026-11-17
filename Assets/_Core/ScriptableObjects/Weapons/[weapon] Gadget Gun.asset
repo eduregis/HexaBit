@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26485cfb8288d0043bfcbdb881d0d3a8, type: 3}
+  m_Name: '[weapon] Gadget Gun'
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  localizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
+    m_TableEntryReference:
+      m_KeyId: 190210396160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
+    m_TableEntryReference:
+      m_KeyId: 335790493696
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  icon: {fileID: -5790236414261862617, guid: efb3b7881a7f0084d8462b9bb43c773c, type: 3}
+  attackPrefab: {fileID: 7819238952419549191, guid: 9b54c95043a76144395f11f4d11bc924, type: 3}
+  weaponPrefab: {fileID: 3119297777933600548, guid: f064292a7c8def747be656fec17a3d54, type: 3}
+  customFields:
+  - parameter: 2
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
+      m_TableEntryReference:
+        m_KeyId: 31465705835352064
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    appearsInUpgradeDescription: 1
+  - parameter: 4
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
+      m_TableEntryReference:
+        m_KeyId: 31465833593851904
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    appearsInUpgradeDescription: 1
+  - parameter: 3
+    icon: {fileID: 0}
+    localizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:629ae6d7136a5214bb38b872524876f2
+      m_TableEntryReference:
+        m_KeyId: 31464248230825984
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    appearsInUpgradeDescription: 1
+  statusData: {fileID: 0}
+  levels:
+  - damage: 10
+    cooldown: 0.8
+    customValues:
+    - parameter: 2
+      fieldType: 0
+      intValue: 1
+      floatValue: 0
+      boolValue: 0
+    - parameter: 4
+      fieldType: 1
+      intValue: 0
+      floatValue: 5
+      boolValue: 0
+    - parameter: 3
+      fieldType: 1
+      intValue: 0
+      floatValue: 8
+      boolValue: 0
+  - damage: 12
+    cooldown: 0.75
+    customValues:
+    - parameter: 2
+      fieldType: 0
+      intValue: 1
+      floatValue: 0
+      boolValue: 0
+    - parameter: 4
+      fieldType: 1
+      intValue: 0
+      floatValue: 5.2
+      boolValue: 0
+    - parameter: 3
+      fieldType: 1
+      intValue: 0
+      floatValue: 8
+      boolValue: 0
+  - damage: 14
+    cooldown: 0.7
+    customValues:
+    - parameter: 2
+      fieldType: 0
+      intValue: 2
+      floatValue: 0
+      boolValue: 0
+    - parameter: 4
+      fieldType: 1
+      intValue: 0
+      floatValue: 5.4
+      boolValue: 0
+    - parameter: 3
+      fieldType: 1
+      intValue: 0
+      floatValue: 8.5
+      boolValue: 0
+  - damage: 17
+    cooldown: 0.65
+    customValues:
+    - parameter: 2
+      fieldType: 0
+      intValue: 2
+      floatValue: 0
+      boolValue: 0
+    - parameter: 4
+      fieldType: 1
+      intValue: 0
+      floatValue: 5.6
+      boolValue: 0
+    - parameter: 3
+      fieldType: 1
+      intValue: 0
+      floatValue: 8.5
+      boolValue: 0
+  - damage: 19
+    cooldown: 0.6
+    customValues:
+    - parameter: 2
+      fieldType: 0
+      intValue: 3
+      floatValue: 0
+      boolValue: 0
+    - parameter: 4
+      fieldType: 1
+      intValue: 0
+      floatValue: 5.8
+      boolValue: 0
+    - parameter: 3
+      fieldType: 1
+      intValue: 0
+      floatValue: 9
+      boolValue: 0
+  - damage: 22
+    cooldown: 0.55
+    customValues:
+    - parameter: 2
+      fieldType: 0
+      intValue: 3
+      floatValue: 0
+      boolValue: 0
+    - parameter: 4
+      fieldType: 1
+      intValue: 0
+      floatValue: 6
+      boolValue: 0
+    - parameter: 3
+      fieldType: 1
+      intValue: 0
+      floatValue: 9.5
+      boolValue: 0
+  references:
+    version: 2
+    RefIds: []

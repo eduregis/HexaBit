@@ -20,8 +20,8 @@ namespace HexaBit.Core
         private List<HeroController> activeHeroes = new List<HeroController>();
 
         [Header("XP Settings")]
-        [SerializeField] private int baseXPToLevel = 20;
-        [SerializeField] private int xpPerLevelMultiplier = 15;
+        [SerializeField] private int baseXPToLevel = 5;
+        [SerializeField] private int xpIncreasePerLevel = 10;
 
         [Header("Runtime Stats")]
         [SerializeField] private int currentXP = 0;
@@ -58,7 +58,23 @@ namespace HexaBit.Core
         public int CurrentXP => currentXP;
         public int CurrentLevel => currentLevel;
         public int TotalKills => totalKills;
-        public int XPToNextLevel => baseXPToLevel + (currentLevel - 1) * xpPerLevelMultiplier;
+        public int XPToNextLevel {
+            get {
+                if (currentLevel == 1) return baseXPToLevel;
+
+                if (currentLevel < 20) {
+                    return baseXPToLevel + (currentLevel - 1) * xpIncreasePerLevel;
+                }
+
+                if (currentLevel < 40) {
+                    int xpAtLevel20 = baseXPToLevel + 19 * xpIncreasePerLevel;
+                    return xpAtLevel20 + (currentLevel - 20) * 13;
+                }
+
+                int xpAtLevel40 = baseXPToLevel + 19 * xpIncreasePerLevel + 20 * 13;
+                return xpAtLevel40 + (currentLevel - 40) * 16;
+            }
+        }
         public float CurrentTime => currentTime;
         public bool IsTimerPaused => isTimerPaused;
 
@@ -334,46 +350,40 @@ namespace HexaBit.Core
             return null;
         }
 
-        private List<LevelUpOption> GenerateChoices(int count, HeroController hero)
-        {
+        private List<LevelUpOption> GenerateChoices(int count, HeroController hero) {
             List<LevelUpOption> options = new List<LevelUpOption>();
 
-            if (upgradePoolData == null)
-            {
+            if (upgradePoolData == null) {
                 Debug.LogError("GameplayManager: upgradePoolData is null! Please assign it in the Inspector.");
                 return options;
             }
 
+            // The UpgradePoolData now handles all filtering logic
             List<Object> availableItems = upgradePoolData.GetAvailableItems(hero);
 
-            if (availableItems.Count == 0)
-            {
+            if (availableItems.Count == 0) {
                 Debug.Log("No available upgrades for hero " + hero.name);
                 return options;
             }
 
+            // Shuffle the available items
             List<Object> shuffledPool = availableItems.OrderBy(x => System.Guid.NewGuid()).ToList();
 
-            foreach (var item in shuffledPool)
-            {
+            foreach (var item in shuffledPool) {
                 if (options.Count >= count) break;
 
-                if (item is WeaponData weaponData)
-                {
+                if (item is WeaponData weaponData) {
                     LevelUpOption option = weaponData.GetUpgradeOption(hero);
                     options.Add(option);
-                }
-                else if (item is BuffData buffData)
-                {
+                } else if (item is BuffData buffData) {
                     LevelUpOption option = buffData.GetUpgradeOption(hero);
                     options.Add(option);
                 }
             }
 
-            while (options.Count < count)
-            {
-                options.Add(new LevelUpOption
-                {
+            // Fill remaining slots with "Skip" option
+            while (options.Count < count) {
+                options.Add(new LevelUpOption {
                     displayName = "Skip",
                     description = "",
                     icon = null,

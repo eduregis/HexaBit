@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc00e48a9df41784eb336ccad5bafffd, type: 3}
+  m_Name: '[buff] Nano Shield'
+  m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.BuffData
+  localizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
+    m_TableEntryReference:
+      m_KeyId: 2485025621430272
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
+    m_TableEntryReference:
+      m_KeyId: 2485099294380032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  icon: {fileID: -6992791171500835532, guid: e561a9fdc9b77104c8a84449d393772d, type: 3}
+  type: 4
+  values:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  references:
+    version: 2
+    RefIds: []

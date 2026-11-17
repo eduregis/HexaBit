@@ -141,133 +141,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HB_hero_sam_walk_left_spritesheet_0
+      name: HB_hero_sam_walk_left_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e164380e7f9daf540800000000000000
-      internalID: 5042582391441540638
+      spriteID: 03a6b820f788a3e45a07324ddb104b0a
+      internalID: -1367293421
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_hero_sam_walk_left_spritesheet_1
+      name: HB_hero_sam_walk_left_1
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 49947a9e688aa0890800000000000000
-      internalID: -7490989732778260076
+      spriteID: e1dee8c2d5f12184eb68dda624534eef
+      internalID: -1252173457
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_hero_sam_walk_left_spritesheet_2
+      name: HB_hero_sam_walk_left_2
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 523fc76ce56f1dd50800000000000000
-      internalID: 6760455402577261349
+      spriteID: 7c1c7ce511c40c94baf87d1c20146595
+      internalID: -208193769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_hero_sam_walk_left_spritesheet_3
+      name: HB_hero_sam_walk_left_3
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7939547b4c8bbfae0800000000000000
-      internalID: -1514413694652148841
+      spriteID: af3ef28833129de4ab77d723ebdd345a
+      internalID: -210155915
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_hero_sam_walk_left_spritesheet_4
+      name: HB_hero_sam_walk_left_4
       rect:
         serializedVersion: 2
         x: 256
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6aedaf4c225a35830800000000000000
-      internalID: 4058769257943195302
+      spriteID: b2096a54cbeaea941914743041f11193
+      internalID: 1526248378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HB_hero_sam_walk_left_spritesheet_5
+      name: HB_hero_sam_walk_left_5
       rect:
         serializedVersion: 2
         x: 320
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 648771f8aa0348980800000000000000
-      internalID: -8537645484484364218
+      spriteID: 3d5045ef2f0a81d47851b2429b310a0d
+      internalID: 113497847
       vertices: []
       indices: 
       edges: []
@@ -286,14 +286,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      HB_hero_sam_walk_left_spritesheet_0: 5042582391441540638
-      HB_hero_sam_walk_left_spritesheet_1: -7490989732778260076
-      HB_hero_sam_walk_left_spritesheet_2: 6760455402577261349
-      HB_hero_sam_walk_left_spritesheet_3: -1514413694652148841
-      HB_hero_sam_walk_left_spritesheet_4: 4058769257943195302
-      HB_hero_sam_walk_left_spritesheet_5: -8537645484484364218
+      HB_hero_sam_walk_left_0: -1367293421
+      HB_hero_sam_walk_left_1: -1252173457
+      HB_hero_sam_walk_left_2: -208193769
+      HB_hero_sam_walk_left_3: -210155915
+      HB_hero_sam_walk_left_4: 1526248378
+      HB_hero_sam_walk_left_5: 113497847
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

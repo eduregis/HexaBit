@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using System.Collections;
 
 namespace HexaBit.Core {
-    public class EnemyController : DamageableCharacter {
+    public partial class EnemyController : DamageableCharacter {
         [Header("Data")]
         [SerializeField] private EnemyData data;
 
@@ -15,7 +15,7 @@ namespace HexaBit.Core {
         private Material runtimeMaterial;
         private Coroutine flashCoroutine;
 
-        // IDs do Shader para performance
+        // Shader property IDs for performance
         private int hitFlashID;
         private int dissolveAmountID;
 
@@ -32,7 +32,10 @@ namespace HexaBit.Core {
         private StatusData contactStatus;
 
         [Header("Events")]
-        public UnityEvent OnDeath;
+        [Tooltip("Called when the enemy takes damage.")]
+        public UnityEvent OnTakeDamageEvent;
+        [Tooltip("Called when an enemy dies.")]
+        public UnityEvent OnDeathEvent;
 
         public EnemyData Data => data;
         public bool IsDead => isDead;
@@ -44,14 +47,13 @@ namespace HexaBit.Core {
         private const float knockbackDuration = 0.2f;
 
         protected override void Awake() {
-            base.Awake(); // A classe base já busca o spriteRenderer aqui
+            base.Awake();
 
             rb = GetComponent<Rigidbody2D>();
             if (rb == null) Debug.LogError("EnemyController: Rigidbody2D not found!");
 
             if (animator == null) animator = GetComponent<Animator>();
 
-            // Usa a variável da classe base (sem o 'private' local)
             if (spriteRenderer != null && spriteRenderer.material != null) {
                 runtimeMaterial = spriteRenderer.material;
                 hitFlashID = Shader.PropertyToID("_HitFlash");
@@ -86,14 +88,20 @@ namespace HexaBit.Core {
             attackTimer = 0f;
             knockbackTimer = 0f;
 
-            // Reseta os efeitos visuais
+            // Setup ranged/wavy variables and layer changes
+            SetupRangedSettings(enemyData);
+
+            // Reset visual effects
             if (runtimeMaterial != null) {
                 runtimeMaterial.SetFloat(hitFlashID, 0f);
                 runtimeMaterial.SetFloat(dissolveAmountID, 0f);
             }
 
+            // Clean up Animator parameters
             if (animator != null && animator.runtimeAnimatorController != null) {
                 animator.SetBool("IsDead", false);
+                animator.SetBool("IsAiming", false);
+                animator.SetFloat("Speed", 0f);
                 animator.SetTrigger("Respawn");
             }
         }
@@ -137,7 +145,6 @@ namespace HexaBit.Core {
             attackTimer = 0f;
             knockbackTimer = 0f;
 
-            // Reseta os efeitos visuais ao voltar do pool
             if (runtimeMaterial != null) {
                 runtimeMaterial.SetFloat(hitFlashID, 0f);
                 runtimeMaterial.SetFloat(dissolveAmountID, 0f);
@@ -145,6 +152,8 @@ namespace HexaBit.Core {
 
             if (animator != null && animator.runtimeAnimatorController != null) {
                 animator.SetBool("IsDead", false);
+                animator.SetBool("IsAiming", false);
+                animator.SetFloat("Speed", 0f);
                 animator.SetTrigger("Respawn");
             }
 
@@ -154,6 +163,9 @@ namespace HexaBit.Core {
         private void Update() {
             if (attackTimer > 0f)
                 attackTimer -= Time.deltaTime;
+
+            // Update ranged attack timers
+            UpdateRangedTimers();
 
             UpdateStatuses();
         }
@@ -167,18 +179,31 @@ namespace HexaBit.Core {
                 return;
             }
 
-            Vector2 direction = (player.position - transform.position).normalized;
-            rb.linearVelocity = direction * CurrentSpeed;
+            // Try to perform ranged attack (returns true if stopped to aim/shoot)
+            if (TryRangedAttack()) {
+                return;
+            }
 
-            if (direction.x != 0) {
+            MoveTowardsPlayer();
+        }
+
+        private void MoveTowardsPlayer() {
+            Vector2 directionToPlayer = (player.position - transform.position).normalized;
+
+            // Flip sprite based on movement direction
+            if (directionToPlayer.x != 0) {
                 Vector3 scale = transform.localScale;
-                scale.x = Mathf.Sign(direction.x) * Mathf.Abs(scale.x);
+                scale.x = Mathf.Sign(directionToPlayer.x) * Mathf.Abs(scale.x);
                 transform.localScale = scale;
             }
 
+            // Apply wavy movement if enabled (Now works for ANY enemy)
+            Vector2 finalDirection = GetMovementDirection(directionToPlayer);
+            rb.linearVelocity = finalDirection * CurrentSpeed;
+
             if (animator != null) {
                 animator.SetFloat("Speed", rb.linearVelocity.magnitude);
-                animator.SetFloat("DirectionX", direction.x);
+                animator.SetFloat("DirectionX", directionToPlayer.x);
             }
         }
 
@@ -186,7 +211,8 @@ namespace HexaBit.Core {
             if (isDead || attackTimer > 0f) return;
             if (heroController == null || heroController.IsDead) return;
 
-            if (other.CompareTag("Player")) {
+            // Only melee enemies deal contact damage
+            if (!isRanged && other.CompareTag("Player")) {
                 HeroController hero = other.GetComponent<HeroController>();
                 if (hero != null) {
                     hero.TakeDamage(currentDamage);
@@ -196,7 +222,7 @@ namespace HexaBit.Core {
                     }
 
                     attackTimer = attackCooldown;
-                    Debug.Log($"Enemy dealt {currentDamage} damage to hero. Status: {(contactStatus != null ? contactStatus.statusName : "None")}");
+                    Debug.Log($"Enemy dealt {currentDamage} damage to hero.");
                 }
             }
         }
@@ -204,50 +230,41 @@ namespace HexaBit.Core {
         // --- Flash Effect ---
         protected override void AnimateTakingDamage() {
             if (runtimeMaterial == null) return;
-
-            if (flashCoroutine != null)
-                StopCoroutine(flashCoroutine);
-
+            if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+            OnTakeDamageEvent?.Invoke();
             flashCoroutine = StartCoroutine(FlashRoutine());
         }
 
         private IEnumerator FlashRoutine() {
-            // Blink white twice
             for (int i = 0; i < 2; i++) {
                 runtimeMaterial.SetFloat(hitFlashID, 1f);
                 yield return new WaitForSeconds(0.05f);
-
                 runtimeMaterial.SetFloat(hitFlashID, 0f);
                 yield return new WaitForSeconds(0.05f);
             }
             flashCoroutine = null;
         }
 
-        // ---  Dissolve Effect ---
+        // --- Dissolve Effect ---
         protected override void Die() {
             if (isDead) return;
             isDead = true;
-
             ClearAllStatuses();
-            OnDeath?.Invoke();
-
-            // Inicia a rotina de dissolução em vez de destruir imediatamente
+            OnDeathEvent?.Invoke();
             StartCoroutine(DissolveRoutine());
         }
 
         private IEnumerator DissolveRoutine() {
-            // Se não houver material ou animação de morte, destrói direto
             if (runtimeMaterial == null) {
                 Destroy(gameObject);
                 yield break;
             }
 
             if (rb != null) {
-                rb.linearVelocity = Vector2.zero; // Zera a velocidade
-                rb.bodyType = RigidbodyType2D.Kinematic; // Opcional: impede que colisões empurrem ele enquanto dissolve
+                rb.linearVelocity = Vector2.zero;
+                rb.bodyType = RigidbodyType2D.Kinematic;
             }
 
-            // Opcional: Toca a animação de morte, se existir
             if (hasDeathAnimation && animator != null && animator.HasState(0, Animator.StringToHash("Death"))) {
                 animator.SetBool("IsDead", true);
                 animator.SetTrigger("Die");
@@ -256,11 +273,9 @@ namespace HexaBit.Core {
             float duration = 0.5f;
             float timer = 0f;
 
-            // Aumenta a dissolução de 0 a 1.1 para garantir que suma tudo
             while (timer < duration) {
                 timer += Time.deltaTime;
                 float progress = timer / duration;
-
                 runtimeMaterial.SetFloat(dissolveAmountID, progress * 1.1f);
                 yield return null;
             }
@@ -269,7 +284,7 @@ namespace HexaBit.Core {
         }
 
         private void OnDisable() {
-            OnDeath.RemoveAllListeners();
+            OnDeathEvent.RemoveAllListeners();
         }
 
         public void OnDeathAnimationEnd() {

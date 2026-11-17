@@ -1,11 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class EMPField : MonoBehaviour {
         [Header("References")]
         [SerializeField] private CircleCollider2D fieldCollider;
         [SerializeField] private SpriteRenderer fieldSprite;
+
+        [Header("Events")]
+        [Tooltip("Called when the weapon causes damage.")]
+        public UnityEvent OnDamageEvent;
 
         private StatusData slowStatusData;
         private bool hasStatusEffect = false;
@@ -89,6 +94,7 @@ namespace HexaBit.Core {
 
                     // Apply slow ONLY on entry (not on every tick)
                     if (hasStatusEffect && slowStatusData != null) {
+                        OnDamageEvent?.Invoke();
                         slowStatusData.slowPercentage = slowAmount;
                         enemy.ApplyStatus(slowStatusData);
                     }

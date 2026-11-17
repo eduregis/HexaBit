@@ -25,6 +25,9 @@ MonoBehaviour:
   - enemy: {fileID: 11400000, guid: b682cf91947c77b4da0e9926a1405369, type: 2}
     startTime: 0
     endTime: 9999
+  - enemy: {fileID: 11400000, guid: 0f6dca824c7529c41b55ef46231e8a62, type: 2}
+    startTime: 100
+    endTime: 9999
   subBossSettings:
     interval: 60
     scaleMultiplier: 1.5

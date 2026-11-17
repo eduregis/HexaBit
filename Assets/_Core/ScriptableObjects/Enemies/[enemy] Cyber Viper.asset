@@ -16,12 +16,15 @@ MonoBehaviour:
   icon: {fileID: -703069621, guid: 2e15bfaa696203b469c34daf7d69ed5c, type: 3}
   prefab: {fileID: 4488353260210792370, guid: 2cd6c1395b280a4449c6db973c489422, type: 3}
   animatorController: {fileID: 22100000, guid: 0d1ffbde6caf1b4449e5c9a794e73d19, type: 2}
-  startTime: 0
   baseHealth: 10
   damage: 5
   moveSpeed: 0.5
   knockbackResistance: 1
-  xpReward: 1
+  isRanged: 0
+  attackRange: 5
+  attackCooldown: 2
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 6
   immuneToFreeze: 0
   immuneToInstantKill: 0
   immuneToDebuffs: 0

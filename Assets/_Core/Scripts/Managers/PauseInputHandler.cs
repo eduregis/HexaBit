@@ -1,10 +1,18 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace HexaBit.Core {
     public class PauseInputHandler : MonoBehaviour {
+
         private PlayerInput playerInput;
         private InputAction pauseAction;
+
+        [Header("Events")]
+        [Tooltip("Called when pause menu appears.")]
+        public UnityEvent OnPauseEvent;
+        [Tooltip("Called when pause menu dismiss.")]
+        public UnityEvent OnBackEvent;
 
         private void Awake() {
             playerInput = GetComponent<PlayerInput>();
@@ -14,6 +22,7 @@ namespace HexaBit.Core {
             if (playerInput != null && playerInput.actions != null) {
                 pauseAction = playerInput.actions["Pause"];
                 if (pauseAction != null) {
+                    OnPauseEvent?.Invoke();
                     pauseAction.performed += OnPausePerformed;
                 }
             }
@@ -21,6 +30,7 @@ namespace HexaBit.Core {
 
         private void OnDisable() {
             if (pauseAction != null) {
+                OnBackEvent?.Invoke();
                 pauseAction.performed -= OnPausePerformed;
             }
         }

@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 namespace HexaBit.Core {
     public class DropManager : MonoBehaviour {
@@ -7,20 +9,42 @@ namespace HexaBit.Core {
         [System.Serializable]
         public class XPDropTier {
             public string tierName = "Basic";
-            public float startTime = 0f; // When this tier starts appearing
-            public int xpValue = 1;
+            public int minXP = 10;
             public Color outlineColor = Color.green;
-            public GameObject prefab; // Optional: use a different prefab per tier
         }
 
+        [Header("Base XP Scaling")]
+        [Tooltip("Base XP value at the start of the game.")]
+        [SerializeField] private int startingBaseXP = 1;
+
+        [Tooltip("How much the Base XP increases per minute.")]
+        [SerializeField] private float baseXPIncreasePerMinute = 2f;
+
+        [Tooltip("The randomized variance around the Base XP.")]
+        [SerializeField] private int marginOfError = 0;
+
         [Header("XP Drop Tiers")]
-        [SerializeField] private XPDropTier basicTier = new XPDropTier { tierName = "Basic", startTime = 0f, xpValue = 1, outlineColor = Color.green };
-        [SerializeField] private XPDropTier greatTier = new XPDropTier { tierName = "Great", startTime = 120f, xpValue = 5, outlineColor = Color.cyan };
-        [SerializeField] private XPDropTier ultraTier = new XPDropTier { tierName = "Ultra", startTime = 300f, xpValue = 10, outlineColor = Color.red };
+        [Tooltip("Must be ordered from lowest minXP to highest.")]
+        [SerializeField]
+        private List<XPDropTier> tiers = new List<XPDropTier>() {
+            new XPDropTier { tierName = "Basic", minXP = 10, outlineColor = Color.green },
+            new XPDropTier { tierName = "Great", minXP = 50, outlineColor = Color.cyan },
+            new XPDropTier { tierName = "Ultra", minXP = 150, outlineColor = Color.red }
+        };
+
+        // Master is special: Only appears when the screen is full.
+        [Header("Master Tier (Accumulation)")]
+        [SerializeField] private Color masterColor = Color.yellow;
 
         [Header("Base Prefab")]
-        [Tooltip("If a tier doesn't have a specific prefab, this one will be used.")]
         [SerializeField] private GameObject defaultXPDropPrefab;
+
+        [Header("Pool Settings")]
+        [SerializeField] private int maxActiveDrops = 400;
+
+        private List<XPDrop> activeDrops = new List<XPDrop>();
+        private Queue<XPDrop> dropPool = new Queue<XPDrop>();
+        private int accumulatedXP = 0;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -31,35 +55,76 @@ namespace HexaBit.Core {
             DontDestroyOnLoad(gameObject);
         }
 
-        /// <summary>
-        /// Spawns an XP drop at the specified position, choosing the tier based on current game time.
-        /// </summary>
-        public void SpawnXPDrop(Vector3 position) {
-            if (GameplayManager.Instance == null) return;
+        private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
-            float currentTime = GameplayManager.Instance.CurrentTime;
-            XPDropTier chosenTier = GetTierForTime(currentTime);
-
-            if (chosenTier == null) return;
-
-            // Use tier-specific prefab if available, otherwise fall back to default
-            GameObject prefabToSpawn = chosenTier.prefab != null ? chosenTier.prefab : defaultXPDropPrefab;
-            if (prefabToSpawn == null) return;
-
-            GameObject dropObj = Instantiate(prefabToSpawn, position, Quaternion.identity);
-
-            XPDrop xpDrop = dropObj.GetComponent<XPDrop>();
-            if (xpDrop != null) {
-                // Send the tier data to the drop
-                xpDrop.Setup(chosenTier.xpValue, chosenTier.outlineColor);
-            }
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+            activeDrops.Clear();
+            dropPool.Clear();
+            accumulatedXP = 0;
         }
 
-        private XPDropTier GetTierForTime(float time) {
-            // Check from highest to lowest to get the most appropriate tier
-            if (time >= ultraTier.startTime) return ultraTier;
-            if (time >= greatTier.startTime) return greatTier;
-            return basicTier;
+        public void SpawnXPDrop(Vector3 position) {
+            if (GameplayManager.Instance == null || defaultXPDropPrefab == null) return;
+
+            // 1. Get current base XP based on time
+            float gameTime = GameplayManager.Instance.CurrentTime;
+            int currentBaseXP = Mathf.RoundToInt(startingBaseXP + (gameTime / 60f) * baseXPIncreasePerMinute);
+
+            // 2. Roll the randomized XP
+            int randomRoll = Random.Range(-marginOfError, marginOfError + 1);
+            int finalXP = Mathf.Max(1, currentBaseXP + randomRoll);
+
+            // 3. Determine which tier to use based on the rolled XP
+            XPDropTier chosenTier = GetTierForXP(finalXP);
+            Color dropColor = chosenTier.outlineColor;
+
+            // 4. Handle the max drops limit
+            if (activeDrops.Count >= maxActiveDrops) {
+                accumulatedXP += finalXP;
+                Debug.Log($"[DropManager] MAX DROPS REACHED. Accumulated: {accumulatedXP} XP. Active: {activeDrops.Count}");
+                return;
+            }
+
+            if (accumulatedXP > 0) {
+                finalXP += accumulatedXP;
+                accumulatedXP = 0;
+                dropColor = masterColor;
+                Debug.Log($"[DropManager] Spawning MASTER Drop with {finalXP} XP.");
+            }
+
+            XPDrop drop = GetDropFromPool();
+            drop.transform.position = position;
+
+            drop.Setup(finalXP, dropColor);
+            activeDrops.Add(drop);
+        }
+
+
+        public void ReturnDropToPool(XPDrop drop) {
+            if (drop == null) return;
+
+            activeDrops.Remove(drop);
+            drop.gameObject.SetActive(false);
+            dropPool.Enqueue(drop);
+        }
+
+        private XPDrop GetDropFromPool() {
+            if (dropPool.Count > 0) {
+                return dropPool.Dequeue();
+            }
+
+            GameObject dropObj = Instantiate(defaultXPDropPrefab);
+            return dropObj.GetComponent<XPDrop>();
+        }
+
+        private XPDropTier GetTierForXP(int xpValue) {
+            for (int i = tiers.Count - 1; i >= 0; i--) {
+                if (xpValue >= tiers[i].minXP) {
+                    return tiers[i];
+                }
+            }
+            return tiers[0];
         }
     }
 }

@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class ChakramProjectile : WeaponEffect {
+
         [Header("Chakram Settings")]
         [SerializeField] private float maxLifetime = 5f;
 

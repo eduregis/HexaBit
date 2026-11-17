@@ -15,9 +15,15 @@ namespace HexaBit.Core {
         [Header("Base Stats")]
         public int baseHealth = 10;
         public int damage = 5;
-        public float moveSpeed = 100f;
-        public float knockbackResistance = 1f; // 1 = normal, 0 = imune
-        public int xpReward = 1;
+        public float moveSpeed = 0.5f;
+        public float knockbackResistance = 1f;
+
+        [Header("Ranged Settings (Optional)")]
+        public bool isRanged = false;
+        public float attackRange = 5f;
+        public float attackCooldown = 2f;
+        public GameObject projectilePrefab;
+        public float projectileSpeed = 6f;
 
         [Header("Resistances")]
         public bool immuneToFreeze = false;
@@ -26,15 +32,15 @@ namespace HexaBit.Core {
 
         [Header("Special Behaviors (Skills)")]
         public bool healthScalesWithPlayerLevel = false;
-        public bool fixedDirection = false;      // Anda em linha reta
-        public bool wavyMovement = false;        // Padrão ondulatório
+        public bool fixedDirection = false;
+        public bool wavyMovement = false;
         public bool passesThroughWalls = false;
         public bool selfDestruct = false;
         public int selfDestructDamage = 0;
         public bool isBoss = false;
 
         [Header("Scaling (optional)")]
-        public float healthMultiplierPerMinute = 1.0f; // Aumento de HP por minuto
-        public float speedMultiplierPerMinute = 1.0f;  // Aumento de velocidade por minuto
+        public float healthMultiplierPerMinute = 1.0f;
+        public float speedMultiplierPerMinute = 1.0f;
     }
 }

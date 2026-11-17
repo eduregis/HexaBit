@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public partial class HeroController : DamageableCharacter {
@@ -13,7 +14,12 @@ namespace HexaBit.Core {
         public WeaponBase[] weaponSlots;
 
         [Header("UI")]
+        [SerializeField] private Animator animator;
         [SerializeField] private HeroHPSlider hpSlider;
+
+        [Header("Events")]
+        [Tooltip("Called when hero takes damage.")]
+        public UnityEvent OnTakeDamageEvent;
 
         // Public properties for weapons to access
         public float ProjectileSpeedMultiplier { get; private set; } = 1f;
@@ -24,7 +30,6 @@ namespace HexaBit.Core {
 
         private Rigidbody2D rb;
         private Vector2 moveInput;
-        private Animator animator;
         private float currentSpeed;
 
         public Vector2 FacingDirection { get; private set; } = Vector2.down;
@@ -34,8 +39,6 @@ namespace HexaBit.Core {
 
             rb = GetComponent<Rigidbody2D>();
             if (rb == null) Debug.LogError("HeroController: Rigidbody2D not found!");
-
-            animator = GetComponent<Animator>();
 
             if (weaponSlots == null || weaponSlots.Length == 0)
                 weaponSlots = new WeaponBase[maxWeaponSlots];
@@ -123,6 +126,7 @@ namespace HexaBit.Core {
         // --- Override Animate Taking Damage ---
         protected override void AnimateTakingDamage() {
             if (animator == null) return;
+            OnTakeDamageEvent?.Invoke();
                 animator.SetTrigger("Hit");
         }
 

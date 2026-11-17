@@ -20,7 +20,6 @@ public class WeaponDataEditor : Editor {
         // ---- SECTION: General Info ----
         EditorGUILayout.LabelField("General Info", EditorStyles.boldLabel);
 
-        // Usar SerializedProperty para LocalizedString
         SerializedProperty localizedNameProp = serializedObject.FindProperty("localizedName");
         SerializedProperty localizedDescProp = serializedObject.FindProperty("localizedDescription");
 
@@ -62,22 +61,48 @@ public class WeaponDataEditor : Editor {
     // 1. RENDERS THE LIST OF DYNAMIC FIELDS
     // ------------------------------------------------------------
     private void DrawCustomFields() {
+        SerializedProperty customFieldsProp = serializedObject.FindProperty("customFields");
+
         for (int i = 0; i < data.customFields.Count; i++) {
+            var def = data.customFields[i];
+            var defProp = customFieldsProp.GetArrayElementAtIndex(i);
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.BeginHorizontal();
 
-            // Field name
-            data.customFields[i].fieldName = EditorGUILayout.TextField(data.customFields[i].fieldName, GUILayout.Width(150));
+            // Icon Field
+            def.icon = (Sprite)EditorGUILayout.ObjectField(def.icon, typeof(Sprite), false, GUILayout.Width(50), GUILayout.Height(50));
 
-            // Field type (dropdown)
-            data.customFields[i].fieldType = (DynamicFieldType)EditorGUILayout.EnumPopup(data.customFields[i].fieldType, GUILayout.Width(80));
+            EditorGUILayout.BeginVertical();
+
+            // Parameter Dropdown (Enum)
+            def.parameter = (DynamicParameter)EditorGUILayout.EnumPopup("Parameter", def.parameter);
+
+            // Type Display (Read-only)
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.EnumPopup("Type", def.parameter.GetFieldType());
+            EditorGUI.EndDisabledGroup();
+
+            EditorGUILayout.EndVertical();
 
             // REMOVE button
-            if (GUILayout.Button("X", GUILayout.Width(25))) {
+            if (GUILayout.Button("X", GUILayout.Width(25), GUILayout.Height(50))) {
                 RemoveCustomField(i);
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndHorizontal();
                 break;
             }
 
             EditorGUILayout.EndHorizontal();
+
+            // Localized Name Field
+            SerializedProperty localizedNameProp = defProp.FindPropertyRelative("localizedName");
+            EditorGUILayout.PropertyField(localizedNameProp, new GUIContent("Localized Name"));
+
+            SerializedProperty appearsInDescProp = defProp.FindPropertyRelative("appearsInUpgradeDescription");
+            EditorGUILayout.PropertyField(appearsInDescProp, new GUIContent("Appears in Upgrade Description"));
+
+            EditorGUILayout.EndVertical();
         }
 
         // Button ADD FIELD
@@ -89,19 +114,18 @@ public class WeaponDataEditor : Editor {
     }
 
     private void AddCustomField() {
-        data.customFields.Add(new DynamicFieldDefinition { fieldName = "New Field", fieldType = DynamicFieldType.Float });
+        data.customFields.Add(new DynamicFieldDefinition { parameter = DynamicParameter.Speed });
         ValidateAndSyncLevels();
         EditorUtility.SetDirty(data);
     }
 
     private void RemoveCustomField(int index) {
-        string fieldName = data.customFields[index].fieldName;
-
+        DynamicParameter paramToRemove = data.customFields[index].parameter;
         data.customFields.RemoveAt(index);
 
         // Removes the corresponding value from ALL levels
         foreach (var level in data.levels) {
-            level.customValues.RemoveAll(v => v.fieldName == fieldName);
+            level.customValues.RemoveAll(v => v.parameter == paramToRemove);
         }
 
         ValidateAndSyncLevels();
@@ -120,22 +144,20 @@ public class WeaponDataEditor : Editor {
         // --- HEADER ---
         EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 
-        // Level index column
         GUILayout.Label("Level", EditorStyles.boldLabel, GUILayout.Width(50));
-
-        // Fixed fields
         GUILayout.Label("Damage", EditorStyles.boldLabel, GUILayout.Width(60));
         GUILayout.Label("Cooldown", EditorStyles.boldLabel, GUILayout.Width(60));
 
-        // Columns for dynamic fields
         foreach (var def in data.customFields) {
-            string label = $"{def.fieldName} ({def.fieldType})";
-            GUILayout.Label(label, EditorStyles.boldLabel, GUILayout.MinWidth(60));
+            // Show icon in the table header
+            GUIContent headerContent = new GUIContent(def.parameter.ToString());
+            if (def.icon != null) {
+                headerContent = new GUIContent(def.icon.texture, def.parameter.ToString());
+            }
+            GUILayout.Label(headerContent, EditorStyles.boldLabel, GUILayout.MinWidth(60), GUILayout.Height(25));
         }
 
-        // Remove level button column
         GUILayout.Label("", GUILayout.Width(25));
-
         EditorGUILayout.EndHorizontal();
 
         // --- TABLE ROWS (EACH LEVEL) ---
@@ -143,25 +165,24 @@ public class WeaponDataEditor : Editor {
             var level = data.levels[i];
             EditorGUILayout.BeginHorizontal();
 
-            // Table of Contents (Lv. X) - non-editable
             GUILayout.Label($"Lv. {i + 1}", GUILayout.Width(50));
 
-            // Fixed fields
             level.damage = EditorGUILayout.FloatField(level.damage, GUILayout.Width(60));
             level.cooldown = EditorGUILayout.FloatField(level.cooldown, GUILayout.Width(60));
 
             // Dynamic fields
             foreach (var def in data.customFields) {
-                // Find the corresponding value at this level
-                var value = level.customValues.Find(v => v.fieldName == def.fieldName);
+                var value = level.customValues.Find(v => v.parameter == def.parameter);
                 if (value == null) {
-                    // If it doesn't exist, create a default value
-                    value = new DynamicFieldValue { fieldName = def.fieldName, fieldType = def.fieldType };
+                    value = new DynamicFieldValue {
+                        parameter = def.parameter,
+                        fieldType = def.parameter.GetFieldType()
+                    };
                     level.customValues.Add(value);
                 }
 
-                // Draws the field according to the type
-                switch (def.fieldType) {
+                // Draws the field according to its inferred type
+                switch (value.fieldType) {
                     case DynamicFieldType.Int:
                         value.intValue = EditorGUILayout.IntField(value.intValue, GUILayout.MinWidth(50));
                         break;
@@ -174,7 +195,6 @@ public class WeaponDataEditor : Editor {
                 }
             }
 
-            // Button to REMOVE this level
             if (GUILayout.Button("X", GUILayout.Width(25))) {
                 RemoveLevel(i);
                 break;
@@ -188,17 +208,16 @@ public class WeaponDataEditor : Editor {
     // 3. AUXILIARY FUNCTIONS (SYNC AND CREATION)
     // ------------------------------------------------------------
     private void ValidateAndSyncLevels() {
-        // For each level, ensure that it has a value for every field definition
         foreach (var level in data.levels) {
             // Remove undefined values
-            level.customValues.RemoveAll(v => !data.customFields.Exists(d => d.fieldName == v.fieldName));
+            level.customValues.RemoveAll(v => !data.customFields.Exists(d => d.parameter == v.parameter));
 
             // Add missing values
             foreach (var def in data.customFields) {
-                if (!level.customValues.Exists(v => v.fieldName == def.fieldName)) {
+                if (!level.customValues.Exists(v => v.parameter == def.parameter)) {
                     level.customValues.Add(new DynamicFieldValue {
-                        fieldName = def.fieldName,
-                        fieldType = def.fieldType
+                        parameter = def.parameter,
+                        fieldType = def.parameter.GetFieldType()
                     });
                 }
             }
@@ -208,16 +227,14 @@ public class WeaponDataEditor : Editor {
     }
 
     private void AddNewLevel() {
-        // Create a new level with default values
         WeaponLevelData newLevel = new WeaponLevelData();
         newLevel.damage = 0f;
         newLevel.cooldown = 0f;
 
-        // Add values for each dynamic field defined
         foreach (var def in data.customFields) {
             newLevel.customValues.Add(new DynamicFieldValue {
-                fieldName = def.fieldName,
-                fieldType = def.fieldType
+                parameter = def.parameter,
+                fieldType = def.parameter.GetFieldType()
             });
         }
 

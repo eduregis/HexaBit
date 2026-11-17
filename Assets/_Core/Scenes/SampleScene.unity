@@ -225,10 +225,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameplayManager
   heroPrefab: {fileID: 8987475158087863119, guid: fd8a7982ab61e6741baff0d576e9e086, type: 3}
   heroesData:
-  - {fileID: 11400000, guid: 468c4b60820aa844a89bce559cd45658, type: 2}
+  - {fileID: 11400000, guid: 1930b02bc2f72c944882986352000d57, type: 2}
   spawnPoints: []
   baseXPToLevel: 20
-  xpPerLevelMultiplier: 15
+  xpIncreasePerLevel: 10
   currentXP: 0
   currentLevel: 1
   totalKills: 0
@@ -16984,25 +16984,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae2db7c69218cf408666376f289f61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.DropManager
-  basicTier:
-    tierName: Basic
-    startTime: 0
-    xpValue: 10
+  startingBaseXP: 5
+  baseXPIncreasePerMinute: 2
+  marginOfError: 2
+  tiers:
+  - tierName: Basic
+    minXP: 1
     outlineColor: {r: 0, g: 1, b: 0, a: 1}
-    prefab: {fileID: 0}
-  greatTier:
-    tierName: Great
-    startTime: 120
-    xpValue: 50
+  - tierName: Great
+    minXP: 50
     outlineColor: {r: 0, g: 1, b: 1, a: 1}
-    prefab: {fileID: 0}
-  ultraTier:
-    tierName: Ultra
-    startTime: 300
-    xpValue: 100
+  - tierName: Ultra
+    minXP: 150
     outlineColor: {r: 1, g: 0, b: 0, a: 1}
-    prefab: {fileID: 0}
+  masterColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   defaultXPDropPrefab: {fileID: 5415832339510204443, guid: 364cefb159f9f8f4dbe94aeb0cd28a2d, type: 3}
+  maxActiveDrops: 400
 --- !u!4 &2076606745
 Transform:
   m_ObjectHideFlags: 0
@@ -17054,6 +17051,63 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &3318471277151041741
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4252432363026739219, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068784114696909700, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: df85fdfe1928b474eb9765f41290d640, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -17070,3 +17124,4 @@ SceneRoots:
   - {fileID: 1568086234}
   - {fileID: 599807142}
   - {fileID: 406037751}
+  - {fileID: 3318471277151041741}

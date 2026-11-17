@@ -63,7 +63,7 @@ namespace HexaBit.Core {
             if (existing != null) {
                 existing.LevelUp();
             } else {
-                activeBuffs.Add(new ActiveBuff(buffData, 1));
+                activeBuffs.Add(new ActiveBuff(buffData, 0));
             }
             RefreshStats();
         }

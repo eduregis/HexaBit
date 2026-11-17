@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc00e48a9df41784eb336ccad5bafffd, type: 3}
+  m_Name: '[buff] Quick Reboot'
+  m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.BuffData
+  localizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
+    m_TableEntryReference:
+      m_KeyId: 3182206187753472
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:5d9b9906f171a594190160af4b6abf72
+    m_TableEntryReference:
+      m_KeyId: 3182273137233920
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  icon: {fileID: -1050832325967666558, guid: b43e783ce2dc67b40bc1e7e8c7e12de7, type: 3}
+  type: 7
+  values:
+  - 0.08
+  - 0.16
+  - 0.24
+  - 0.32
+  - 0.4
+  - 0.48
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae3a6069f3d91f48967266b9f3b51b3, type: 3}
+  m_Name: '[enemy] Drone'
+  m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.EnemyData
+  enemyName: Drone
+  icon: {fileID: 2005198160593330830, guid: 593599eaabf453a438574a6453d0b687, type: 3}
+  prefab: {fileID: 4488353260210792370, guid: 2cd6c1395b280a4449c6db973c489422, type: 3}
+  animatorController: {fileID: 22100000, guid: 82d794d25ad38b6448f3ec2492ceab4f, type: 2}
+  baseHealth: 10
+  damage: 5
+  moveSpeed: 0.2
+  knockbackResistance: 1
+  isRanged: 1
+  attackRange: 2
+  attackCooldown: 2
+  projectilePrefab: {fileID: 343649627066171402, guid: 7541742268c4bbb4caf696db860fcc02, type: 3}
+  projectileSpeed: 6
+  immuneToFreeze: 0
+  immuneToInstantKill: 0
+  immuneToDebuffs: 0
+  healthScalesWithPlayerLevel: 0
+  fixedDirection: 0
+  wavyMovement: 1
+  passesThroughWalls: 1
+  selfDestruct: 0
+  selfDestructDamage: 0
+  isBoss: 0
+  healthMultiplierPerMinute: 1
+  speedMultiplierPerMinute: 1
