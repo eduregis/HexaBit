@@ -13,6 +13,7 @@ namespace HexaBit.Core {
         public WeaponBase[] weaponSlots;
 
         [Header("UI")]
+        [SerializeField] private Animator animator;
         [SerializeField] private HeroHPSlider hpSlider;
 
         // Public properties for weapons to access
@@ -24,7 +25,6 @@ namespace HexaBit.Core {
 
         private Rigidbody2D rb;
         private Vector2 moveInput;
-        private Animator animator;
         private float currentSpeed;
 
         public Vector2 FacingDirection { get; private set; } = Vector2.down;
@@ -34,8 +34,6 @@ namespace HexaBit.Core {
 
             rb = GetComponent<Rigidbody2D>();
             if (rb == null) Debug.LogError("HeroController: Rigidbody2D not found!");
-
-            animator = GetComponent<Animator>();
 
             if (weaponSlots == null || weaponSlots.Length == 0)
                 weaponSlots = new WeaponBase[maxWeaponSlots];

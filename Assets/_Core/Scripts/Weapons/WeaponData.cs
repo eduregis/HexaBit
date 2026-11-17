@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace HexaBit.Core {
 
     [CreateAssetMenu(fileName = "[weapon] New Weapon", menuName = "HexaBit/Weapon Data")]
     public class WeaponData : ScriptableObject {
+
+        private const string DAMAGE_LOC_KEY = "weapon_field_damage";
+        private const string COOLDOWN_LOC_KEY = "weapon_field_cooldown";
+
         [Header("Localization")]
         public LocalizedString localizedName;
         public LocalizedString localizedDescription;
@@ -65,14 +70,16 @@ namespace HexaBit.Core {
             float currentDamage = levels[currentLevelIndex].damage;
             float nextDamage = levels[nextLevelIndex].damage;
             if (!Mathf.Approximately(currentDamage, nextDamage)) {
-                AppendStat(sb, "Damage", nextDamage - currentDamage, false);
+                string damageName = GetLocalizedString(DAMAGE_LOC_KEY, "Damage");
+                AppendStat(sb, damageName, nextDamage - currentDamage, false);
             }
 
             float currentCooldown = levels[currentLevelIndex].cooldown;
             float nextCooldown = levels[nextLevelIndex].cooldown;
             if (!Mathf.Approximately(currentCooldown, nextCooldown)) {
                 // Cooldown reduction is usually displayed as negative (faster)
-                AppendStat(sb, "Cooldown", nextCooldown - currentCooldown, true);
+                string cooldownName = GetLocalizedString(COOLDOWN_LOC_KEY, "Cooldown");
+                AppendStat(sb, cooldownName, nextCooldown - currentCooldown, true);
             }
 
             // 2. Dynamic Fields
@@ -110,6 +117,14 @@ namespace HexaBit.Core {
             // For cooldowns, a negative difference (faster) is good, so we keep the minus.
             // For others, a positive difference is good, so we keep the plus.
             sb.Append($"{sign}{formattedDiff} {name}");
+        }
+
+        private string GetLocalizedString(string key, string fallback) {
+            var localizedString = new LocalizedString("Weapon_Texts", key); // Change "Weapon_Texts" to your actual table name if different
+            string result = localizedString.GetLocalizedString();
+
+            // If the key doesn't exist, return the fallback English text
+            return string.IsNullOrEmpty(result) || result == key ? fallback : result;
         }
 
         public GameplayManager.LevelUpOption GetUpgradeOption(HeroController hero) {

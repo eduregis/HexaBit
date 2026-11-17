@@ -119,6 +119,14 @@ MonoBehaviour:
     m_Key: weapon_dynamic_type_duration
     m_Metadata:
       m_Items: []
+  - m_Id: 31566597834166272
+    m_Key: weapon_field_damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31566700472979456
+    m_Key: weapon_field_cooldown
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
