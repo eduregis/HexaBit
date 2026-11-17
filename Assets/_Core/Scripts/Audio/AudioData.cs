@@ -20,6 +20,12 @@ namespace HexaBit.Core {
 
         public void Play() => GameAudioHandler.PlayAudio(this);
 
+        public void Stop() {
+            if (GameAudioHandler.Instance != null) {
+                GameAudioHandler.StopAudio(channel);
+            }
+        }
+
         public AudioClip GetClip() {
             if (randomClips != null && randomClips.Length > 0)
                 return randomClips[Random.Range(0, randomClips.Length)];

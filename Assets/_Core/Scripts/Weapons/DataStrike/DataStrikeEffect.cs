@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class DataStrikeEffect : WeaponEffect {
@@ -11,6 +12,10 @@ namespace HexaBit.Core {
         [Header("Settings")]
         [SerializeField] private float damageDelay = 0.3f;
         [SerializeField] private float stackOffset = 1.5f;
+
+        [Header("Events")]
+        [Tooltip("Called when the weapon fires.")]
+        public UnityEvent OnFireEvent;
 
         private WeaponData data;
         private int level;
@@ -92,6 +97,8 @@ namespace HexaBit.Core {
         public void OnImpactFrame() {
             if (hasAppliedDamage || isDead) return;
             hasAppliedDamage = true;
+
+            OnFireEvent?.Invoke();
 
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, splashArea);
             foreach (var collider in hitColliders) {

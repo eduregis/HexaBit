@@ -50,6 +50,22 @@ MonoBehaviour:
   projectileSpeed: 5
   rotationSpeed: 360
   puddlePrefab: {fileID: 8062793920900308070, guid: f4828029c3de6f34e823221e0e7cab0d, type: 3}
+  OnGroundImpactEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 135de6019da29534fab81045c72ce0a9, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  collisionRadius: 0.4
 --- !u!212 &4545599946943699899
 SpriteRenderer:
   serializedVersion: 2
@@ -99,12 +115,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 679709998, guid: feb6e2aa0a3db7540a806e22ac7be3e5, type: 3}
+  m_Sprite: {fileID: 1488274839, guid: 7c87624b72779ed4daa886d4ecffe181, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 0.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

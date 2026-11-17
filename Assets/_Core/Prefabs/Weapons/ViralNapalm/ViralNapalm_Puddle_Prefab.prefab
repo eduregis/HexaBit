@@ -48,6 +48,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.CorruptionNapalmPuddle
   puddleCollider: {fileID: 4990333922257648143}
   puddleOutline: {fileID: 5776944220547616194}
+  OnActiveLoopEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 078a291ee327c144eb498b93032f0914, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnInitializeEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 64edf48536e72274985db220c46e83dc, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDestroyEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 078a291ee327c144eb498b93032f0914, type: 2}
+        m_TargetAssemblyTypeName: HexaBit.Core.AudioData, HexaBit.Core
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!58 &4990333922257648143
 CircleCollider2D:
   m_ObjectHideFlags: 0

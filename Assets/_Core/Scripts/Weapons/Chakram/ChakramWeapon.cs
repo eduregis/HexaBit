@@ -1,7 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class ChakramWeapon : WeaponBase {
+
+        [Header("Events")]
+        [Tooltip("Called when the weapon fires.")]
+        public UnityEvent OnFireEvent;
+
         private bool isThrowing = false;
 
         protected override void Fire() {
@@ -25,6 +31,7 @@ namespace HexaBit.Core {
             GameObject chakramGO = Instantiate(data.attackPrefab, transform.position, Quaternion.identity);
             ChakramProjectile chakram = chakramGO.GetComponent<ChakramProjectile>();
             if (chakram != null) {
+                OnFireEvent.Invoke();
                 chakram.Initialize(data, currentLevel, direction, hero);
                 isThrowing = true;
             }

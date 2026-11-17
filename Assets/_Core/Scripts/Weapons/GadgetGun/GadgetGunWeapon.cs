@@ -5,7 +5,7 @@ namespace HexaBit.Core {
     public class GadgetGunWeapon : WeaponBase {
 
         [Header("Events")]
-        [Tooltip("Called when the weapon fires. Useful for playing audio or triggering VFX.")]
+        [Tooltip("Called when the weapon fires.")]
         public UnityEvent OnFireEvent;
         protected override void Fire() {
             if (data.attackPrefab == null) return;

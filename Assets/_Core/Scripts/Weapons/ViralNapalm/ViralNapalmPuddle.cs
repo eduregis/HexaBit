@@ -1,11 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class ViralNapalmPuddle : MonoBehaviour {
         [Header("Puddle Settings")]
         [SerializeField] private CircleCollider2D puddleCollider;
         [SerializeField] private SpriteRenderer puddleOutline;
+
+        [Header("Events")]
+        [Tooltip("Called when the puddle appears; executes a loop until its duration ends.")]
+        public UnityEvent OnActiveLoopEvent;
+
+        [Tooltip("Called when the puddle is initialized. Useful for playing spawn and loop audio.")]
+        public UnityEvent OnInitializeEvent;
+
+        [Tooltip("Called when the puddle is destroyed. Useful for stopping loop audio.")]
+        public UnityEvent OnDestroyEvent;
 
         private WeaponData data;
         private int level;
@@ -31,6 +42,11 @@ namespace HexaBit.Core {
             radius = data.GetFloat(level, DynamicParameter.Radius) * hero.GlobalAreaModifier;
             damagePerTick = Mathf.RoundToInt(data.GetDamage(level));
             tickInterval = data.GetFloat(level, DynamicParameter.Tick);
+
+            // Invoke the initialization event (for audio/VFX)
+            OnInitializeEvent?.Invoke();
+
+            OnActiveLoopEvent?.Invoke();
 
             // Get the status data from the weapon (if any)
             if (data.statusData != null) {
@@ -136,6 +152,9 @@ namespace HexaBit.Core {
 
         private void OnDestroy() {
             RemoveStatusFromAllEnemies();
+
+            // Invoke the destroy event (for stopping audio/VFX)
+            OnDestroyEvent?.Invoke();
         }
 
         private void OnDrawGizmosSelected() {

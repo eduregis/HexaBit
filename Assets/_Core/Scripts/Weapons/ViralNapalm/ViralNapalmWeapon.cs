@@ -1,7 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HexaBit.Core {
     public class ViralNapalmWeapon : WeaponBase {
+
+        [Header("Events")]
+        [Tooltip("Called when the weapon fires.")]
+        public UnityEvent OnFireEvent;
+
         protected override void Fire() {
             if (data.attackPrefab == null) return;
 
@@ -20,6 +26,7 @@ namespace HexaBit.Core {
             GameObject projectileGO = Instantiate(data.attackPrefab, transform.position, Quaternion.identity);
             ViralNapalmProjectile projectile = projectileGO.GetComponent<ViralNapalmProjectile>();
             if (projectile != null) {
+                OnFireEvent?.Invoke();
                 projectile.Initialize(data, currentLevel, direction, hero);
             }
         }
