@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 namespace HexaBit.Core {
     public class BreakableObject : DamageableCharacter {
@@ -17,26 +18,25 @@ namespace HexaBit.Core {
             render = GetComponent<SpriteRenderer>();
 
             if (data != null) {
-                SetHealth(data.maxHealth, 0); // Uses the base method to set health
+                SetHealth(data.maxHealth, 0);
                 if (data.sprite != null && render != null) {
                     render.sprite = data.sprite;
                 }
             }
         }
 
-        // Overriding the TakeDamage to add a debug log
         public override void TakeDamage(float damage, Color? popupColor = null) {
             Debug.Log($"[Breakable] Took {damage} damage.");
             base.TakeDamage(damage, popupColor);
         }
 
         protected override void Die() {
-            Debug.Log("[Breakable] Destroyed! Spawning drops.");
 
+            Debug.Log("[Breakable] Destroyed! Spawning drops.");
             OnBreakEvent?.Invoke();
             SpawnDrops();
 
-            Destroy(gameObject);
+            // The base class will handle the dissolve effect automatically.
         }
 
         private void SpawnDrops() {
@@ -57,6 +57,15 @@ namespace HexaBit.Core {
             }
         }
 
-        protected override void AnimateTakingDamage() { }
+        // Trigger the flash effect (inherited from base class)
+        protected override void AnimateTakingDamage() {
+            if (runtimeMaterial == null) {
+                Debug.LogWarning("[Breakable] No runtime material found for flash effect!");
+                return;
+            }
+
+            if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+            flashCoroutine = StartCoroutine(FlashRoutine());
+        }
     }
 }

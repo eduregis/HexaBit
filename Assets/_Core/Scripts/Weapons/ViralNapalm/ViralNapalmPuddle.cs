@@ -28,7 +28,7 @@ namespace HexaBit.Core {
         private float lifetimeTimer;
 
         private Transform heroTransform;
-        private List<EnemyController> enemiesInPuddle = new List<EnemyController>();
+        private List<DamageableCharacter> enemiesInPuddle = new List<DamageableCharacter>();
 
         // Status data from weapon
         private StatusData corruptedStatusData;
@@ -88,23 +88,20 @@ namespace HexaBit.Core {
         }
 
         private void ApplyDamageToEnemies() {
-            List<EnemyController> enemiesCopy = new List<EnemyController>(enemiesInPuddle);
+            List<DamageableCharacter> enemiesCopy = new List<DamageableCharacter>(enemiesInPuddle);
 
-            foreach (var enemy in enemiesCopy) {
-                if (enemy != null && !enemy.IsDead) {
-                    // Apply damage
-                    enemy.TakeDamage(damagePerTick);
-
-                    // Apply corrupted status if available (only once, when enemy enters)
-                    // We apply it on entry, not on every tick.
+            foreach (var target in enemiesCopy) {
+                if (target != null) {
+                    if (target is EnemyController enemy && enemy.IsDead) continue;
+                    target.TakeDamage(damagePerTick);
                 }
             }
 
-            enemiesInPuddle.RemoveAll(e => e == null || e.IsDead);
+            enemiesInPuddle.RemoveAll(e => e == null || (e is EnemyController enemy && enemy.IsDead));
         }
 
-        private void ApplyStatusToEnemy(EnemyController enemy) {
-            if (corruptedStatusData != null && enemy != null && !enemy.IsDead) {
+        private void ApplyStatusToEnemy(DamageableCharacter target) {
+            if (corruptedStatusData != null && target != null && target is EnemyController enemy && !enemy.IsDead) {
                 enemy.ApplyStatus(corruptedStatusData);
                 Debug.Log($"Applied {corruptedStatusData.statusName} to {enemy.name}");
             }
@@ -113,8 +110,8 @@ namespace HexaBit.Core {
         private void RemoveStatusFromAllEnemies() {
             if (corruptedStatusData == null) return;
 
-            foreach (var enemy in enemiesInPuddle) {
-                if (enemy != null) {
+            foreach (var target in enemiesInPuddle) {
+                if (target != null && target is EnemyController enemy) {
                     enemy.RemoveStatus(corruptedStatusData);
                 }
             }
@@ -122,30 +119,22 @@ namespace HexaBit.Core {
 
         // Trigger events
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null && !enemiesInPuddle.Contains(enemy) && !enemy.IsDead) {
-                    enemiesInPuddle.Add(enemy);
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
+            if (damageable != null && !enemiesInPuddle.Contains(damageable)) {
+                if (damageable is EnemyController enemy && enemy.IsDead) return;
 
-                    // Apply damage immediately on entry
-                    enemy.TakeDamage(damagePerTick);
-
-                    // Apply corrupted status on entry (once per enemy entry)
-                    ApplyStatusToEnemy(enemy);
-                }
+                enemiesInPuddle.Add(damageable);
+                damageable.TakeDamage(damagePerTick);
+                ApplyStatusToEnemy(damageable);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null && enemiesInPuddle.Contains(enemy)) {
-                    enemiesInPuddle.Remove(enemy);
-
-                    // Remove corrupted status when enemy leaves the puddle
-                    if (corruptedStatusData != null) {
-                        enemy.RemoveStatus(corruptedStatusData);
-                    }
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
+            if (damageable != null && enemiesInPuddle.Contains(damageable)) {
+                enemiesInPuddle.Remove(damageable);
+                if (corruptedStatusData != null && damageable is EnemyController enemy) {
+                    enemy.RemoveStatus(corruptedStatusData);
                 }
             }
         }
@@ -155,11 +144,6 @@ namespace HexaBit.Core {
 
             // Invoke the destroy event (for stopping audio/VFX)
             OnDestroyEvent?.Invoke();
-        }
-
-        private void OnDrawGizmosSelected() {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, radius);
         }
     }
 }

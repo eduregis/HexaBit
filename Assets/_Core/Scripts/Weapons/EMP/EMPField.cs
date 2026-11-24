@@ -24,7 +24,7 @@ namespace HexaBit.Core {
         private float tickInterval;
         private float timer;
 
-        private List<EnemyController> enemiesInRange = new List<EnemyController>();
+        private List<DamageableCharacter> enemiesInRange = new List<DamageableCharacter>();
 
         public void Initialize(WeaponData weaponData, int level, HeroController heroController) {
             data = weaponData;
@@ -75,60 +75,58 @@ namespace HexaBit.Core {
         }
 
         private void ApplyTickEffects() {
-            EnemyController[] enemiesCopy = enemiesInRange.ToArray();
+            DamageableCharacter[] enemiesCopy = enemiesInRange.ToArray();
 
-            foreach (var enemy in enemiesCopy) {
-                if (enemy != null && !enemy.IsDead && enemiesInRange.Contains(enemy)) {
-                    // Apply damage only
-                    enemy.TakeDamage(damage);
+            foreach (var target in enemiesCopy) {
+                if (target != null && enemiesInRange.Contains(target)) {
+                    // Check if it's an enemy and if it's dead
+                    if (target is EnemyController enemy && enemy.IsDead) continue;
+
+                    target.TakeDamage(damage);
                 }
             }
         }
 
         // ---------- TRIGGER EVENTS ----------
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null && !enemiesInRange.Contains(enemy)) {
-                    enemiesInRange.Add(enemy);
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
+            if (damageable != null && !enemiesInRange.Contains(damageable)) {
+                enemiesInRange.Add(damageable);
 
-                    // Apply slow ONLY on entry (not on every tick)
-                    if (hasStatusEffect && slowStatusData != null) {
-                        OnDamageEvent?.Invoke();
-                        slowStatusData.slowPercentage = slowAmount;
-                        enemy.ApplyStatus(slowStatusData);
-                    }
+                // Apply slow ONLY on entry (not on every tick)
+                if (hasStatusEffect && slowStatusData != null && damageable is EnemyController enemy) {
+                    OnDamageEvent?.Invoke();
+                    slowStatusData.slowPercentage = slowAmount;
+                    enemy.ApplyStatus(slowStatusData);
                 }
             }
         }
 
         private void OnTriggerStay2D(Collider2D other) {
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null && !enemiesInRange.Contains(enemy) && !enemy.IsDead) {
-                    enemiesInRange.Add(enemy);
-                }
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
+            if (damageable != null && !enemiesInRange.Contains(damageable)) {
+                if (damageable is EnemyController enemy && enemy.IsDead) return;
+                enemiesInRange.Add(damageable);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null && enemiesInRange.Contains(enemy)) {
-                    enemiesInRange.Remove(enemy);
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
+            if (damageable != null && enemiesInRange.Contains(damageable)) {
+                enemiesInRange.Remove(damageable);
 
-                    // Remove slow when enemy leaves
-                    if (hasStatusEffect && slowStatusData != null) {
-                        enemy.RemoveStatus(slowStatusData);
-                    }
+                // Remove slow when enemy leaves
+                if (hasStatusEffect && slowStatusData != null && damageable is EnemyController enemy) {
+                    enemy.RemoveStatus(slowStatusData);
                 }
             }
         }
 
         private void OnDestroy() {
-            foreach (var enemy in enemiesInRange) {
-                if (enemy != null && hasStatusEffect && slowStatusData != null)
+            foreach (var target in enemiesInRange) {
+                if (target != null && hasStatusEffect && slowStatusData != null && target is EnemyController enemy) {
                     enemy.RemoveStatus(slowStatusData);
+                }
             }
             enemiesInRange.Clear();
         }

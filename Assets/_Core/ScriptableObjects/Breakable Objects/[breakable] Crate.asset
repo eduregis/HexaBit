@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a135a06f417274ea5c7c835df1a396, type: 3}
   m_Name: '[breakable] Crate'
   m_EditorClassIdentifier: HexaBit.Core::HexaBit.Core.BreakableData
-  objectName: 
-  sprite: {fileID: 0}
-  maxHealth: 20
-  guaranteedDropPrefab: {fileID: 0}
+  objectName: Crate
+  sprite: {fileID: 21300000, guid: 9b8188b1dc1c49a46aa39cbcb19df33d, type: 3}
+  maxHealth: 40
+  guaranteedDropPrefab: {fileID: 3571658979916991118, guid: 0003897e298714b4e9b12f972b61fbe8, type: 3}
   randomDropPool: []
   randomDropChance: 0.5

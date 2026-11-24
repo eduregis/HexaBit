@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
 
 namespace HexaBit.Core {
     public partial class EnemyController : DamageableCharacter {
@@ -10,14 +9,6 @@ namespace HexaBit.Core {
         [Header("Animation")]
         [SerializeField] private Animator animator;
         [SerializeField] private bool hasDeathAnimation = true;
-
-        [Header("Visual Effects (Shader)")]
-        private Material runtimeMaterial;
-        private Coroutine flashCoroutine;
-
-        // Shader property IDs for performance
-        private int hitFlashID;
-        private int dissolveAmountID;
 
         private bool isDead = false;
         private Transform player;
@@ -47,18 +38,12 @@ namespace HexaBit.Core {
         private const float knockbackDuration = 0.2f;
 
         protected override void Awake() {
-            base.Awake();
+            base.Awake(); // Base class now handles the material and shader IDs
 
             rb = GetComponent<Rigidbody2D>();
             if (rb == null) Debug.LogError("EnemyController: Rigidbody2D not found!");
 
             if (animator == null) animator = GetComponent<Animator>();
-
-            if (spriteRenderer != null && spriteRenderer.material != null) {
-                runtimeMaterial = spriteRenderer.material;
-                hitFlashID = Shader.PropertyToID("_HitFlash");
-                dissolveAmountID = Shader.PropertyToID("_DissolveAmount");
-            }
         }
 
         public void Initialize(EnemyData enemyData, int wave, StatusData statusToApply = null) {
@@ -227,60 +212,33 @@ namespace HexaBit.Core {
             }
         }
 
-        // --- Flash Effect ---
+        // --- Animation Trigger (Called by base class TakeDamage) ---
         protected override void AnimateTakingDamage() {
             if (runtimeMaterial == null) return;
             if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+
             OnTakeDamageEvent?.Invoke();
+
+            // The FlashRoutine is now in the base class
             flashCoroutine = StartCoroutine(FlashRoutine());
         }
 
-        private IEnumerator FlashRoutine() {
-            for (int i = 0; i < 2; i++) {
-                runtimeMaterial.SetFloat(hitFlashID, 1f);
-                yield return new WaitForSeconds(0.05f);
-                runtimeMaterial.SetFloat(hitFlashID, 0f);
-                yield return new WaitForSeconds(0.05f);
-            }
-            flashCoroutine = null;
-        }
-
-        // --- Dissolve Effect ---
+        // --- Death (Called by base class when health <= 0) ---
         protected override void Die() {
             if (isDead) return;
             isDead = true;
+
             ClearAllStatuses();
             OnDeathEvent?.Invoke();
-            StartCoroutine(DissolveRoutine());
-        }
 
-        private IEnumerator DissolveRoutine() {
-            if (runtimeMaterial == null) {
-                Destroy(gameObject);
-                yield break;
-            }
-
-            if (rb != null) {
-                rb.linearVelocity = Vector2.zero;
-                rb.bodyType = RigidbodyType2D.Kinematic;
-            }
-
+            // Plays death animation if exists
             if (hasDeathAnimation && animator != null && animator.HasState(0, Animator.StringToHash("Death"))) {
                 animator.SetBool("IsDead", true);
                 animator.SetTrigger("Die");
             }
 
-            float duration = 0.5f;
-            float timer = 0f;
-
-            while (timer < duration) {
-                timer += Time.deltaTime;
-                float progress = timer / duration;
-                runtimeMaterial.SetFloat(dissolveAmountID, progress * 1.1f);
-                yield return null;
-            }
-
-            Destroy(gameObject);
+            // The DissolveRoutine is now in the base class. 
+            // It will run automatically after Die() is called.
         }
 
         private void OnDisable() {

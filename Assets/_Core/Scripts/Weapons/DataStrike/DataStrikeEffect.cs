@@ -102,11 +102,9 @@ namespace HexaBit.Core {
 
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, splashArea);
             foreach (var collider in hitColliders) {
-                if (collider.CompareTag("Enemy")) {
-                    EnemyController enemy = collider.GetComponent<EnemyController>();
-                    if (enemy != null) {
-                        enemy.TakeDamage(damage);
-                    }
+                DamageableCharacter damageable = collider.GetComponent<DamageableCharacter>();
+                if (damageable != null) {
+                    damageable.TakeDamage(damage);
                 }
             }
 
@@ -123,11 +121,6 @@ namespace HexaBit.Core {
 
         private void Start() {
             Destroy(gameObject, damageDelay + 1.5f);
-        }
-
-        private void OnDrawGizmosSelected() {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, splashArea);
         }
     }
 }
