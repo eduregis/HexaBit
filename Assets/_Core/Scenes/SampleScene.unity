@@ -344,6 +344,95 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &205030708
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 827489477472480691, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_Name
+      value: Brk_Obj_Crate_Prefab (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175716645908396739, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: randomLoot.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: guaranteedLoot.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.data[0].enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: c10dda60bf2346c438bd4cea3b6a1818, type: 2}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.data[0].dropChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: guaranteedLoot.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3571658979916991118, guid: 0003897e298714b4e9b12f972b61fbe8, type: 3}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.data[0].enemySpawnDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
 --- !u!1 &285534216
 GameObject:
   m_ObjectHideFlags: 0
@@ -16957,6 +17046,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: randomLoot.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: guaranteedLoot.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.data[0].dropChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: lootTable.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3571658979916991118, guid: 0003897e298714b4e9b12f972b61fbe8, type: 3}
+    - target: {fileID: 5098748147886090867, guid: 33b16e78478389747b4901acbf5380d2, type: 3}
+      propertyPath: guaranteedLoot.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 3571658979916991118, guid: 0003897e298714b4e9b12f972b61fbe8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17057,7 +17170,7 @@ MonoBehaviour:
   masterColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   defaultXPDropPrefab: {fileID: 5415832339510204443, guid: 364cefb159f9f8f4dbe94aeb0cd28a2d, type: 3}
   healthPickupPrefab: {fileID: 3571658979916991118, guid: 0003897e298714b4e9b12f972b61fbe8, type: 3}
-  healthDropChance: 0.5
+  healthDropChance: 0.05
   maxActiveDrops: 400
 --- !u!4 &2076606745
 Transform:
@@ -17185,3 +17298,4 @@ SceneRoots:
   - {fileID: 406037751}
   - {fileID: 3318471277151041741}
   - {fileID: 1679148912}
+  - {fileID: 205030708}

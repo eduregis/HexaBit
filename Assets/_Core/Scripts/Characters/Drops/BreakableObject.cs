@@ -1,11 +1,32 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace HexaBit.Core {
     public class BreakableObject : DamageableCharacter {
+        [System.Serializable]
+        public class LootDrop {
+            [Tooltip("Item prefab (HealthPickup, XP, etc). Leave empty if spawning an enemy.")]
+            public GameObject itemPrefab;
+
+            [Tooltip("Enemy data (EnemyData). Use this to spawn enemies using the base prefab.")]
+            public EnemyData enemyData;
+
+            [Range(0f, 1f)]
+            [Tooltip("Chance to drop. 1 = always, 0 = never.")]
+            public float dropChance = 1f;
+
+            [Tooltip("Delay in seconds before the enemy spawns after the object breaks. Only used for enemies.")]
+            public float enemySpawnDelay = 0.5f;
+        }
+
         [Header("Data")]
         [SerializeField] private BreakableData data;
+
+        [Header("Loot Settings")]
+        [Tooltip("All possible drops. Each entry uses its own drop chance.")]
+        [SerializeField] private List<LootDrop> lootTable = new List<LootDrop>();
 
         [Header("Events")]
         public UnityEvent OnBreakEvent;
@@ -14,7 +35,6 @@ namespace HexaBit.Core {
 
         protected override void Awake() {
             base.Awake();
-            Debug.Log("[Breakable] Awake called.");
             render = GetComponent<SpriteRenderer>();
 
             if (data != null) {
@@ -25,45 +45,77 @@ namespace HexaBit.Core {
             }
         }
 
-        public override void TakeDamage(float damage, Color? popupColor = null) {
-            Debug.Log($"[Breakable] Took {damage} damage.");
-            base.TakeDamage(damage, popupColor);
-        }
-
         protected override void Die() {
-
-            Debug.Log("[Breakable] Destroyed! Spawning drops.");
             OnBreakEvent?.Invoke();
-            SpawnDrops();
-
-            // The base class will handle the dissolve effect automatically.
+            ProcessLoot();
         }
 
-        private void SpawnDrops() {
-            if (data == null) return;
+        private void ProcessLoot() {
 
-            if (data.guaranteedDropPrefab != null) {
-                Instantiate(data.guaranteedDropPrefab, transform.position, Quaternion.identity);
-                return;
-            }
+            foreach (var loot in lootTable) {
 
-            if (data.randomDropPool.Count > 0 && Random.value < data.randomDropChance) {
-                int index = Random.Range(0, data.randomDropPool.Count);
-                GameObject dropPrefab = data.randomDropPool[index];
+                if (Random.value > loot.dropChance) {
+                    continue;
+                }
 
-                if (dropPrefab != null) {
-                    Instantiate(dropPrefab, transform.position, Quaternion.identity);
+                if (loot.itemPrefab != null) {
+                    Instantiate(loot.itemPrefab, transform.position, Quaternion.identity);
+                } else if (loot.enemyData != null) {
+                    if (loot.enemySpawnDelay > 0f) {
+                        StartCoroutine(SpawnEnemyWithDelay(loot.enemyData, loot.enemySpawnDelay, transform.position));
+                    } else {
+                        SpawnEnemy(loot.enemyData, transform.position);
+                    }
                 }
             }
         }
 
-        // Trigger the flash effect (inherited from base class)
-        protected override void AnimateTakingDamage() {
-            if (runtimeMaterial == null) {
-                Debug.LogWarning("[Breakable] No runtime material found for flash effect!");
+        // Coroutine hosted on a temporary runner object so it survives
+        // if the breakable object is destroyed by the base class.
+        private IEnumerator SpawnEnemyWithDelay(EnemyData enemyData, float delay, Vector3 spawnPosition) {
+            GameObject tempRunner = new GameObject("EnemySpawnDelayRunner");
+            tempRunner.transform.position = spawnPosition;
+
+            yield return new WaitForSeconds(delay);
+
+            SpawnEnemy(enemyData, spawnPosition);
+
+            Destroy(tempRunner);
+        }
+
+        private void SpawnEnemy(EnemyData enemyData, Vector3 spawnPosition) {
+
+            if (enemyData.prefab == null) {
                 return;
             }
 
+            GameObject enemyObj = Instantiate(enemyData.prefab, spawnPosition, Quaternion.identity);
+
+            EnemyController enemyCtrl = enemyObj.GetComponent<EnemyController>();
+            if (enemyCtrl == null) {
+                return;
+            }
+
+            Animator anim = enemyObj.GetComponent<Animator>();
+            if (anim != null && enemyData.animatorController != null) {
+                anim.runtimeAnimatorController = enemyData.animatorController;
+            }
+
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null) {
+                HeroController hero = playerObj.GetComponent<HeroController>();
+                if (hero != null) enemyCtrl.SetPlayerReference(hero);
+            }
+
+            enemyCtrl.Initialize(enemyData, 0);
+
+            enemyCtrl.OnDeathEvent.AddListener(() => {
+                if (GameplayManager.Instance != null) GameplayManager.Instance.AddKill();
+            });
+        }
+
+        protected override void AnimateTakingDamage() {
+            if (runtimeMaterial == null) return;
             if (flashCoroutine != null) StopCoroutine(flashCoroutine);
             flashCoroutine = StartCoroutine(FlashRoutine());
         }
