@@ -46,6 +46,57 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     appearsInUpgradeDescription: 1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2
+        value: 2
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 2
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 4
+        value: 3
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - parameter: 4
     icon: {fileID: 0}
     localizedName:
@@ -58,6 +109,30 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     appearsInUpgradeDescription: 1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0.2
+        outSlope: 0.2
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 6
+        inSlope: 0.2
+        outSlope: 0.2
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - parameter: 3
     icon: {fileID: 0}
     localizedName:
@@ -70,116 +145,80 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     appearsInUpgradeDescription: 1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 8
+        inSlope: 0.3
+        outSlope: 0.3
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 9.5
+        inSlope: 0.3
+        outSlope: 0.3
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   statusData: {fileID: 0}
-  levels:
-  - damage: 10
-    cooldown: 0.8
-    customValues:
-    - parameter: 2
-      fieldType: 0
-      intValue: 1
-      floatValue: 0
-      boolValue: 0
-    - parameter: 4
-      fieldType: 1
-      intValue: 0
-      floatValue: 5
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 8
-      boolValue: 0
-  - damage: 12
-    cooldown: 0.75
-    customValues:
-    - parameter: 2
-      fieldType: 0
-      intValue: 1
-      floatValue: 0
-      boolValue: 0
-    - parameter: 4
-      fieldType: 1
-      intValue: 0
-      floatValue: 5.2
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 8
-      boolValue: 0
-  - damage: 14
-    cooldown: 0.7
-    customValues:
-    - parameter: 2
-      fieldType: 0
-      intValue: 2
-      floatValue: 0
-      boolValue: 0
-    - parameter: 4
-      fieldType: 1
-      intValue: 0
-      floatValue: 5.4
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 8.5
-      boolValue: 0
-  - damage: 17
-    cooldown: 0.65
-    customValues:
-    - parameter: 2
-      fieldType: 0
-      intValue: 2
-      floatValue: 0
-      boolValue: 0
-    - parameter: 4
-      fieldType: 1
-      intValue: 0
-      floatValue: 5.6
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 8.5
-      boolValue: 0
-  - damage: 19
-    cooldown: 0.6
-    customValues:
-    - parameter: 2
-      fieldType: 0
-      intValue: 3
-      floatValue: 0
-      boolValue: 0
-    - parameter: 4
-      fieldType: 1
-      intValue: 0
-      floatValue: 5.8
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 9
-      boolValue: 0
-  - damage: 22
-    cooldown: 0.55
-    customValues:
-    - parameter: 2
-      fieldType: 0
-      intValue: 3
-      floatValue: 0
-      boolValue: 0
-    - parameter: 4
-      fieldType: 1
-      intValue: 0
-      floatValue: 6
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 9.5
-      boolValue: 0
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 10
+      inSlope: 2.4
+      outSlope: 2.4
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 22
+      inSlope: 2.4
+      outSlope: 2.4
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  cooldownCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.8
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 5
+      value: 0.55
+      inSlope: -0.1
+      outSlope: -0.1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dynamicCurves: []
   references:
     version: 2
     RefIds: []

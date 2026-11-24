@@ -29,6 +29,10 @@ namespace HexaBit.Core {
             currentHealth = maxHealth;
         }
 
+        public int GetMaxHealth() {
+            return maxHealth;
+        }
+
         public virtual void TakeDamage(float damage, Color? popupColor = null) {
             float effectiveDamage = damage * DamageMultiplier;
             int finalDamage = (int)Mathf.Max(1, effectiveDamage - armor);

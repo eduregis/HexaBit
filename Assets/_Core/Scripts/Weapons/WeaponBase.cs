@@ -7,6 +7,9 @@ namespace HexaBit.Core {
 
         public int currentLevel = 0;
 
+        // Maximum index for levels (0 to 5 = 6 levels)
+        public const int MAX_LEVEL_INDEX = 5;
+
         private float timer;
         protected HeroController hero;
 
@@ -19,7 +22,8 @@ namespace HexaBit.Core {
         }
 
         private void Update() {
-            if (data == null || data.levels.Count == 0) return;
+            // Check if data exists instead of checking a list count
+            if (data == null) return;
             if (hero == null || hero.IsDead) return;
 
             timer += Time.deltaTime;
@@ -38,12 +42,14 @@ namespace HexaBit.Core {
 
         public void Initialize(WeaponData weaponData, int levelIndex = 0) {
             data = weaponData;
-            currentLevel = Mathf.Clamp(levelIndex, 0, data.levels.Count - 1);
+            // Clamp using the new constant
+            currentLevel = Mathf.Clamp(levelIndex, 0, MAX_LEVEL_INDEX);
             gameObject.name = weaponData.localizedName.GetLocalizedString();
         }
 
         public virtual void LevelUp() {
-            if (currentLevel < data.levels.Count - 1) {
+            // Check against the constant
+            if (currentLevel < MAX_LEVEL_INDEX) {
                 currentLevel++;
                 Debug.Log($"{data.localizedName.GetLocalizedString()} up to Lv.{currentLevel + 1}");
             } else {

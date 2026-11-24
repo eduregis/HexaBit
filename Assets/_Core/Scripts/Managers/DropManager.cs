@@ -9,41 +9,39 @@ namespace HexaBit.Core {
         [System.Serializable]
         public class XPDropTier {
             public string tierName = "Basic";
-            public int minXP = 10;
+            public int minXP = 1;
             public Color outlineColor = Color.green;
         }
 
         [Header("Base XP Scaling")]
-        [Tooltip("Base XP value at the start of the game.")]
         [SerializeField] private int startingBaseXP = 1;
-
-        [Tooltip("How much the Base XP increases per minute.")]
         [SerializeField] private float baseXPIncreasePerMinute = 2f;
-
-        [Tooltip("The randomized variance around the Base XP.")]
         [SerializeField] private int marginOfError = 0;
 
         [Header("XP Drop Tiers")]
-        [Tooltip("Must be ordered from lowest minXP to highest.")]
         [SerializeField]
         private List<XPDropTier> tiers = new List<XPDropTier>() {
-            new XPDropTier { tierName = "Basic", minXP = 10, outlineColor = Color.green },
-            new XPDropTier { tierName = "Great", minXP = 50, outlineColor = Color.cyan },
-            new XPDropTier { tierName = "Ultra", minXP = 150, outlineColor = Color.red }
+            new XPDropTier { tierName = "Basic", minXP = 1, outlineColor = Color.green },
+            new XPDropTier { tierName = "Great", minXP = 5, outlineColor = Color.cyan },
+            new XPDropTier { tierName = "Ultra", minXP = 15, outlineColor = Color.red }
         };
 
-        // Master is special: Only appears when the screen is full.
         [Header("Master Tier (Accumulation)")]
         [SerializeField] private Color masterColor = Color.yellow;
 
-        [Header("Base Prefab")]
+        [Header("Prefabs")]
         [SerializeField] private GameObject defaultXPDropPrefab;
+        [SerializeField] private GameObject healthPickupPrefab;
+
+        [Header("Health Drop Settings")]
+        [Tooltip("Chance (0 to 1) that a normal enemy drops a health pickup instead of XP.")]
+        [SerializeField] private float healthDropChance = 0.05f;
 
         [Header("Pool Settings")]
         [SerializeField] private int maxActiveDrops = 400;
 
-        private List<XPDrop> activeDrops = new List<XPDrop>();
-        private Queue<XPDrop> dropPool = new Queue<XPDrop>();
+        private List<PickupBase> activeDrops = new List<PickupBase>();
+        private Dictionary<GameObject, Queue<PickupBase>> pools = new Dictionary<GameObject, Queue<PickupBase>>();
         private int accumulatedXP = 0;
 
         private void Awake() {
@@ -60,29 +58,30 @@ namespace HexaBit.Core {
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             activeDrops.Clear();
-            dropPool.Clear();
+            pools.Clear();
             accumulatedXP = 0;
         }
 
         public void SpawnXPDrop(Vector3 position) {
             if (GameplayManager.Instance == null || defaultXPDropPrefab == null) return;
 
-            // 1. Get current base XP based on time
+            // 1. Chance to drop health instead of XP
+            if (healthPickupPrefab != null && Random.value < healthDropChance) {
+                SpawnHealthPickup(position);
+                return;
+            }
+
+            // 2. Standard XP logic
             float gameTime = GameplayManager.Instance.CurrentTime;
             int currentBaseXP = Mathf.RoundToInt(startingBaseXP + (gameTime / 60f) * baseXPIncreasePerMinute);
-
-            // 2. Roll the randomized XP
             int randomRoll = Random.Range(-marginOfError, marginOfError + 1);
             int finalXP = Mathf.Max(1, currentBaseXP + randomRoll);
 
-            // 3. Determine which tier to use based on the rolled XP
             XPDropTier chosenTier = GetTierForXP(finalXP);
             Color dropColor = chosenTier.outlineColor;
 
-            // 4. Handle the max drops limit
             if (activeDrops.Count >= maxActiveDrops) {
                 accumulatedXP += finalXP;
-                Debug.Log($"[DropManager] MAX DROPS REACHED. Accumulated: {accumulatedXP} XP. Active: {activeDrops.Count}");
                 return;
             }
 
@@ -90,32 +89,54 @@ namespace HexaBit.Core {
                 finalXP += accumulatedXP;
                 accumulatedXP = 0;
                 dropColor = masterColor;
-                Debug.Log($"[DropManager] Spawning MASTER Drop with {finalXP} XP.");
             }
 
-            XPDrop drop = GetDropFromPool();
+            XPDrop drop = GetFromPool(defaultXPDropPrefab) as XPDrop;
             drop.transform.position = position;
-
             drop.Setup(finalXP, dropColor);
             activeDrops.Add(drop);
         }
 
+        public void SpawnHealthPickup(Vector3 position) {
+            if (healthPickupPrefab == null) return;
+            if (activeDrops.Count >= maxActiveDrops) return; // Don't accumulate health drops, just skip
 
-        public void ReturnDropToPool(XPDrop drop) {
-            if (drop == null) return;
-
-            activeDrops.Remove(drop);
-            drop.gameObject.SetActive(false);
-            dropPool.Enqueue(drop);
+            HealthPickup pickup = GetFromPool(healthPickupPrefab) as HealthPickup;
+            pickup.transform.position = position;
+            pickup.Setup();
+            activeDrops.Add(pickup);
         }
 
-        private XPDrop GetDropFromPool() {
-            if (dropPool.Count > 0) {
-                return dropPool.Dequeue();
-            }
+        public void ReturnPickupToPool(PickupBase pickup) {
+            if (pickup == null) return;
 
-            GameObject dropObj = Instantiate(defaultXPDropPrefab);
-            return dropObj.GetComponent<XPDrop>();
+            activeDrops.Remove(pickup);
+            pickup.gameObject.SetActive(false);
+
+            // Find the correct pool based on the prefab type (we can use a simple tag or name match)
+            // To keep it simple, we check the type and enqueue to the correct pool.
+            if (pickup is XPDrop && defaultXPDropPrefab != null) {
+                EnqueueToPool(defaultXPDropPrefab, pickup);
+            } else if (pickup is HealthPickup && healthPickupPrefab != null) {
+                EnqueueToPool(healthPickupPrefab, pickup);
+            } else {
+                Destroy(pickup.gameObject);
+            }
+        }
+
+        private void EnqueueToPool(GameObject prefab, PickupBase instance) {
+            if (!pools.ContainsKey(prefab)) {
+                pools[prefab] = new Queue<PickupBase>();
+            }
+            pools[prefab].Enqueue(instance);
+        }
+
+        private PickupBase GetFromPool(GameObject prefab) {
+            if (pools.ContainsKey(prefab) && pools[prefab].Count > 0) {
+                return pools[prefab].Dequeue();
+            }
+            GameObject obj = Instantiate(prefab);
+            return obj.GetComponent<PickupBase>();
         }
 
         private XPDropTier GetTierForXP(int xpValue) {

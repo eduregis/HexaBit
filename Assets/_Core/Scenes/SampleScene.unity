@@ -16999,6 +16999,8 @@ MonoBehaviour:
     outlineColor: {r: 1, g: 0, b: 0, a: 1}
   masterColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   defaultXPDropPrefab: {fileID: 5415832339510204443, guid: 364cefb159f9f8f4dbe94aeb0cd28a2d, type: 3}
+  healthPickupPrefab: {fileID: 3571658979916991118, guid: 0003897e298714b4e9b12f972b61fbe8, type: 3}
+  healthDropChance: 0.5
   maxActiveDrops: 400
 --- !u!4 &2076606745
 Transform:

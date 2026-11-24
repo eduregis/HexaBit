@@ -9,7 +9,6 @@ public class StageDataEditor : Editor {
 
     // Foldout states
     private bool showWaves = true;
-    private bool showEnemies = true;
     private bool showSubBoss = true;
 
     private void OnEnable() {

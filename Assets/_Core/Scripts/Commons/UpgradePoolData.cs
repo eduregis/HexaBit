@@ -30,8 +30,7 @@ namespace HexaBit.Core {
                 var equippedWeapon = hero.weaponSlots.FirstOrDefault(w => w != null && w.data == weapon);
 
                 if (equippedWeapon != null) {
-                    // If already equipped, only add if NOT at max level
-                    if (equippedWeapon.currentLevel < weapon.levels.Count - 1) {
+                    if (equippedWeapon.currentLevel < WeaponBase.MAX_LEVEL_INDEX) {
                         available.Add(weapon);
                     }
                 } else {
