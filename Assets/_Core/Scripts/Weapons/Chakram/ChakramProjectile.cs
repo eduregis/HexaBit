@@ -118,18 +118,18 @@ namespace HexaBit.Core {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null && !enemy.IsDead) {
-                    // Apply damage
-                    enemy.TakeDamage(damage);
-                    Debug.Log($"Chakram hit enemy for {damage} damage on {(isReturning ? "return" : "outward")} pass!");
+            // Checks if the object can take damage (Enemy or Breakable)
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
 
-                    // Apply poison status if available
-                    if (poisonStatusData != null) {
-                        enemy.ApplyStatus(poisonStatusData);
-                        Debug.Log($"Applied {poisonStatusData.statusName} to {enemy.name}");
-                    }
+            if (damageable != null) {
+                // Apply damage
+                damageable.TakeDamage(damage);
+                Debug.Log($"Chakram hit {other.name} for {damage} damage on {(isReturning ? "return" : "outward")} pass!");
+
+                // Apply poison status if available (only if it's an enemy)
+                if (poisonStatusData != null && damageable is EnemyController enemy) {
+                    enemy.ApplyStatus(poisonStatusData);
+                    Debug.Log($"Applied {poisonStatusData.statusName} to {enemy.name}");
                 }
             } else if (other.CompareTag("Wall")) {
                 DestroyProjectile();

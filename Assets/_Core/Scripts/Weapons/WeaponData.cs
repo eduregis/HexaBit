@@ -26,58 +26,60 @@ namespace HexaBit.Core {
         [Header("Status Effect (Optional)")]
         public StatusData statusData;
 
-        [Header("Levels (Lv.1 ao Lv.6)")]
-        public List<WeaponLevelData> levels = new List<WeaponLevelData>();
+        // THE NEW CURVE STRUCTURE
+        [Header("Level Curves")]
+        [Tooltip("Index 0 is Level 1, Index 5 is Level 6. The X axis must go from 0 to 5.")]
+        public AnimationCurve damageCurve = AnimationCurve.Linear(0, 10, 5, 50);
+        public AnimationCurve cooldownCurve = AnimationCurve.Linear(0, 1.0f, 5, 0.5f);
 
-        // Access methods to facilitate code readability
+        public List<DynamicFieldDefinition> dynamicCurves = new List<DynamicFieldDefinition>();
+
+        // Access methods updated to read from curves
         public float GetDamage(int levelIndex) {
-            if (levelIndex < 0 || levelIndex >= levels.Count) return 0f;
-            return levels[levelIndex].damage;
+            return damageCurve.Evaluate(levelIndex);
         }
 
         public float GetCooldown(int levelIndex) {
-            if (levelIndex < 0 || levelIndex >= levels.Count) return 0f;
-            return levels[levelIndex].cooldown;
-        }
-
-        public int GetInt(int levelIndex, DynamicParameter param) {
-            if (levelIndex < 0 || levelIndex >= levels.Count) return 0;
-            return levels[levelIndex].GetInt(param);
+            return cooldownCurve.Evaluate(levelIndex);
         }
 
         public float GetFloat(int levelIndex, DynamicParameter param) {
-            if (levelIndex < 0 || levelIndex >= levels.Count) return 0f;
-            return levels[levelIndex].GetFloat(param);
+            var def = customFields.Find(c => c.parameter == param);
+            if (def != null) {
+                return def.curve.Evaluate(levelIndex);
+            }
+            return 0f;
+        }
+
+        public int GetInt(int levelIndex, DynamicParameter param) {
+            return Mathf.RoundToInt(GetFloat(levelIndex, param));
         }
 
         public bool GetBool(int levelIndex, DynamicParameter param) {
-            if (levelIndex < 0 || levelIndex >= levels.Count) return false;
-            return levels[levelIndex].GetBool(param);
+            // Curves are mostly for numbers. For booleans, we keep the 0 to 1 rule.
+            return GetFloat(levelIndex, param) > 0.5f;
         }
 
-        // Generates a LevelUpOption for this weapon based on the hero's current state
         /// <summary>
         /// Generates a description string showing the differences between two levels.
-        /// Example: "+2 Damage, -0.05 Cooldown, +0.2 Range"
         /// </summary>
         public string GetUpgradeDescription(int currentLevelIndex, int nextLevelIndex) {
-            if (nextLevelIndex < 0 || nextLevelIndex >= levels.Count) return "";
-            if (currentLevelIndex < 0) currentLevelIndex = 0; // Safety fallback
+            if (nextLevelIndex < 0 || nextLevelIndex > 5) return "";
+            if (currentLevelIndex < 0) currentLevelIndex = 0;
 
             StringBuilder sb = new StringBuilder();
 
             // 1. Fixed Fields (Damage & Cooldown)
-            float currentDamage = levels[currentLevelIndex].damage;
-            float nextDamage = levels[nextLevelIndex].damage;
+            float currentDamage = GetDamage(currentLevelIndex);
+            float nextDamage = GetDamage(nextLevelIndex);
             if (!Mathf.Approximately(currentDamage, nextDamage)) {
                 string damageName = GetLocalizedString(DAMAGE_LOC_KEY, "Damage");
                 AppendStat(sb, damageName, nextDamage - currentDamage, false);
             }
 
-            float currentCooldown = levels[currentLevelIndex].cooldown;
-            float nextCooldown = levels[nextLevelIndex].cooldown;
+            float currentCooldown = GetCooldown(currentLevelIndex);
+            float nextCooldown = GetCooldown(nextLevelIndex);
             if (!Mathf.Approximately(currentCooldown, nextCooldown)) {
-                // Cooldown reduction is usually displayed as negative (faster)
                 string cooldownName = GetLocalizedString(COOLDOWN_LOC_KEY, "Cooldown");
                 AppendStat(sb, cooldownName, nextCooldown - currentCooldown, true);
             }
@@ -86,20 +88,18 @@ namespace HexaBit.Core {
             foreach (var def in customFields) {
                 if (!def.appearsInUpgradeDescription) continue;
 
-                var currentVal = levels[currentLevelIndex].customValues.Find(v => v.parameter == def.parameter);
-                var nextVal = levels[nextLevelIndex].customValues.Find(v => v.parameter == def.parameter);
-
-                if (currentVal == null || nextVal == null) continue;
+                float currentVal = GetFloat(currentLevelIndex, def.parameter);
+                float nextVal = GetFloat(nextLevelIndex, def.parameter);
 
                 string paramName = def.localizedName != null && !def.localizedName.IsEmpty
                     ? def.localizedName.GetLocalizedString()
                     : def.parameter.ToString();
 
-                if (currentVal.fieldType == DynamicFieldType.Int) {
-                    int diff = nextVal.intValue - currentVal.intValue;
+                if (def.parameter.GetFieldType() == DynamicFieldType.Int) {
+                    int diff = Mathf.RoundToInt(nextVal) - Mathf.RoundToInt(currentVal);
                     if (diff != 0) AppendStat(sb, paramName, diff, false);
-                } else if (currentVal.fieldType == DynamicFieldType.Float) {
-                    float diff = nextVal.floatValue - currentVal.floatValue;
+                } else if (def.parameter.GetFieldType() == DynamicFieldType.Float) {
+                    float diff = nextVal - currentVal;
                     if (!Mathf.Approximately(diff, 0f)) AppendStat(sb, paramName, diff, false);
                 }
             }
@@ -109,51 +109,32 @@ namespace HexaBit.Core {
 
         private void AppendStat(StringBuilder sb, string name, float diff, bool isCooldown) {
             if (sb.Length > 0) sb.Append(", ");
-
-            // Format the difference: + or - sign, rounded to 2 decimals if needed
             string sign = diff > 0 ? "+" : "";
             string formattedDiff = diff % 1 == 0 ? diff.ToString("0") : diff.ToString("0.##");
-
-            // For cooldowns, a negative difference (faster) is good, so we keep the minus.
-            // For others, a positive difference is good, so we keep the plus.
             sb.Append($"{sign}{formattedDiff} {name}");
         }
 
         private string GetLocalizedString(string key, string fallback) {
-            var localizedString = new LocalizedString("Weapon_Texts", key); // Change "Weapon_Texts" to your actual table name if different
+            var localizedString = new LocalizedString("Weapon_Texts", key);
             string result = localizedString.GetLocalizedString();
-
-            // If the key doesn't exist, return the fallback English text
             return string.IsNullOrEmpty(result) || result == key ? fallback : result;
         }
 
         public GameplayManager.LevelUpOption GetUpgradeOption(HeroController hero) {
             string displayName = localizedName.GetLocalizedString();
-            int targetLevelDisplay = 1; // Used for UI (1 to 6)
+            int targetLevelDisplay = 1;
             bool isWeapon = true;
             System.Action action = null;
             string finalDescription = "";
 
             if (hero.HasWeapon(this)) {
-                // currentLevel is 0-based (0 = Level 1)
                 int currentIndex = hero.weaponSlots.First(x => x?.data == this).currentLevel;
-
-                // Next index is simply current + 1
-                int nextIndex = Mathf.Clamp(currentIndex + 1, 0, levels.Count - 1);
-
-                // UI display level is index + 1
+                int nextIndex = Mathf.Clamp(currentIndex + 1, 0, 5);
                 targetLevelDisplay = nextIndex + 1;
-
-                // Generate the custom description for upgrades
                 finalDescription = GetUpgradeDescription(currentIndex, nextIndex);
-
-                // DEBUG LOG
-                Debug.Log($"[WeaponData] {displayName} Upgrade: Index {currentIndex} -> {nextIndex}. Desc: '{finalDescription}'");
-
                 action = () => hero.UpgradeWeapon(this);
             } else {
                 targetLevelDisplay = 1;
-                // Use the default description for new weapons
                 finalDescription = localizedDescription.GetLocalizedString();
                 action = () => hero.EquipWeapon(this);
             }
@@ -175,45 +156,8 @@ namespace HexaBit.Core {
         public Sprite icon;
         public LocalizedString localizedName;
         public bool appearsInUpgradeDescription = true;
-    }
 
-    [System.Serializable]
-    public class WeaponLevelData {
-        // Mandatory fixed fields
-        public float damage;
-        public float cooldown;
-
-        // Values for dynamic fields (optional)
-        public List<DynamicFieldValue> customValues = new List<DynamicFieldValue>();
-
-        public int GetInt(DynamicParameter param) {
-            foreach (var v in customValues)
-                if (v.parameter == param && v.fieldType == DynamicFieldType.Int)
-                    return v.intValue;
-            return 0;
-        }
-
-        public float GetFloat(DynamicParameter param) {
-            foreach (var v in customValues)
-                if (v.parameter == param && v.fieldType == DynamicFieldType.Float)
-                    return v.floatValue;
-            return 0f;
-        }
-
-        public bool GetBool(DynamicParameter param) {
-            foreach (var v in customValues)
-                if (v.parameter == param && v.fieldType == DynamicFieldType.Bool)
-                    return v.boolValue;
-            return false;
-        }
-    }
-
-    [System.Serializable]
-    public class DynamicFieldValue {
-        public DynamicParameter parameter;
-        public DynamicFieldType fieldType;
-        public int intValue;
-        public float floatValue;
-        public bool boolValue;
+        // The curve for this dynamic field
+        public AnimationCurve curve = AnimationCurve.Linear(0, 1, 5, 10);
     }
 }

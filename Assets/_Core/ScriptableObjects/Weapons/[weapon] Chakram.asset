@@ -46,6 +46,30 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     appearsInUpgradeDescription: 1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 6
+        inSlope: 0.4
+        outSlope: 0.4
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 8
+        inSlope: 0.4
+        outSlope: 0.4
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - parameter: 12
     icon: {fileID: 0}
     localizedName:
@@ -58,6 +82,30 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     appearsInUpgradeDescription: 1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 4
+        inSlope: 0.3
+        outSlope: 0.3
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 5.5
+        inSlope: 0.3
+        outSlope: 0.3
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   - parameter: 13
     icon: {fileID: 0}
     localizedName:
@@ -70,116 +118,80 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     appearsInUpgradeDescription: 1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.6
+        inSlope: 0.120000005
+        outSlope: 0.120000005
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 1.2
+        inSlope: 0.120000005
+        outSlope: 0.120000005
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   statusData: {fileID: 11400000, guid: 914906822b32657438cd2a86b4b8bae6, type: 2}
-  levels:
-  - damage: 15
-    cooldown: 6
-    customValues:
-    - parameter: 12
-      fieldType: 1
-      intValue: 0
-      floatValue: 4
-      boolValue: 0
-    - parameter: 13
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.6
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 6
-      boolValue: 0
-  - damage: 18
-    cooldown: 5.5
-    customValues:
-    - parameter: 12
-      fieldType: 1
-      intValue: 0
-      floatValue: 4.3
-      boolValue: 0
-    - parameter: 13
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.7
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 6.5
-      boolValue: 0
-  - damage: 21
-    cooldown: 5
-    customValues:
-    - parameter: 12
-      fieldType: 1
-      intValue: 0
-      floatValue: 4.6
-      boolValue: 0
-    - parameter: 13
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.7
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 6.5
-      boolValue: 0
-  - damage: 25
-    cooldown: 4.5
-    customValues:
-    - parameter: 12
-      fieldType: 1
-      intValue: 0
-      floatValue: 4.9
-      boolValue: 0
-    - parameter: 13
-      fieldType: 1
-      intValue: 0
-      floatValue: 0.9
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 7
-      boolValue: 0
-  - damage: 29
-    cooldown: 4
-    customValues:
-    - parameter: 12
-      fieldType: 1
-      intValue: 0
-      floatValue: 5.2
-      boolValue: 0
-    - parameter: 13
-      fieldType: 1
-      intValue: 0
-      floatValue: 1
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 7.5
-      boolValue: 0
-  - damage: 35
-    cooldown: 3.5
-    customValues:
-    - parameter: 12
-      fieldType: 1
-      intValue: 0
-      floatValue: 5.5
-      boolValue: 0
-    - parameter: 13
-      fieldType: 1
-      intValue: 0
-      floatValue: 1.2
-      boolValue: 0
-    - parameter: 3
-      fieldType: 1
-      intValue: 0
-      floatValue: 8
-      boolValue: 0
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 15
+      inSlope: 4
+      outSlope: 4
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 35
+      inSlope: 4
+      outSlope: 4
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  cooldownCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dynamicCurves: []
   references:
     version: 2
     RefIds: []

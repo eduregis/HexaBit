@@ -1,17 +1,14 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 using HexaBit.Core;
 
 [CustomEditor(typeof(WeaponData))]
 public class WeaponDataEditor : Editor {
     private WeaponData data;
-    private bool showLevels = true;
 
     private void OnEnable() {
         data = (WeaponData)target;
-        ValidateAndSyncLevels();
     }
 
     public override void OnInspectorGUI() {
@@ -30,31 +27,33 @@ public class WeaponDataEditor : Editor {
         data.attackPrefab = (GameObject)EditorGUILayout.ObjectField("Attack Prefab", data.attackPrefab, typeof(GameObject), false);
         data.weaponPrefab = (GameObject)EditorGUILayout.ObjectField("Weapon Prefab", data.weaponPrefab, typeof(GameObject), false);
 
-        // ---- SECTION: Status Data (Optionals) ----
+        EditorGUILayout.Space(10);
+
+        // ---- SECTION: Status Data ----
         EditorGUILayout.LabelField("Status Data (Optionals)", EditorStyles.boldLabel);
         data.statusData = (StatusData)EditorGUILayout.ObjectField("Status Data", data.statusData, typeof(StatusData), false);
         EditorGUILayout.Space(10);
 
-        // ---- SECTION: Dynamic Fields (Optionals) ----
-        EditorGUILayout.LabelField("Dynamic Fields (Optionals)", EditorStyles.boldLabel);
+        // ---- SECTION: Dynamic Fields ----
+        EditorGUILayout.LabelField("Dynamic Fields", EditorStyles.boldLabel);
         DrawCustomFields();
-
         EditorGUILayout.Space(10);
 
-        // ---- SECTION: Levels (Table) ----
-        EditorGUILayout.LabelField("Levels", EditorStyles.boldLabel);
-        showLevels = EditorGUILayout.Foldout(showLevels, $"Levels ({data.levels.Count})");
-        if (showLevels) {
-            DrawLevelsTable();
-        }
+        // ---- SECTION: Curves ----
+        EditorGUILayout.LabelField("Level Curves (Lv.1 = X:0, Lv.6 = X:5)", EditorStyles.boldLabel);
 
-        // Button to add level
+        SerializedProperty damageCurveProp = serializedObject.FindProperty("damageCurve");
+        SerializedProperty cooldownCurveProp = serializedObject.FindProperty("cooldownCurve");
+
+        DrawCurveWithFields(damageCurveProp, "Damage", isInt: false);
         EditorGUILayout.Space(5);
-        if (GUILayout.Button("+ Add New Level (Lv." + (data.levels.Count + 1) + ")")) {
-            AddNewLevel();
-        }
+        DrawCurveWithFields(cooldownCurveProp, "Cooldown", isInt: false);
 
         serializedObject.ApplyModifiedProperties();
+
+        if (GUI.changed) {
+            EditorUtility.SetDirty(data);
+        }
     }
 
     // ------------------------------------------------------------
@@ -102,10 +101,15 @@ public class WeaponDataEditor : Editor {
             SerializedProperty appearsInDescProp = defProp.FindPropertyRelative("appearsInUpgradeDescription");
             EditorGUILayout.PropertyField(appearsInDescProp, new GUIContent("Appears in Upgrade Description"));
 
+            // Render the curve and numeric fields for this dynamic field
+            SerializedProperty curveProp = defProp.FindPropertyRelative("curve");
+            bool isIntType = def.parameter.GetFieldType() == DynamicFieldType.Int;
+
+            DrawCurveWithFields(curveProp, "Level Curve", isIntType);
+
             EditorGUILayout.EndVertical();
         }
 
-        // Button ADD FIELD
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("+ Add Field", GUILayout.Width(120))) {
             AddCustomField();
@@ -114,137 +118,63 @@ public class WeaponDataEditor : Editor {
     }
 
     private void AddCustomField() {
-        data.customFields.Add(new DynamicFieldDefinition { parameter = DynamicParameter.Speed });
-        ValidateAndSyncLevels();
+        var newDef = new DynamicFieldDefinition { parameter = DynamicParameter.Speed };
+        newDef.curve = AnimationCurve.Linear(0, 1, 5, 5);
+        data.customFields.Add(newDef);
         EditorUtility.SetDirty(data);
     }
 
     private void RemoveCustomField(int index) {
-        DynamicParameter paramToRemove = data.customFields[index].parameter;
         data.customFields.RemoveAt(index);
-
-        // Removes the corresponding value from ALL levels
-        foreach (var level in data.levels) {
-            level.customValues.RemoveAll(v => v.parameter == paramToRemove);
-        }
-
-        ValidateAndSyncLevels();
         EditorUtility.SetDirty(data);
     }
 
     // ------------------------------------------------------------
-    // 2. DRAW THE LEVELS TABLE
+    // 2. HELPER METHOD TO DRAW CURVE + NUMERIC FIELDS
     // ------------------------------------------------------------
-    private void DrawLevelsTable() {
-        if (data.levels.Count == 0) {
-            EditorGUILayout.HelpBox("No levels created. Click 'Add New Level'.", MessageType.Info);
-            return;
-        }
+    private void DrawCurveWithFields(SerializedProperty curveProp, string label, bool isInt) {
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-        // --- HEADER ---
-        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+        // Draw the standard Unity curve field (the green graph)
+        EditorGUILayout.PropertyField(curveProp, new GUIContent(label));
 
-        GUILayout.Label("Level", EditorStyles.boldLabel, GUILayout.Width(50));
-        GUILayout.Label("Damage", EditorStyles.boldLabel, GUILayout.Width(60));
-        GUILayout.Label("Cooldown", EditorStyles.boldLabel, GUILayout.Width(60));
+        // Get the actual AnimationCurve object from the property
+        AnimationCurve curve = curveProp.animationCurveValue;
 
-        foreach (var def in data.customFields) {
-            // Show icon in the table header
-            GUIContent headerContent = new GUIContent(def.parameter.ToString());
-            if (def.icon != null) {
-                headerContent = new GUIContent(def.icon.texture, def.parameter.ToString());
+        // Draw 6 numeric fields for the 6 levels
+        EditorGUILayout.BeginHorizontal();
+        for (int i = 0; i < 6; i++) {
+            float currentValue = curve.Evaluate(i);
+
+            EditorGUILayout.BeginVertical(GUILayout.Width(40));
+            GUILayout.Label($"Lv.{i + 1}", EditorStyles.centeredGreyMiniLabel);
+
+            float newValue;
+            if (isInt) {
+                newValue = EditorGUILayout.IntField(Mathf.RoundToInt(currentValue));
+            } else {
+                newValue = EditorGUILayout.FloatField(currentValue);
             }
-            GUILayout.Label(headerContent, EditorStyles.boldLabel, GUILayout.MinWidth(60), GUILayout.Height(25));
-        }
 
-        GUILayout.Label("", GUILayout.Width(25));
+            // If the value changed in the field, update the curve
+            if (!Mathf.Approximately(currentValue, newValue)) {
+                // Remove existing key at this time, if any
+                for (int k = curve.length - 1; k >= 0; k--) {
+                    if (Mathf.Approximately(curve.keys[k].time, i)) {
+                        curve.RemoveKey(k);
+                    }
+                }
+                // Add the new key
+                curve.AddKey(i, newValue);
+
+                // Assign back to the property so Unity saves it
+                curveProp.animationCurveValue = curve;
+            }
+            EditorGUILayout.EndVertical();
+        }
         EditorGUILayout.EndHorizontal();
 
-        // --- TABLE ROWS (EACH LEVEL) ---
-        for (int i = 0; i < data.levels.Count; i++) {
-            var level = data.levels[i];
-            EditorGUILayout.BeginHorizontal();
-
-            GUILayout.Label($"Lv. {i + 1}", GUILayout.Width(50));
-
-            level.damage = EditorGUILayout.FloatField(level.damage, GUILayout.Width(60));
-            level.cooldown = EditorGUILayout.FloatField(level.cooldown, GUILayout.Width(60));
-
-            // Dynamic fields
-            foreach (var def in data.customFields) {
-                var value = level.customValues.Find(v => v.parameter == def.parameter);
-                if (value == null) {
-                    value = new DynamicFieldValue {
-                        parameter = def.parameter,
-                        fieldType = def.parameter.GetFieldType()
-                    };
-                    level.customValues.Add(value);
-                }
-
-                // Draws the field according to its inferred type
-                switch (value.fieldType) {
-                    case DynamicFieldType.Int:
-                        value.intValue = EditorGUILayout.IntField(value.intValue, GUILayout.MinWidth(50));
-                        break;
-                    case DynamicFieldType.Float:
-                        value.floatValue = EditorGUILayout.FloatField(value.floatValue, GUILayout.MinWidth(50));
-                        break;
-                    case DynamicFieldType.Bool:
-                        value.boolValue = EditorGUILayout.Toggle(value.boolValue, GUILayout.MinWidth(40));
-                        break;
-                }
-            }
-
-            if (GUILayout.Button("X", GUILayout.Width(25))) {
-                RemoveLevel(i);
-                break;
-            }
-
-            EditorGUILayout.EndHorizontal();
-        }
-    }
-
-    // ------------------------------------------------------------
-    // 3. AUXILIARY FUNCTIONS (SYNC AND CREATION)
-    // ------------------------------------------------------------
-    private void ValidateAndSyncLevels() {
-        foreach (var level in data.levels) {
-            // Remove undefined values
-            level.customValues.RemoveAll(v => !data.customFields.Exists(d => d.parameter == v.parameter));
-
-            // Add missing values
-            foreach (var def in data.customFields) {
-                if (!level.customValues.Exists(v => v.parameter == def.parameter)) {
-                    level.customValues.Add(new DynamicFieldValue {
-                        parameter = def.parameter,
-                        fieldType = def.parameter.GetFieldType()
-                    });
-                }
-            }
-        }
-
-        EditorUtility.SetDirty(data);
-    }
-
-    private void AddNewLevel() {
-        WeaponLevelData newLevel = new WeaponLevelData();
-        newLevel.damage = 0f;
-        newLevel.cooldown = 0f;
-
-        foreach (var def in data.customFields) {
-            newLevel.customValues.Add(new DynamicFieldValue {
-                parameter = def.parameter,
-                fieldType = def.parameter.GetFieldType()
-            });
-        }
-
-        data.levels.Add(newLevel);
-        EditorUtility.SetDirty(data);
-    }
-
-    private void RemoveLevel(int index) {
-        data.levels.RemoveAt(index);
-        EditorUtility.SetDirty(data);
+        EditorGUILayout.EndVertical();
     }
 }
 #endif

@@ -24,13 +24,8 @@ namespace HexaBit.Core {
             }
         }
 
-        private void Start() {
-            UpdateRadius();
-        }
-
-        private void Update() {
-            UpdateRadius();
-        }
+        private void Start() => UpdateRadius();
+        private void Update() => UpdateRadius();
 
         private void UpdateRadius() {
             if (heroController == null) return;
@@ -41,17 +36,12 @@ namespace HexaBit.Core {
             }
         }
 
-        /// <summary>
-        /// When an XPDrop enters this collector's trigger, set the target hero for later attraction.
-        /// The drop will only start attracting after knockback has occurred.
-        /// </summary>
         private void OnTriggerEnter2D(Collider2D other) {
             if (heroController == null || heroController.IsDead) return;
 
-            XPDrop drop = other.GetComponent<XPDrop>();
-            if (drop != null && !drop.IsCollected) {
-                // Set the target hero for the drop (but don't force attraction yet)
-                drop.SetTargetHero(heroController);
+            PickupBase pickup = other.GetComponent<PickupBase>();
+            if (pickup != null && !pickup.IsCollected) {
+                pickup.SetTargetHero(heroController);
             }
         }
     }

@@ -33,14 +33,14 @@ namespace HexaBit.Core {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            // Se colidir com um inimigo, aplica dano e destrói o projétil
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null) {
-                    enemy.TakeDamage(damage);
-                }
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
+
+            if (damageable != null) {
+                damageable.TakeDamage(damage);
                 Destroy(gameObject);
-            } else if (other.CompareTag("Wall")) Destroy(gameObject);
+            } else if (other.CompareTag("Wall")) {
+                Destroy(gameObject);
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace HexaBit.Core {
         private float knockback;
         private Transform heroTransform; // referência ao herói
 
-        private List<EnemyController> hitEnemies = new List<EnemyController>();
+        private List<DamageableCharacter> hitEnemies = new List<DamageableCharacter>();
 
         public override void Initialize(WeaponData weaponData, int levelIndex, Vector2 dir, HeroController hero) {
             data = weaponData;
@@ -102,19 +102,18 @@ namespace HexaBit.Core {
         }
 
         public void OnHammerHit(Collider2D other) {
-            if (other.CompareTag("Enemy")) {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null && !hitEnemies.Contains(enemy)) {
-                    // Apply knockback using the enemy's built-in method
-                    if (knockback > 0) {
-                        Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
-                        enemy.ApplyKnockback(knockback, knockbackDir);
-                    }
+            DamageableCharacter damageable = other.GetComponent<DamageableCharacter>();
 
-                    // Then apply damage
-                    enemy.TakeDamage(damage);
-                    hitEnemies.Add(enemy);
+            if (damageable != null && !hitEnemies.Contains(damageable)) {
+                // Apply knockback if it's an enemy
+                if (knockback > 0 && damageable is EnemyController enemy) {
+                    Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
+                    enemy.ApplyKnockback(knockback, knockbackDir);
                 }
+
+                // Then apply damage
+                damageable.TakeDamage(damage);
+                hitEnemies.Add(damageable);
             }
         }
     }
